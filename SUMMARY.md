@@ -53,3 +53,33 @@ class Solution:
         return left
             
 ```
+## 随想录day2
+Question: [34 Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+Outcome with Date: 11-24:X  
+First Impression:know that I can apply binary search twice by finding the target-1, and target+1 -> can't work, also the same thing will happen in target-1 and target+1->wrong  
+Good Video/Blog:https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/solutions/1136731/find-first-and-last-position-of-element-in-sorted-array/  
+Learnt:
+Difficulty during Implementation:
+Logic of Solution: (need help)
+AC Code:
+
+Question: [27 Remove Element](https://leetcode.com/problems/remove-element/)  
+Outcome with Date: 11-24:X  
+First Impression: no idea  
+Good Video/Blog: https://www.bilibili.com/video/BV12A4y1Z7LP/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt: use fast and slow pointers. fast pointer will update at everystep by 1, for slow pointer only update when it are not the target value. 覆盖, 清楚知道fast,slow pointers定义  
+Difficulty during Implementation: definitation of fast and slow pointers need to be clear  
+Logic of Solution:  
+1. iterate the faster pointer one by one
+2. assign the nums[slow] = nums[fast] only when nums[fast] not equal to target
+3. return slow  
+AC Code:
+```Python
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        fast, slow = 0,0
+        for fast in range(len(nums)):
+            if nums[fast] != val:
+                nums[slow] = nums[fast]
+                slow += 1
+        return slow```
