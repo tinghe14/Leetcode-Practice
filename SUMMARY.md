@@ -31,8 +31,25 @@ class Solution:
 Question: [35 Search Insert Position](https://leetcode.com/problems/search-insert-position/)  
 Outcome with Date: 11-23:X  
 First Impression: don't know how to use binary search to implement, and it seems if index out of boundary or within the array are different cases  
-Good Video/Blog: https://www.bilibili.com/video/BV1JP4y1E7gA/?spm_id_from=333.788.recommend_more_video.-1&vd_source=8b4794944ae27d265c752edb598636de https://www.bilibili.com/video/BV13i4y197w2/?spm_id_from=333.999.0.0&vd_source=8b4794944ae27d265c752edb598636de
-Learnt: the objective changes to find the index in the array which is clostest to the target but smaller than target  
+Good Video/Blog: https://www.bilibili.com/video/BV1dA411a7CB/?spm_id_from=333.337.search-card.all.click&vd_source=8b4794944ae27d265c752edb598636de https://www.bilibili.com/video/BV13i4y197w2/?spm_id_from=333.999.0.0&vd_source=8b4794944ae27d265c752edb598636de  
+Learnt: the objective changes to find the index in the array which is the most clostest to the target but bigger than target  
 Difficulty during Implementation: why return left, and why gets error when return idex is 0  
 Logic of Solution: the same as binary select exclude the last step  
-AC Code: (need help)
+Need Help: Don't know why we need to do the == condition flow first, otherwise, some cases can't pass  
+AC Code:  
+```Python
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        left = 0
+        right = len(nums)-1
+        while left <= right:
+            mid = left + (right - left) //2
+            if nums[mid] == target:
+                return mid 
+            elif nums[mid] < target:
+                left = mid+1
+            else:
+                right = mid-1
+        return left
+            
+```
