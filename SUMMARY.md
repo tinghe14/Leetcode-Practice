@@ -166,3 +166,39 @@ Learnt:
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
+
+Question: [242
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [349
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [202
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [1
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
