@@ -89,7 +89,7 @@ class Solution:
 Question: [977 Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/)  
 Outcome with Date: 11-25:O  
 First Impression: have idea that I can apply two pointers in left and right to compare each time to find the bigger one, but has some error  
-Good Video/Blog:https://programmercarl.com/0977.%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E5%B9%B3%E6%96%B9.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC  
+GoodVideo/Blog:https://programmercarl.com/0977.%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E5%B9%B3%E6%96%B9.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC  
 Learnt: make a same size array can't use directly equal such as new_arr = arr, the right approach is new_arr = [-1]*len(arr)  
 Difficulty during Implementation: none  
 Logic of Solution:
@@ -116,13 +116,27 @@ class Solution:
 ```
 
 Question: [209 Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
-Outcome with Date: MM-DD:X|Y|O  
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
+Outcome with Date: 11-25:X  
+First Impression: don't know how to do  
+Good Video/Blog: https://www.bilibili.com/video/BV1tZ4y1q7XE/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt: key idea is two pointers, and we fix the right pointer (for loop) and slide the left pointer  
+Difficulty during Implementation: the order of codes is very important, what will be change which can't put in the latter; float("inf")  
+Logic of Solution: many similar questions need to do afterwards!  
 AC Code:
+```Python
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        sum_res = 0
+        res = float("inf")
+        left = 0
+        for right in range(len(nums)):
+            sum_res += nums[right]
+            while sum_res >= target:
+                res = min(res, right-left+1)
+                sum_res -= nums[left]
+                left += 1
+        return 0 if res==float("inf") else res
+```
 
 Question: [59 Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii/)
 Outcome with Date: MM-DD:X|Y|O
