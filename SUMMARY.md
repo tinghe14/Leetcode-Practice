@@ -54,14 +54,14 @@ class Solution:
             
 ```
 ## 随想录day2
-Question: [34 Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+Question: [34 Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  
 Outcome with Date: 11-24:X  
 First Impression:know that I can apply binary search twice by finding the target-1, and target+1 -> can't work, also the same thing will happen in target-1 and target+1->wrong  
 Good Video/Blog:https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/solutions/1136731/find-first-and-last-position-of-element-in-sorted-array/  
 Learnt:
-Difficulty during Implementation:
-Logic of Solution: (need help)
-AC Code:
+Difficulty during Implementation:  
+Logic of Solution: (need help)  
+AC Code:  
 
 Question: [27 Remove Element](https://leetcode.com/problems/remove-element/)  
 Outcome with Date: 11-24:X  
