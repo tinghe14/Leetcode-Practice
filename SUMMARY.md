@@ -82,4 +82,87 @@ class Solution:
             if nums[fast] != val:
                 nums[slow] = nums[fast]
                 slow += 1
-        return slow```
+        return slow
+```
+
+## 随想录day2
+Question: [977 Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/)
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [209 Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [59 Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii/)
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [203
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [707
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [206
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [24
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [19
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [142
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
