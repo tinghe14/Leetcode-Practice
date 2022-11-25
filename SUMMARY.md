@@ -1,6 +1,6 @@
 # Table of contents
 
-## 随想录day1
+## 随想录Day1
 Question: [704 binary search](https://leetcode.com/problems/binary-search/description/)  
 Outcome with Date: 11-23:X  
 First Impression: I know need to use left, right, mid pointers but I don't know how to set the stop criteria in the loop  
@@ -53,7 +53,7 @@ class Solution:
         return left
             
 ```
-## 随想录day2
+## 随想录Day2
 Question: [34 Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  
 Outcome with Date: 11-24:X  
 First Impression:know that I can apply binary search twice by finding the target-1, and target+1 -> can't work, also the same thing will happen in target-1 and target+1->wrong  
@@ -85,7 +85,7 @@ class Solution:
         return slow
 ```
 
-## 随想录day2
+## 随想录Day3
 Question: [977 Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/)
 Outcome with Date: MM-DD:X|Y|O
 First Impression:
@@ -195,6 +195,42 @@ Logic of Solution:
 AC Code:
 
 Question: [1
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [454
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [383
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [15
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [18
 Outcome with Date: MM-DD:X|Y|O
 First Impression:
 Good Video/Blog:
