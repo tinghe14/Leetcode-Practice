@@ -86,17 +86,37 @@ class Solution:
 ```
 
 ## 随想录Day3
-Question: [977 Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/)
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
+Question: [977 Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/)  
+Outcome with Date: 11-25:O  
+First Impression: have idea that I can apply two pointers in left and right to compare each time to find the bigger one, but has some error  
+Good Video/Blog:https://programmercarl.com/0977.%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E5%B9%B3%E6%96%B9.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC  
+Learnt: make a same size array can't use directly equal such as new_arr = arr, the right approach is new_arr = [-1]*len(arr)  
+Difficulty during Implementation: none  
 Logic of Solution:
+1. two pointers while they didn't meet
+2. assign the larger one into the end of the new array
 AC Code:
+```Python
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        left, right = 0, len(nums)-1
+        new = [-1] * len(nums)
+        new_ind = len(nums)-1
+        while left <= right:
+            left_sq = nums[left]**2
+            right_sq = nums[right]**2
+            if left_sq <= right_sq:
+                new[new_ind] = right_sq
+                right -= 1
+            else:
+                new[new_ind] = left_sq
+                left += 1
+            new_ind = new_ind - 1
+        return new
+```
 
 Question: [209 Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
-Outcome with Date: MM-DD:X|Y|O
+Outcome with Date: MM-DD:X|Y|O  
 First Impression:
 Good Video/Blog:
 Learnt:
