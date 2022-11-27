@@ -142,8 +142,8 @@ Question: [59 Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii/)
 Outcome with Date: 11-25:X  
 First Impression: no idea  
 Good Video/Blog: https://www.bilibili.com/video/BV1SL4y1N7mV/?vd_source=8b4794944ae27d265c752edb598636de https://blog.csdn.net/PolyCozy/article/details/126990506?spm=1001.2014.3001.5501  
-Learnt: 1. initiate n array: (a) [0]*n, (b) [0 for _ in range(n)], 2. initiate 2D nn matrix: nums = [[0]* n for _ in range(n)] 
-Difficulty during Implementation: 1. initiate 2D nn matrix: nums = [[0]* n for _ in range(n)]， 2.how to create the loop function -> num++ at the end it shoud be n*n numbers， 3.停顿在区间定义 要不要equal呢,同理奇数的时候应该怎么办  
+Learnt: 1. initiate n array: (a) [0]* n, (b) [0 for _ in range(n)], 2. initiate 2D nn matrix: nums = [[0]* n for _ in range(n)] 3.使用range()函数逆序遍历 for i in range(start, end - 1, -1)  
+Difficulty during Implementation: 1. initiate 2D nn matrix: nums = [[0]* n for _ in range(n)]， 2.how to create the loop function -> num++ at the end it shoud be n*n numbers， 3.停顿在区间定义 要不要equal呢,同理奇数的时候应该怎么办->还是不知道  
 Logic of Solution: (need help!!!)  
 AC Code:  (need help!!!代码有误)  
 ```Python
@@ -176,6 +176,15 @@ class Solution:
                 leftbound += 1
             return nums
 ```
+### Summarization for array
+https://programmercarl.com/%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93%E7%AF%87.html  
+1. 经典题型： 二分法，双指针，滑动窗口，模拟行为  
+2. 二分法：o(logn) 循环不变量loop invariant(只有这个条件为假，我们才跳出这个循环)注意区间的定义，保持这个定义，保持区间合法性  
+3. 双指针：o(n)通过一个快指针和慢指针在一个for循环下完成两个for循环的工作  
+4. 滑动窗口：o(n)主要要理解滑动窗口如何移动 窗口起始位置，达到动态更新窗口大小的，从而得出长度最小的符合条件的长度  
+5. 模拟行为：相信大家有遇到过这种情况： 感觉题目的边界调节超多，一波接着一波的判断，找边界，拆了东墙补西墙，好不容易运行通过了，代码写的十分冗余，毫无章法，其实真正解决题目的代码都是简洁的，或者有原则性的，大家可以在这道题目中体会到这一点  
+6. while 循环不变量  
+7. backward iterate in loop: range(end, start-1, -1)  
 
 Question: [203
 Outcome with Date: MM-DD:X|Y|O
