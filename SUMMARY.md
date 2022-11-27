@@ -1,6 +1,6 @@
 # Table of contents
 
-## 随想录Day1
+## Day1
 Question: [704 binary search](https://leetcode.com/problems/binary-search/description/)  
 Outcome with Date: 11-23:X  
 First Impression: I know need to use left, right, mid pointers but I don't know how to set the stop criteria in the loop  
@@ -53,15 +53,15 @@ class Solution:
         return left
             
 ```
-## 随想录Day2
+## Day2
 Question: [34 Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  
 Outcome with Date: 11-24:X  
 First Impression:know that I can apply binary search twice by finding the target-1, and target+1 -> can't work, also the same thing will happen in target-1 and target+1->wrong  
 Good Video/Blog:https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/solutions/1136731/find-first-and-last-position-of-element-in-sorted-array/  
 Learnt:
 Difficulty during Implementation:  
-Logic of Solution: (need help)  
-AC Code:  
+Logic of Solution: 
+AC Code:  (need help!!!) 
 
 Question: [27 Remove Element](https://leetcode.com/problems/remove-element/)  
 Outcome with Date: 11-24:X  
@@ -85,7 +85,7 @@ class Solution:
         return slow
 ```
 
-## 随想录Day3
+## Day3
 Question: [977 Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/)  
 Outcome with Date: 11-25:O  
 First Impression: have idea that I can apply two pointers in left and right to compare each time to find the bigger one, but has some error  
@@ -141,11 +141,41 @@ class Solution:
 Question: [59 Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii/)  
 Outcome with Date: 11-25:X  
 First Impression: no idea  
-Good Video/Blog: https://www.bilibili.com/video/BV1SL4y1N7mV/?vd_source=8b4794944ae27d265c752edb598636de  
-Learnt: 
-Difficulty during Implementation: 1. initiate nn matrix: nums = [[0] * n for _ in range(n)]
-Logic of Solution:
-AC Code:
+Good Video/Blog: https://www.bilibili.com/video/BV1SL4y1N7mV/?vd_source=8b4794944ae27d265c752edb598636de https://blog.csdn.net/PolyCozy/article/details/126990506?spm=1001.2014.3001.5501  
+Learnt: 1. initiate n array: (a) [0]*n, (b) [0 for _ in range(n)], 2. initiate 2D nn matrix: nums = [[0]* n for _ in range(n)] 
+Difficulty during Implementation: 1. initiate 2D nn matrix: nums = [[0]* n for _ in range(n)]， 2.how to create the loop function -> num++ at the end it shoud be n*n numbers， 3.停顿在区间定义 要不要equal呢,同理奇数的时候应该怎么办  
+Logic of Solution: (need help!!!)  
+AC Code:  (need help!!!代码有误)  
+```Python
+class Solution:
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        nums = [[0] * n for _ in range(n)]
+        upperbound, lowerbound = 0, n-1
+        leftbound, rightbound = 0, n-1
+        num = 1
+        while num <= n*n:
+            if upperbound <= lowerbound: 
+                for j in range(leftbound, rightbound+1):
+                    nums[upperbound][j] = num
+                    num += 1
+                upperbound += 1
+            if leftbound <= rightbound: 
+                for i in range(upperbound, lowerbound+1):
+                    nums[i][rightbound] = num
+                    num += 1
+                rightbound -= 1
+            if lowerbound >= upperbound:
+                for j in range(rightbound, leftbound-1, -1):
+                    nums[lowerbound][j] = num
+                    num += 1
+                lowerbound -= 1
+            if leftbound <= rightbound:
+                for i in range(lowerbound, upperbound-1,-1):
+                    nums[i][leftbound] = num
+                    num += 1
+                leftbound += 1
+            return nums
+```
 
 Question: [203
 Outcome with Date: MM-DD:X|Y|O
