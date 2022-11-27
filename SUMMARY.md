@@ -139,11 +139,11 @@ class Solution:
 ```
 
 Question: [59 Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii/)
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
+Outcome with Date: 11-25:X  
+First Impression: no idea  
+Good Video/Blog: https://www.bilibili.com/video/BV1SL4y1N7mV/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt: 
+Difficulty during Implementation: 1. initiate nn matrix: nums = [[0] * n for _ in range(n)]
 Logic of Solution:
 AC Code:
 
@@ -265,6 +265,114 @@ Logic of Solution:
 AC Code:
 
 Question: [18
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [344
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [541
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [剑指offer05
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [151
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [剑指offer58II
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [28
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [459
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [20
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [1047
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [150
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [239
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [347
 Outcome with Date: MM-DD:X|Y|O
 First Impression:
 Good Video/Blog:
