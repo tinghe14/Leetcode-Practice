@@ -138,7 +138,7 @@ class Solution:
         return 0 if res==float("inf") else res
 ```
 
-Question: [59 Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii/)
+Question: [59 Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii/)  
 Outcome with Date: 11-25:X  
 First Impression: no idea  
 Good Video/Blog: https://www.bilibili.com/video/BV1SL4y1N7mV/?vd_source=8b4794944ae27d265c752edb598636de  
