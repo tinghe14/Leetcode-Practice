@@ -176,6 +176,8 @@ class Solution:
                 leftbound += 1
             return nums
 ```
+## Day4 
+
 ### Summarization for array
 https://programmercarl.com/%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93%E7%AF%87.html  
 1. 经典题型： 二分法，双指针，滑动窗口，模拟行为  
@@ -186,14 +188,40 @@ https://programmercarl.com/%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93%E7%AF%87.html
 6. while 循环不变量  
 7. backward iterate in loop: range(end, start-1, -1)  
 
-Question: [203
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
+### linked list
+https://programmercarl.com/%E9%93%BE%E8%A1%A8%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80.html  
+链表是一种通过指针串联在一起的线性结构，每一个节点由两部分组成，一个是数据域一个是指针域（存放指向下一个节点的指针），最后一个节点的指针域指向null（空指针的意思）。链表的入口节点称为链表的头结点也就是head。
+
+Question: [203 Remove Linked List Elements](https://leetcode.com/problems/remove-linked-list-elements/)  
+Outcome with Date: 11-27:X  
+First Impression: have some idea but don't know how to iterate(stopping criteria)  
 Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
+Learnt: 1.delete a head node is different than others 2.the linked list can't access by index, every operation need to start with head node    
+Difficulty during Implementation: (need to try again)
+Logic of Solution:  
+1. create dummy head, in this way we don't need additional codes to delete head node
+2. while didn't iterate the end of the linkedlist
+3. if find the value, delete it
+4. if not, pass to the next node
+5. return head
 AC Code:
+```Python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+        dummyhead = ListNode(next=head)
+        cur = dummyhead
+        while(cur.next != None):
+            if(cur.next.val == val):
+                cur.next = cur.next.next
+            else:
+                cur = cur.next
+        return dummyhead.next
+```
 
 Question: [707
 Outcome with Date: MM-DD:X|Y|O
