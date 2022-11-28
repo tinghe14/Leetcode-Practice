@@ -296,10 +296,10 @@ class MyLinkedList:
             return
 ```
 
-Question: [206
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
+Question: [206 Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)  
+Outcome with Date: 11-27:X  
+First Impression:还是被搞晕了 看了视频才清楚  
+Good Video/Blog:https://www.bilibili.com/video/BV1nB4y1i7eL/  
 Learnt:
 Difficulty during Implementation:
 Logic of Solution:
