@@ -223,14 +223,78 @@ class Solution:
         return dummyhead.next
 ```
 
-Question: [707
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
+Question: [707 Design Linked List](https://leetcode.com/problems/design-linked-list/)  
+Outcome with Date: 11-27: X  
+First Impression: 总体上看上去不难，但是init那里不知道怎么写，看了下答案  
+Good Video/Blog: https://www.bilibili.com/video/BV1FU4y1X7WD/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt: 问题比想象的多，比如需要dummy head这样不用分类讨论(而且加在哪)，其次插入节点的时候要注意顺序  
+Difficulty during Implementation: 1.while循环不变量用什么还是很困难的 特别是临界值 需要靠edge case来判定2.dummy head放在哪里    
 Logic of Solution:
 AC Code:
+```Python
+class Node:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class MyLinkedList:
+
+    def __init__(self, size=0):
+        self.head = Node()
+        self.size = size 
+    
+    def get(self, index: int) -> int:
+        if index<0 or index>=self.size:
+            return -1 
+        else:
+            curr = self.head.next
+            while(index>0):
+                curr = curr.next
+                index -= 1
+            return curr.val
+
+    def addAtHead(self, val: int) -> None:
+        new_node = Node(val)
+        new_node.next = self.head.next
+        self.head.next = new_node
+        self.size += 1
+        return 
+
+    def addAtTail(self, val: int) -> None:
+        new_node = Node(val)
+        curr = self.head
+        while(curr.next!=None):
+            curr = curr.next
+        curr.next = new_node
+        self.size += 1
+        return 
+
+    def addAtIndex(self, index: int, val: int) -> None:
+        new_node = Node(val)
+        if index<0 or index>=self.size+1:
+            return 
+        else:
+            curr = self.head
+            while(index>0):
+                curr = curr.next
+                index -= 1
+            new_node.next = curr.next
+            curr.next = new_node
+            self.size += 1
+            return
+        
+    def deleteAtIndex(self, index: int) -> None:
+        if index<0 or index>=self.size:
+            return 
+        else:
+            curr = self.head
+            while(index):
+                curr = curr.next
+                index -= 1
+            curr.next = curr.next.next
+            self.size -= 1
+            return
+```
 
 Question: [206
 Outcome with Date: MM-DD:X|Y|O
