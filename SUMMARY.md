@@ -1,5 +1,22 @@
 # Table of contents
 
+## Basic
+
+Big O notation:
+- O(1): constant time
+- O(log n): logirithmic time
+- O(N): linear time
+- O(NlogN): log-linear time
+- O(N^2): quadratic time
+- O(2^N): expoential time
+- O(N!): factorial time
+
+Average Time Complexity for Basic Data Structure:
+|Data Structure|Access|Search|Insertation|Deletion|
+|--------------|--------------|--------------|--------------|--------------|
+|Array|O(1)|O(N)|O(N)|O(N)|
+|Linked List|O(N)|O(N)|O(1)|O(1)|
+
 ## Day1
 Question: [704 binary search](https://leetcode.com/problems/binary-search/description/)  
 Outcome with Date: 11-23:X  
@@ -296,6 +313,7 @@ class MyLinkedList:
             return
 ```
 
+## Day 5
 Question: [206 Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)  
 Outcome with Date: 11-27:X  
 First Impression:还是被搞晕了 看了视频才清楚  
