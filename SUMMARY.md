@@ -392,6 +392,44 @@ class Solution:
         slow.next = slow.next.next
         return dummy_head.next
 ```
+Question: [160 Intersection of two linked list](https://leetcode.com/problems/intersection-of-two-linked-lists/)  
+Outcome with Date: 11-28: X  
+First Impression:以为很简单 但是没有注意到两个指针同时移动一步会没有用  
+Good Video/Blog:https://programmercarl.com/%E9%9D%A2%E8%AF%95%E9%A2%9802.07.%E9%93%BE%E8%A1%A8%E7%9B%B8%E4%BA%A4.html  
+Learnt: 先移动长的指针那个的差值 再一起一步步移动  
+Difficulty during Implementation: 还是没有处理好空指针的问题 以及最后一个循环的return那句的顺序需要考量一下 自己给自己一些edge case看看能不能发现问题  
+Logic of Solution:
+AC Code:
+```Python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        pointA, pointB = headA, headB
+        tempA, tempB = headA, headB
+        lenA, lenB = 1, 1
+        while(tempA.next!=None):
+            lenA += 1
+            tempA = tempA.next 
+        while(tempB.next!=None):
+            lenB += 1
+            tempB = tempB.next 
+        if lenA > lenB: #让b成为长的那条
+            pointA, pointB = pointB, pointA
+            lenA, lenB = lenB, lenA 
+        for _ in range(lenB - lenA):
+            pointB = pointB.next
+        while(pointA!=None and pointB!=None):
+            if pointA == pointB:
+                return pointA 
+            pointA = pointA.next
+            pointB = pointB.next 
+        return None
+```
 
 Question: [142
 Outcome with Date: MM-DD:X|Y|O
