@@ -356,14 +356,14 @@ class Solution:
         return self.reverse(None, head)
 ```
 
-Question: [24
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
-AC Code:
+Question: [24 Swap Nodes in Pairs](https://leetcode.com/problems/swap-nodes-in-pairs/)  
+Outcome with Date: 11-28:X  
+First Impression:有点想法 但是自己的想法的分类条件有点多  
+Good Video/Blog: https://www.bilibili.com/video/BV1YT411g7br/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt:逻辑十分清楚，希望自己下一次不看视频就可以写出这个逻辑链  
+Difficulty during Implementation: curr应该怎么更新，为什么是像视频里所说的  
+Logic of Solution:  
+AC Code:(need help!!!)  
 
 Question: [19
 Outcome with Date: MM-DD:X|Y|O
