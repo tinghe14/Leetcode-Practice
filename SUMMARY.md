@@ -319,9 +319,42 @@ Outcome with Date: 11-27:X
 First Impression:还是被搞晕了 看了视频才清楚  
 Good Video/Blog:https://www.bilibili.com/video/BV1nB4y1i7eL/  
 Learnt: Two methods (1) two pointers, (2) recursion; when to stop in the while loop->draw a illustration plot, then I can know
-Difficulty during Implementation:
-Logic of Solution:
+Difficulty during Implementation: (1) two pointers 交换混了 exceed time limit ->一个递归单元就是pre和curr其他的再下一个递归单元也会碰到  
+Logic of Solution: recuerse
+1. recurse helper function
+2. parameters for the helper funciton -> what do we need in the initalization
+3. basic case -> when we stop the recursive function and return the output we want
+4. call itself -> update on the parameters 
 AC Code:
+```Python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        pre = None
+        curr = head
+        while(curr!=None):
+            temp = curr.next
+            curr.next = pre
+            pre = curr
+            curr = temp
+        return pre
+```
+```Python
+class Solution:
+    def reverse(self, pre, curr):
+        if (curr == None): 
+            return pre
+        temp = curr.next
+        curr.next = pre
+        return self.reverse(curr, temp)
+
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        return self.reverse(None, head)
+```
 
 Question: [24
 Outcome with Date: MM-DD:X|Y|O
