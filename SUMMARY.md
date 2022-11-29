@@ -431,14 +431,17 @@ class Solution:
         return None
 ```
 
-Question: [142
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
+Question: [142 Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/)  
+Outcome with Date: 11-28:X  
+First Impression: 用fast快一步去写 但是超过运行时间了  
+Good Video/Blog:https://www.bilibili.com/video/BV1if4y1d7ob/?vd_source=8b4794944ae27d265c752edb598636de
+Learnt:之前想法是错的 
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
+
+## Day 6
+### Summarization for linkedlist
 
 Question: [242
 Outcome with Date: MM-DD:X|Y|O
