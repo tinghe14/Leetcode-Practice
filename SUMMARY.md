@@ -318,7 +318,7 @@ Question: [206 Reverse Linked List](https://leetcode.com/problems/reverse-linked
 Outcome with Date: 11-27:X  
 First Impression:还是被搞晕了 看了视频才清楚  
 Good Video/Blog:https://www.bilibili.com/video/BV1nB4y1i7eL/  
-Learnt:
+Learnt: Two methods (1) two pointers, (2) recursion; when to stop in the while loop->draw a illustration plot, then I can know
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
