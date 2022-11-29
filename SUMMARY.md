@@ -365,14 +365,33 @@ Difficulty during Implementation: curr应该怎么更新，为什么是像视频
 Logic of Solution:  
 AC Code:(need help!!!)  
 
-Question: [19
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
+Question: [19 remove nth node from the end of lis](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)  
+Outcome with Date: 11-28:X  
+First Impression:题目看上去很简单 但是他是从后往前数 还是不知道终止条件  
+Good Video/Blog: https://www.bilibili.com/video/BV1vW4y1U7Gf/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt: 使用fast and slow pointer, 先移动faster pointer n+1 步，再同时一步步移动  
+Difficulty during Implementation: fast先移动几步，让他移动几步的while循环条件又怎么写  
 Logic of Solution:
 AC Code:
+```Python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dummy_head = ListNode(0, next=head)
+        fast, slow = dummy_head, dummy_head
+        while(n!=0 and fast.next!=None):
+            fast = fast.next 
+            n -= 1
+        while(fast.next!=None):
+            fast = fast.next 
+            slow = slow.next 
+        slow.next = slow.next.next
+        return dummy_head.next
+```
 
 Question: [142
 Outcome with Date: MM-DD:X|Y|O
