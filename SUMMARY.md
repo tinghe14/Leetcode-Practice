@@ -454,14 +454,36 @@ AC Code:
 7. in general, the key can be of any type, they don't need to be a sequential integer. to handle this, a hash function is used that takes a key and converts it to a more efficient key. this new key can be stored in a sorted way and information is extracted in O(1) time.
 8. https://www.educative.io/courses/data-science-interview-handbook/N8MnNQ13oEz
 
-Question: [242
-Outcome with Date: MM-DD:X|Y|O
+Question: [242 Valid Anagram](https://leetcode.com/problems/valid-anagram/)
+Outcome with Date: 11-29:Y
 First Impression:
 Good Video/Blog:
 Learnt:
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
+```Python
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        dct_s = {} # key: character, value: num
+        for ind_s in range(len(s)):
+            char_s = s[ind_s]
+            if char_s not in dct_s.keys():
+                dct_s[char_s] = 1
+            else:
+                dct_s[char_s] += 1
+        for ind_t in range(len(t)):
+            char_t = t[ind_t]
+            if char_t not in dct_s.keys():
+                return False
+            elif char_t in dct_s.keys() and dct_s[char_t]>1:
+                dct_s[char_t] -= 1
+            elif char_t in dct_s.keys() and dct_s[char_t]==1:
+                dct_s.pop(char_t)
+        if len(dct_s)==0:
+            return True 
+        return False
+```
 
 Question: [349
 Outcome with Date: MM-DD:X|Y|O
