@@ -454,13 +454,13 @@ AC Code:
 7. in general, the key can be of any type, they don't need to be a sequential integer. to handle this, a hash function is used that takes a key and converts it to a more efficient key. this new key can be stored in a sorted way and information is extracted in O(1) time.
 8. https://www.educative.io/courses/data-science-interview-handbook/N8MnNQ13oEz
 
-Question: [242 Valid Anagram](https://leetcode.com/problems/valid-anagram/)
-Outcome with Date: 11-29:Y
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
+Question: [242 Valid Anagram](https://leetcode.com/problems/valid-anagram/)  
+Outcome with Date: 11-29:Y  
+First Impression:  
+Good Video/Blog:  
+Learnt:  
+Difficulty during Implementation:  
+Logic of Solution:  
 AC Code:
 ```Python
 class Solution:
@@ -524,13 +524,13 @@ class Solution(object):
         b_count = Counter(t)
         return a_count == b_count
 ```
-Question: [349 Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
-Outcome with Date: 11-28:Y
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
+Question: [349 Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)  
+Outcome with Date: 11-28:Y  
+First Impression:  
+Good Video/Blog:https://programmercarl.com/0349.%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86.html#%E6%80%9D%E8%B7%AF  
+Learnt:使用set不仅占用空间比数组大，而且速度要比数组慢，并且set把数组映射到key上都要做hash计算的，这个耗时很大    
+Difficulty during Implementation:  
+Logic of Solution:  
 AC Code:
 ```Python
 class Solution:
@@ -539,6 +539,22 @@ class Solution:
             return set(nums2).intersection(set(nums1))
         else:
             return set(nums1).intersection(set(nums2))
+```
+```Python
+#更好的方法
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        val_dict = {}
+        ans = []
+        for num in nums1:
+            val_dict[num] = 1
+
+        for num in nums2:
+            if num in val_dict.keys() and val_dict[num] == 1:
+                ans.append(num)
+                val_dict[num] = 0
+        
+        return ans
 ```
 
 Question: [202
