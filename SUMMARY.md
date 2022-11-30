@@ -566,14 +566,24 @@ Difficulty during Implementation:  (1)计算各个位数之和 记得用while(n!
 Logic of Solution:(need help!!!)  
 AC Code:  
 
-Question: [1
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
-AC Code:
+Question: [1 two sum](https://leetcode.com/problems/two-sum/)  
+Outcome with Date: 11-29: X  
+First Impression:  
+Learnt:  
+Difficulty during Implementation:  
+Logic of Solution:  
+AC Code:  
+```Python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        records = dict()
+
+        for index, value in enumerate(nums):  
+            if target - value in records:   # 遍历当前元素，并在map中寻找是否有匹配的key
+                return [records[target- value], index]
+            records[value] = index    # 遍历当前元素，并在map中寻找是否有匹配的key
+        return []
+```
 
 Question: [454
 Outcome with Date: MM-DD:X|Y|O
