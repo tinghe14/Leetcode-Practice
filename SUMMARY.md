@@ -444,6 +444,16 @@ AC Code:
 ## Day 6
 ### Summarization for linkedlist
 
+### Hash Table
+1. Hash Table哈希表=hash table，store the data in key-value pairs for faster access on the keys
+2. it could be possible that different keys map to the same hash. in that scenario, we would use the collision resolution techniques. For example, two keys have the same hash codes. Then the collision resolution technique is used
+3. Hash Collision哈希碰撞，在同一索引想放多个值解决办法：拉链法（储存在链表中），线性探测法（冲突放在哈希表的空位上）
+4. 当使用哈希法来解决问题时，我们一般会选择如下三种数据结构（数组，set集合，map映射）
+5. 。。。一些看不懂的底层逻辑
+6. hashing is an efficient way to sort key values in memory, which is used to get the values associated with the key very fast
+7. in general, the key can be of any type, they don't need to be a sequential integer. to handle this, a hash function is used that takes a key and converts it to a more efficient key. this new key can be stored in a sorted way and information is extracted in O(1) time.
+8. https://www.educative.io/courses/data-science-interview-handbook/N8MnNQ13oEz
+
 Question: [242
 Outcome with Date: MM-DD:X|Y|O
 First Impression:
