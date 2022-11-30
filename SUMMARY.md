@@ -682,9 +682,9 @@ class Solution:
         return True
 ```
 
-Question: [15
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
+Question: [15 3Sum](https://leetcode.com/problems/3sum/)  
+Outcome with Date: 11-29:X  
+First Impression: 有想法知道用一个nested for循环再查找，但是不知道具体怎么写  
 Good Video/Blog:
 Learnt:
 Difficulty during Implementation:
