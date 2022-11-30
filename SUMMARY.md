@@ -655,14 +655,32 @@ class Solution:
                 cnt += rec.get(-(i+j), 0) # No matched key, return 0.
         return cnt
 ```
-Question: [383
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
+Question: [383 Random Note](https://leetcode.com/problems/ransom-note/)  
+Outcome with Date: 11-29: Y  
+First Impression:  
+Good Video/Blog:  
+Learnt:  
+Difficulty during Implementation:  
+Logic of Solution:  
 AC Code:
+```Python
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        dct_mag = {}
+        for s in magazine:
+            if s not in dct_mag.keys():
+                dct_mag[s] = 1
+            else:
+                dct_mag[s] += 1
+        for s in ransomNote:
+            if s in dct_mag.keys() and dct_mag[s] != 1:
+                dct_mag[s] -= 1
+            elif s in dct_mag.keys() and dct_mag[s] == 1:
+                del dct_mag[s]
+            else:
+                return False 
+        return True
+```
 
 Question: [15
 Outcome with Date: MM-DD:X|Y|O
