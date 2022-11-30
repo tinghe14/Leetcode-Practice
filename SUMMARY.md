@@ -684,21 +684,26 @@ class Solution:
 
 Question: [15 3Sum](https://leetcode.com/problems/3sum/)  
 Outcome with Date: 11-29:X  
-First Impression: 有想法知道用一个nested for循环再查找，但是不知道具体怎么写  
-Good Video/Blog:
-Learnt:
+First Impression: 有想法知道用一个nested for循环再哈希表查找，但是因为要去重不知道具体怎么写  
+Good Video/Blog:https://www.bilibili.com/video/BV1GW4y127qo/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt:（1）这题因为要去重 哈希法要考虑的太多了 更合适的是双指针的滑动窗口  
 Difficulty during Implementation:
 Logic of Solution:
-AC Code:
+1. since we are not return index, we can sort the array(even need index, we can use enumerate)
+2. fix i and loop it in the list
+3. define left and right at two ends
+4. if large, move right
+5. if small, move left
+AC Code:(need help!!!不知道哪里写错了)
 
-Question: [18
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
+Question: [18 4Sum](https://leetcode.com/problems/4sum/)  
+Outcome with Date: 11-29:  
+First Impression:我写的一个nest loop再slide windows然后用set去重但是time limite exceed了->和视频里的思路是一样的 2.时间超过了所以要仔细做下剪支操作  
+Good Video/Blog:https://www.bilibili.com/video/BV1DS4y147US/?spm_id_from=333.788&vd_source=8b4794944ae27d265c752edb598636de  
+Learnt:(1)set()and{}both are create set object, but for set()it can only take single iteratable object
 Difficulty during Implementation:
-Logic of Solution:
-AC Code:
+Logic of Solution: (need help!!)
+AC Code: 
 
 Question: [344
 Outcome with Date: MM-DD:X|Y|O
