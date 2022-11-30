@@ -557,14 +557,14 @@ class Solution:
         return ans
 ```
 
-Question: [202
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
-AC Code:
+Question: [202 Happy Number](https://leetcode.com/problems/happy-number/)  
+Outcome with Date: 11-29:X  
+First Impression:没有想法  
+Good Video/Blog: https://programmercarl.com/0202.%E5%BF%AB%E4%B9%90%E6%95%B0.html   
+Learnt: 这里说了会无限循环-》在求和过程中，sum会重复出现-〉在哈希表里面我们说了，当遇到了要快速判断一个元素是否出现集合里的时候就要考虑哈希法了  
+Difficulty during Implementation:  (1)计算各个位数之和 记得用while(n!=0),(2)set加一个数是add不是append  
+Logic of Solution:(need help!!!)  
+AC Code:  
 
 Question: [1
 Outcome with Date: MM-DD:X|Y|O
