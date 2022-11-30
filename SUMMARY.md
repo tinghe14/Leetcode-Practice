@@ -586,15 +586,75 @@ class Solution:
         return []
 ```
 
-Question: [454
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
+Question: [454 4SUMII](https://leetcode.com/problems/4sum-ii/)  
+Outcome with Date: 11-29:X  
+First Impression: no idea  
+Good Video/Blog:https://www.bilibili.com/video/BV1Md4y1Q7Yh/  
+Learnt:（1）题目看错了没有对下标有要求（2）暴力是n^4,这里可以把a+b看出一个dict,去寻找-c-d  
+Difficulty during Implementation: 看到思路就写出来了  
 Logic of Solution:
 AC Code:
-
+```Python
+class Solution:
+    def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:
+        sum12 = {} #key: sum between 2 lists, value:count
+        sum34 = {}
+        def sumofTwoLists(list1, list2):
+            sum12 = {}
+            for i in list1:
+                for j in list2:
+                    comij = i+j
+                    if comij not in sum12.keys():
+                        sum12[comij] = 1
+                    else:
+                        sum12[comij] += 1
+            return sum12
+        sum12 = sumofTwoLists(nums1, nums2)
+        sum34 = sumofTwoLists(nums3, nums4)
+        res = 0
+        for i in sum12.keys():
+            if -i in sum34.keys():
+                res += sum12[i]*sum34[-i]
+        return res 
+```
+```Python
+#更简洁的写法，第二次build dict的时候就可以着了
+class Solution(object):
+    def fourSumCount(self, nums1, nums2, nums3, nums4):
+        # use a dict to store the elements in nums1 and nums2 and their sum
+        hashmap = dict()
+        for n1 in nums1:
+            for n2 in nums2:
+                if n1 + n2 in hashmap:
+                    hashmap[n1+n2] += 1
+                else:
+                    hashmap[n1+n2] = 1
+        
+        # if the -(a+b) exists in nums3 and nums4, we shall add the count
+        count = 0
+        for n3 in nums3:
+            for n4 in nums4:
+                key = - n3 - n4
+                if key in hashmap:
+                    count += hashmap[key]
+        return count
+```
+```Python
+#不用分类讨论用defaultdict
+class Solution:
+    def fourSumCount(self, nums1: list, nums2: list, nums3: list, nums4: list) -> int:
+        from collections import defaultdict # You may use normal dict instead.
+        rec, cnt = defaultdict(lambda : 0), 0
+        # To store the summary of all the possible combinations of nums1 & nums2, together with their frequencies.
+        for i in nums1:
+            for j in nums2:
+                rec[i+j] += 1
+        # To add up the frequencies if the corresponding value occurs in the dictionary
+        for i in nums3:
+            for j in nums4:
+                cnt += rec.get(-(i+j), 0) # No matched key, return 0.
+        return cnt
+```
 Question: [383
 Outcome with Date: MM-DD:X|Y|O
 First Impression:
