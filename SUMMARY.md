@@ -16,6 +16,7 @@ Average Time Complexity for Basic Data Structure:
 |--------------|--------------|--------------|--------------|--------------|
 |Array|O(1)|O(N)|O(N)|O(N)|
 |Linked List|O(N)|O(N)|O(1)|O(1)|
+|Hash Map| N/A| O(1)[O(N) in worst case]|O(1)[O(N) in worst case]|O(1)[O(N) in worst case]|
 
 ## Day1
 Question: [704 binary search](https://leetcode.com/problems/binary-search/description/)  
