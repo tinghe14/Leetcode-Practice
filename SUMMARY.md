@@ -732,7 +732,7 @@ Outcome with Date: 11-30:X
 First Impression: 我写成了return一个新list但是他的要求时in-place修改（reverse not in place: for ind in range(end_ind, start_ind-1, -1)  
 Good Video/Blog: https://www.bilibili.com/video/BV1fV4y17748/?vd_source=8b4794944ae27d265c752edb598636de  
 Learnt: 题目要求o(1）space complexity所以用双指针  
-Difficulty during Implementation: 无  
+Difficulty during Implementation: 有个严重问题 while循环我已经很多次忘记在里面更新了 这个很严重 会死循环（一直没变 条件一直成立）  
 Logic of Solution: 洋葱结构一层层对调  
 AC Code:
 ```Python
@@ -756,15 +756,41 @@ s[::-1]
 ### pythonic 写法
 1. 短行写一起比如上面的left, right初始化
 2. 对调的话 python里面有个tuple复制 这个时候是同时tuple交换-》python里面不写（）也是tuple 
+3. for, while loop那里都不用写括号
 
-Question: [541
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
+Question: [541 Reverse StringII](https://leetcode.com/problems/reverse-string-ii/)  
+Outcome with Date:11-30:X  
+First Impression:我想混乱了 理不清楚-》没有尝试着在脑海里去找 这题和我之前做过的哪一题类似    
+Good Video/Blog:https://www.bilibili.com/video/BV1dT411j7NN/  
+Learnt: （1）利用齐前面的翻转 slice之后写一个help function做字符翻转  现在class的method里的help function就是普通的本method里可以调用的函数 所以不用写self
+Difficulty during Implementation: (1)不知道怎么slice会有不能整除的情况->不是那里出错 这个range会帮忙处理 是revser那地方的报错 (2) string能做tuple的对调 要转换成list,然后list换成str的写法是
+```Python
+s = list(abd)
+''.join(s)
+```
 Logic of Solution:
 AC Code:
+```Python
+class Solution:
+    def reverseStr(self, s: str, k: int) -> str:
+        def reverse(s:List[str]):
+            # two pointers
+            left, right = 0, len(s) - 1
+            while left < right:
+                s[left], s[right] = s[right], s[left]
+                left += 1
+                right -= 1
+            return s
+
+        res = list(s)
+        for ind in range(0, len(s), 2*k):
+            if len(s[ind:]) >= k:
+                res[ind:ind+k] = reverse(res[ind:ind+k])
+            else:
+                res[ind:ind+k] = reverse(res[ind:])
+
+        return ''.join(res)
+```
 
 Question: [剑指offer05
 Outcome with Date: MM-DD:X|Y|O
