@@ -18,7 +18,7 @@ Average Time Complexity for Basic Data Structure:
 |Linked List|O(N)|O(N)|O(1)|O(1)|
 |Hash Map| N/A| O(1)[O(N) in worst case]|O(1)[O(N) in worst case]|O(1)[O(N) in worst case]|
 
-## Day1
+## Day 1
 Question: [704 binary search](https://leetcode.com/problems/binary-search/description/)  
 Outcome with Date: 11-23:X  
 First Impression: I know need to use left, right, mid pointers but I don't know how to set the stop criteria in the loop  
@@ -71,7 +71,7 @@ class Solution:
         return left
             
 ```
-## Day2
+## Day 2
 Question: [34 Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  
 Outcome with Date: 11-24:X  
 First Impression:know that I can apply binary search twice by finding the target-1, and target+1 -> can't work, also the same thing will happen in target-1 and target+1->wrong  
@@ -103,7 +103,7 @@ class Solution:
         return slow
 ```
 
-## Day3
+## Day 3
 Question: [977 Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/)  
 Outcome with Date: 11-25:O  
 First Impression: have idea that I can apply two pointers in left and right to compare each time to find the bigger one, but has some error  
@@ -194,7 +194,7 @@ class Solution:
                 leftbound += 1
             return nums
 ```
-## Day4 
+## Day 4 
 
 ### Summarization for array
 https://programmercarl.com/%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93%E7%AF%87.html  
@@ -762,8 +762,8 @@ Question: [541 Reverse StringII](https://leetcode.com/problems/reverse-string-ii
 Outcome with Date:11-30:X  
 First Impression:我想混乱了 理不清楚-》没有尝试着在脑海里去找 这题和我之前做过的哪一题类似    
 Good Video/Blog:https://www.bilibili.com/video/BV1dT411j7NN/  
-Learnt: （1）利用齐前面的翻转 slice之后写一个help function做字符翻转  现在class的method里的help function就是普通的本method里可以调用的函数 所以不用写self
-Difficulty during Implementation: (1)不知道怎么slice会有不能整除的情况->不是那里出错 这个range会帮忙处理 是revser那地方的报错 (2) string能做tuple的对调 要转换成list,然后list换成str的写法是
+Learnt: （1）利用齐前面的翻转 slice之后写一个help function做字符翻转  现在class的method里的help function就是普通的本method里可以调用的函数 所以不用写self  
+Difficulty during Implementation: (1)不知道怎么slice会有不能整除的情况->不是那里出错 这个range会帮忙处理 是revser那地方的报错 (2) string能做tuple的对调 要转换成list,然后list换成str的写法是  
 ```Python
 s = list(abd)
 ''.join(s)
@@ -792,14 +792,54 @@ class Solution:
         return ''.join(res)
 ```
 
-Question: [剑指offer05
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
+Question: [剑指offer05 替换空格]  
+描述：实现一个函数，把字符串s中的每个空格替换成“%20”  
+Outcome with Date: 11-30:X  
+First Impression:想把str换成list在一个个循环碰到空格变成%20  
+Good Video/Blog: https://programmercarl.com/%E5%89%91%E6%8C%87Offer05.%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC  
+Learnt: 先把str根据空格的个数扩张 然后从后向前替换空格（left指向旧长度的末尾，right指向新长度的末尾)(后往前的好处 从前往后就是o(n^2)算法了，因为每次添加元素所有的东西都要向后移动 -》tips:很多数组填充题，都可以先预留给数组扩容填充后的大小，然后再从后向前进行操作  
+Difficulty during Implementation:没有自己尝试编译，其实需要的多练练双指针问题  
+Logic of Solution: (need help !!!). 
 AC Code:
+```Python
+class Solution:
+    def replaceSpace(self, s: str) -> str:
+        counter = s.count(' ')
+        
+        res = list(s)
+        # 每碰到一个空格就多拓展两个格子，1 + 2 = 3个位置存’%20‘
+        res.extend([' '] * counter * 2)
+        
+        # 原始字符串的末尾，拓展后的末尾
+        left, right = len(s) - 1, len(res) - 1
+        
+        while left >= 0:
+            if res[left] != ' ':
+                res[right] = res[left]
+                right -= 1
+            else:
+                # [right - 2, right), 左闭右开
+                res[right - 2: right + 1] = '%20'
+                right -= 3
+            left -= 1
+        return ''.join(res)
+            
+```
+```Python
+class Solution:
+    def replaceSpace(self, s: str) -> str:
+        # method 1 - Very rude
+        return "%20".join(s.split(" "))
+
+        # method 2 - Reverse the s when counting in for loop, then update from the end.
+        n = len(s)
+        for e, i in enumerate(s[::-1]):
+            print(i, e)
+            if i == " ":
+                s = s[: n - (e + 1)] + "%20" + s[n - e:]
+            print("")
+        return s
+```
 
 Question: [151
 Outcome with Date: MM-DD:X|Y|O
