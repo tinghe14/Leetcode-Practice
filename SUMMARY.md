@@ -700,10 +700,28 @@ Question: [18 4Sum](https://leetcode.com/problems/4sum/)
 Outcome with Date: 11-29:  
 First Impression:我写的一个nest loop再slide windows然后用set去重但是time limite exceed了->和视频里的思路是一样的 2.时间超过了所以要仔细做下剪支操作  
 Good Video/Blog:https://www.bilibili.com/video/BV1DS4y147US/?spm_id_from=333.788&vd_source=8b4794944ae27d265c752edb598636de  
-Learnt:(1)set()and{}both are create set object, but for set()it can only take single iteratable object
-Difficulty during Implementation:
-Logic of Solution: (need help!!)
-AC Code: 
+Learnt:(1)set()and{}both are create set object, but for set()it can only take single iteratable object  
+Difficulty during Implementation:  
+Logic of Solution: (need help!!)  
+AC Code:  
+
+## Day 7
+## Hash Table Summarization
+1. 哈希表是用来快速判断一个元素是否出现集合里
+2. 对于哈希表，要知道哈希函数和哈希碰撞在哈希表重的作用
+3. 哈希函数是把传入的key映射到符号表的索引上
+4. 哈希碰撞会处理多个key映射到相同索引的情景，处理碰撞的普遍方式是拉链法和线性探测法
+5. 题型总结：纯哈希表(实际例子 有无无限循环的出现 注意怎么计算每位相加), nested哈希表（我named例子2 sum)，滑动窗口（当有麻烦的去重条件和其他限制时）
+```Python
+while n!=0:
+    res += (n%10)**2
+    n = n //10
+    return res
+```
+7. 纯哈希表：defaultdict可以让表达更简洁 不用判断这个key是否已经存入了 用法 d=defaultdict(int或者其他类型) 需要import包from collections import defaultdict;有时候或许可以用Counter(from collections import Counter)可以计算 dict, set,list, tuple这些可iterate的东西里面出现的次数 用法 d_count = Counter(num)
+8. nested哈希表：边建立遍查找想要的东西在不在里面
+9. 滑动窗口：这类题型看起来也是two sum的变型但是 要求条件多 比如互不重复的值，互不重复的ind 考虑滑动窗口双指针比哈希法简单 但是这些去重 剪枝操作还需要熟悉 
+
 
 Question: [344
 Outcome with Date: MM-DD:X|Y|O
