@@ -500,7 +500,8 @@ class Solution:
                 return False
         return True
 ```
-```Python更清楚的解答
+```Python
+#更清楚的解答
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
         from collections import defaultdict
@@ -516,7 +517,8 @@ class Solution:
 
         return s_dict == t_dict
 ```
-```Python更清楚的解答
+```Python
+#更清楚的解答
 class Solution(object):
     def isAnagram(self, s: str, t: str) -> bool:
         from collections import Counter
@@ -744,6 +746,12 @@ class Solution:
             s[left], s[right] = s[right], s[left]
             left += 1
             right -= 1
+```
+
+```Python
+#内置函数 大部分都很快
+s.reverse
+s[::-1]
 ```
 ### pythonic 写法
 1. 短行写一起比如上面的left, right初始化
