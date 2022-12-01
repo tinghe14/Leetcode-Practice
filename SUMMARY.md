@@ -706,7 +706,7 @@ Logic of Solution: (need help!!)
 AC Code:  
 
 ## Day 7
-## Hash Table Summarization
+### Hash Table Summarization
 1. 哈希表是用来快速判断一个元素是否出现集合里
 2. 对于哈希表，要知道哈希函数和哈希碰撞在哈希表重的作用
 3. 哈希函数是把传入的key映射到符号表的索引上
@@ -722,15 +722,32 @@ while n!=0:
 8. nested哈希表：边建立遍查找想要的东西在不在里面
 9. 滑动窗口：这类题型看起来也是two sum的变型但是 要求条件多 比如互不重复的值，互不重复的ind 考虑滑动窗口双指针比哈希法简单 但是这些去重 剪枝操作还需要熟悉 
 
+### String
+1. 和数组类的题目在题型上是类似的
 
-Question: [344
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
+Question: [344 Reverse String](https://leetcode.com/problems/reverse-string/)  
+Outcome with Date: 11-30:X  
+First Impression: 我写成了return一个新list但是他的要求时in-place修改（reverse not in place: for ind in range(end_ind, start_ind-1, -1)  
+Good Video/Blog: https://www.bilibili.com/video/BV1fV4y17748/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt: 题目要求o(1）space complexity所以用双指针  
+Difficulty during Implementation: 无  
+Logic of Solution: 洋葱结构一层层对调  
 AC Code:
+```Python
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        left, right = 0, len(s) - 1
+        while(left < right):
+            s[left], s[right] = s[right], s[left]
+            left += 1
+            right -= 1
+```
+### pythonic 写法
+1. 短行写一起比如上面的left, right初始化
+2. 对调的话 python里面有个tuple复制 这个时候是同时tuple交换-》python里面不写（）也是tuple 
 
 Question: [541
 Outcome with Date: MM-DD:X|Y|O
