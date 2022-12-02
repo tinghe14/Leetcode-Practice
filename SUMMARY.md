@@ -995,7 +995,28 @@ First Impression:没有想法。
 Good Video/Blog:
 1. https://www.bilibili.com/video/BV1Fd4y1K7sm/
 2. https://programmercarl.com/0225.%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88.html
-Learnt:放入也是一样的 关键在于如何弹出(1)用两个队列的话就是 一共pop出n-1个 逐个放入队列中 （2）用一个队列的话就是 一共pop出n-1个 逐个放回本身队列中  
+3. http://jalan.space/2019/02/05/2019/python-queue/
+Learnt:放入也是一样的 关键在于如何弹出(1)用两个队列的话就是 一共pop出n-1个 逐个放入队列中 （2）用一个队列的话就是 一共pop出n-1个 逐个放回本身队列中(3)python里实现队列的方法我不知道 查了一下中文leetcode '你所使用的语言也许不支持队列。你可以使用list列表或者deque双端队列来模拟一个队列，只要是标准的队列操作即可'（4）python中实现队列的方法 借用list列表，借用deque双端队列（既可以实现栈也可以实现队列）（5）队列是一种特殊的线性表，是一种先进先出数据结构，只允许在表的前段front进行删除操作，而在表的后端rear进行插入操作。进行插入操作的端称为队尾，进行删除操作的端称为对头  
+```Python
+#列表list
+#创建列表list
+q = []
+#入队
+q.append("a")
+#出对
+del q[0]
+```
+```Python
+from collections import deque
+#创建队列
+d = deque()
+#入队
+d.append(1)#从队尾
+d.appendleft(2)#从对头
+#出队
+d.pop(）#从队尾
+d.popleft()#从队头
+```
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
