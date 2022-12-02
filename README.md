@@ -17,3 +17,4 @@ AC Code:
 3. 代码随想录book: https://github.com/youngyangyang04/leetcode-master
 4. 画图app: https://excalidraw.com/
 5. 谷歌高频：https://leetcode.com/company/google/
+6. excel: https://docs.qq.com/sheet/DUFJ5UkhTUHdXbE5Z?tab=BB08J2
