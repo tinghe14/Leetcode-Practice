@@ -921,3 +921,124 @@ Learnt:
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
+
+## Day 8
+
+### Stack栈与Queue队列 
+https://zhuanlan.zhihu.com/p/43505915. 
+1. 队列是先进先出，栈是先进后出
+2. 他们都是比较特殊的线性表，对于队列来说，元素只能从队列尾部插入，从队列头访问和删除
+3. 对于栈来说，访问，插入和删除元素只能在栈顶进行。该位置是表的末端，叫做栈顶。对栈顶的基本操作有push进栈和pop出栈，前者相当于插入，后者相当于删除最后一个元素。栈被叫做LIFO(last in first out)表，即后进先出。
+4. 因为栈也是一个表，所以任何实现表的方式都能实现栈。我们可以用python的list来模拟栈的相关操作如pop(), append()
+5. 队列是一种特殊的线性表，特殊在于它只允许在表的前段(front)进行删除操作，而在表的后端（rear)进行插入操作。和栈一样，队列是一种受操作限制的线性表。进行插入操作的端叫做队尾，进行删除操作的端称为对头。python的队列实现
+```Python
+import Queue
+q = Queue.Queue()
+for i in range(5):
+    q.put(i)
+while not q.empty():
+    print q.get()
+```
+
+Question: [232 implement queue using stacks](https://leetcode.com/problems/implement-queue-using-stacks/)  
+Outcome with Date: 12-01:X  
+First Impression:没有想法 因为一开始对这个数据结构都不了解 基本的栈是先进后出我知道 但是不知道怎么用python实现  
+Good Video/Blog:https://www.bilibili.com/video/BV1nY4y1w7VC/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt:（1）一个队列可以由两个栈形成  一个是进栈代替进队列的行为 一个是出栈为了膜拜出队列的行为  
+Difficulty during Implementation:(1)init的时候有问题 但其实就是很简单的self.stack_in=[]然后out也是一个list就行（2）实现pop的时候也有疑惑 里面需要弹出所有的stack_in我们也会用pop不过这是list built-in function和要实现的pop无关
+Logic of Solution: pop那部分 如果列表为空 回复none 如果stack_out有东西 回复pop 如果stak_in有东西 先pop再append再pop
+AC Code:
+```Python
+class MyQueue:
+
+    def __init__(self):
+        self.stack_in = []
+        self.stack_out = []
+        
+    def push(self, x: int) -> None:
+        self.stack_in.append(x)
+    
+    def pop(self) -> int:
+        if self.empty():
+            return None
+        if self.stack_out:
+            return self.stack_out.pop()
+        else:
+            for i in range(len(self.stack_in)):
+                self.stack_out.append(self.stack_in.pop())
+            return self.stack_out.pop()
+
+
+    def peek(self) -> int:
+            peek_value = self.pop()
+            self.stack_out.append(peek_value)
+            return peek_value
+        
+    def empty(self) -> bool:
+        if len(self.stack_in) == 0 and len(self.stack_out) == 0:
+            return True 
+        else:
+            return False
+
+
+# Your MyQueue object will be instantiated and called as such:
+# obj = MyQueue()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.peek()
+# param_4 = obj.empty()
+```
+
+Question: [225
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [20
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [1047
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [150
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [239
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
+
+Question: [347
+Outcome with Date: MM-DD:X|Y|O
+First Impression:
+Good Video/Blog:
+Learnt:
+Difficulty during Implementation:
+Logic of Solution:
+AC Code:
