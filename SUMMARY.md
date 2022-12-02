@@ -1053,17 +1053,24 @@ class MyStack:
         return False
 ```
 
-Question: [20
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
+Question: [20 Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)  
+Outcome with Date: 12-01: X
+First Impression: 这题我想着用hash table不就行了 但是发现只是个数一样不可以 需要时那种结构 先push进去然后遇到了end parentheses把对应的pop出来 所以该用的是栈  ->但是我感觉洋葱结构的和()[]这样结构的不一样 不知道怎么处理 甚至是不是需要分类处理->题意用中文解释成为 例如当有左括号时，相应的位置必须要有右括号    
 Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
-AC Code:
+1. https://www.bilibili.com/video/BV1AF411w78g/
+2. https://programmercarl.com/0020.%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7.html#%E9%A2%98%E5%A4%96%E8%AF%9D
+Learnt:（1）!!同样的错误犯两次了 （2）由于栈结构的特殊性，非常适合做对称匹配类的题目，对于这种题目一定要先分析有哪几种不匹配的情况，再动手分析（3）这道题的不匹配情况只有三种 a.左边有个多余的括号 b.没有多余的括号但是括号类型没有匹配上 c.右面多了右括号 (!!!need help)
+```Python
+#不能这样
+# str object is not iterable
+for i in str： #错误->好奇怪其实是可以的 所以我又是哪里做错了呢  
+```
+Difficulty during Implementation: 不知道为什么代码有错 需要理解 而且哈希表方法也想会（need help!!!）  
+Logic of Solution:  
+AC Code:  
 
-Question: [1047
-Outcome with Date: MM-DD:X|Y|O
+Question: [1047 remove all adjacent duplicates in string](https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/)  
+Outcome with Date: 12-01:
 First Impression:
 Good Video/Blog:
 Learnt:
