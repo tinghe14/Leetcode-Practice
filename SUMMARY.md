@@ -989,11 +989,13 @@ class MyQueue:
 # param_4 = obj.empty()
 ```
 
-Question: [225
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
+Question: [225 Implement Stack using Queues](https://leetcode.com/problems/implement-stack-using-queues/)  
+Outcome with Date: 12-01:X  
+First Impression:没有想法。
 Good Video/Blog:
-Learnt:
+1. https://www.bilibili.com/video/BV1Fd4y1K7sm/
+2. https://programmercarl.com/0225.%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88.html
+Learnt:放入也是一样的 关键在于如何弹出(1)用两个队列的话就是 一共pop出n-1个 逐个放入队列中 （2）用一个队列的话就是 一共pop出n-1个 逐个放回本身队列中  
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
