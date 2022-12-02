@@ -1017,9 +1017,41 @@ d.appendleft(2)#从对头
 d.pop(）#从队尾
 d.popleft()#从队头
 ```
-Difficulty during Implementation:
-Logic of Solution:
+Difficulty during Implementation: 知道逻辑之后 自己实现确实很简单。
+Logic of Solution:  
 AC Code:
+```Python
+from collections import deque
+
+class MyStack:
+
+    def __init__(self):
+        self.queue = deque()
+        
+    def push(self, x: int) -> None:
+        self.queue.append(x)
+
+    def pop(self) -> int:
+        if self.empty():
+            return None
+        size = len(self.queue)
+        while (size-1) > 0:
+            prev = self.queue.pop()
+            self.queue.append(prev)
+            size -= 1
+        return self.queue.pop()
+
+    def top(self) -> int:
+        top_item = self.pop()
+        self.queue.append(top_item)
+        return top_item
+        
+    def empty(self) -> bool:
+        size = len(self.queue)
+        if size == 0:
+            return True
+        return False
+```
 
 Question: [20
 Outcome with Date: MM-DD:X|Y|O
