@@ -841,14 +841,36 @@ class Solution:
         return s
 ```
 
-Question: [151
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
+Question: [151 Reverse Words in a String](https://leetcode.com/problems/reverse-words-in-a-string/)  
+Outcome with Date: 12-02:X  
+First Impression: 感觉要用left right pointer但是从两头开始会很奇怪 感觉实现不了  
+Good Video/Blog: 卡尔的python讲的不是很好 需要看官方解答。
+1. https://www.bilibili.com/video/BV1uT41177fX/?vd_source=8b4794944ae27d265c752edb598636de
+2. https://programmercarl.com/0151.%E7%BF%BB%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%87%8C%E7%9A%84%E5%8D%95%E8%AF%8D.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC
+3. https://leetcode.com/problems/reverse-words-in-a-string/solutions/441675/reverse-words-in-a-string/
+Learnt:（1）用删除array中数字的方法原地o(n)删除多余空格，再整个字符串反转，接着每个单词反转-》卡尔视频中删除空格python中不能使用因为python string is not immutable  
+(2) https://careerkarma.com/blog/python-str-object-does-not-support-item-assignment/  
+(3) strings in python are immutable. This means that they can't be changed. the most common sceneria in which this error is raised is when you try to change a string by its index values (c++ is mutable string)->不能原地 可以存入列表
+```Python
+#下行会报错 s->str
+s[slow] = s[fast]
+# str object doesn't support item asisgnment
+string = 'Banana'
+string[0] = 'A'
+```
+Difficulty during Implementation: 自己就删除space实现那里就失败了 python的string is immutable但是之前数组删除对应元素的思想是要in place修改的
+Logic of Solution: （!!!need help还是不会）
 AC Code:
+```Python
+# in-place修改版本
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        # delete space
+        s = " ".join(reversed(s.split()))
+        return s
+# time: O(n)
+# space: O(n)
+```
 
 Question: [剑指offer58II
 Outcome with Date: MM-DD:X|Y|O
