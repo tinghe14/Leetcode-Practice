@@ -840,7 +840,7 @@ class Solution:
             print("")
         return s
 ```
-
+## Day 09
 Question: [151 Reverse Words in a String](https://leetcode.com/problems/reverse-words-in-a-string/)  
 Outcome with Date: 12-02:X  
 First Impression: 感觉要用left right pointer但是从两头开始会很奇怪 感觉实现不了  
@@ -871,16 +871,35 @@ class Solution:
 # time: O(n)
 # space: O(n)
 ```
-
-Question: [剑指offer58II
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
+## Day 10
+Question: [剑指offer58II 左旋字符串](https://leetcode.cn/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/) 
+Outcome with Date: 12-03: Y(但是如果不能用切片法就不知道了）  
+First Impression: 可以使用双向链表deque   
+Good Video/Blog: https://programmercarl.com/%E5%89%91%E6%8C%87Offer58-II.%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2.html  
+Learnt:（1）不能直接使用切片法。单词反转+句子反转 （2）如果不能用内置reversed函数 自己写一个
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
-
+```Python:
+#方法一：直接使用切片
+class Solution:
+    def reverseLeftWords(self, s: str, n: int) -> str:
+    return s[n:] + s[0:n]
+#方法二： 有些面试不允许使用切片，那就使用文章中的方法
+class Solution:
+    def reverseLeftWords(self, s: str, n: int) -> str:
+    s = list(s)
+    s[0:n] = list(reversed(s[0:n]))
+    s[n:] = list(reversed(s[n:]))
+    s.reverse()
+    return ''.join(s)
+#方法三：如果不让用reverse函数自己写
+def reverse_sub(lsb, left, right):
+    while left < right:
+        lst[left], lst[right] = lst[right], lst[left]
+        left += 1
+        right -= 1
+```
 Question: [28
 Outcome with Date: MM-DD:X|Y|O
 First Impression:
