@@ -1081,22 +1081,80 @@ AC Code:
 
 ## Day 10
 Question: [1047 remove all adjacent duplicates in string](https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/)  
-Outcome with Date: 12-01:
-First Impression:
-Good Video/Blog:
-Learnt:
+Outcome with Date: 12-03:X  
+First Impression: 用stack是想到了 但是代码得到的结果为空 按照答案的顺序写才有解 不知道为什么  
+Good Video/Blog: https://programmercarl.com/1047.%E5%88%A0%E9%99%A4%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E7%9B%B8%E9%82%BB%E9%87%8D%E5%A4%8D%E9%A1%B9.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC
+Learnt: （1）不是要pop出来一个来看吗 不用pop的因为这样做了还要塞回去 直接下标访问就行  
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
+```Python
+# 我当时一样的想法 但是没编译出来
+class Solution:
+    def removeDuplicates(self, s: str) -> str:
+        # use stack, when the top of the stack is the same as the incoming item, pop the stack
+        # final: return what is left in stack 
+        stack = list()
+        for i in s:
+            if len(stack) != 0 and stack[-1] == i:
+                stack.pop()
+            else:
+                stack.append(i)
+        return "".join(stack)
+        
+# 如果不让使用栈，可以使用双指针模拟栈 #需要之后看
+class Solution:
+    def removeDuplicates(self, s: str) -> str:
+        res = list(s)
+        slow = fast = 0
+        length = len(res)
+        
+        while fast < length:
+            #如果一样就直接换，不一样会把后面的填在slow的位置
+            res[slow] = re[fast]
+            #如果发现和前一个一样，九退一格指针
+            if slow > 0 and res[slow] == res[slow - 1]:
+                slow -= 1
+            else:
+                slow += 1
+            fast += 1
+         return ''.join(res[0:slow])
+```
 
-Question: [150
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
+Question: [150 Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation/)  
+Outcome with Date: 12-03: X  
+First Impression:知道也是用stack而且知道怎么用 但是不知道怎么把str的操作符 变成正在的操作符  
+Good Video/Blog: https://leetcode.com/problems/evaluate-reverse-polish-notation/solutions/509590/evaluate-reverse-polish-notation/  
+Learnt:(1)dict可以帮忙apply不同情况的操作符号，lambda放在value里面可以起到操作 （2)普通的python操作不能连起来 比如stack.pop().pop()会报错  
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
+```Python
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        # use stack, keep poping the nums untill meets an operation, 
+        # caculate the first two nums use that operation then push back to stack
+        # keep the process untill nothing is waiting to push
+        # return the final number at stack 
+        stack = list()
+        oper_list = ["+", "-", "*", "/"]
+        operations = {
+        "+": lambda a, b: a + b,
+        "-": lambda a, b: a - b,
+        "/": lambda a, b: int(a / b),
+        "*": lambda a, b: a * b }
+
+        for item in tokens:
+            if len(stack) > 1 and item in oper_list:
+                num1, num2 = stack[-2], stack[-1]
+                res = operations[item](int(num1), int(num2))
+                stack.pop()
+                stack.pop()
+                stack.append(res)
+            else:
+                stack.append(item)
+        return stack[0]
+```
 
 Question: [239
 Outcome with Date: MM-DD:X|Y|O
