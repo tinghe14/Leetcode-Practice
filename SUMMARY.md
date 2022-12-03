@@ -900,14 +900,16 @@ def reverse_sub(lsb, left, right):
         left += 1
         right -= 1
 ```
-Question: [28
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
+Question: [28 Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/)  
+Outcome with Date: 12-03:X  
+First Impression:没有想法  
 Good Video/Blog:
+1. kmp理论篇 https://www.bilibili.com/video/BV1PD4y1o7nd/?vd_source=8b4794944ae27d265c752edb598636de 
+2. kmp求前缀的代码 https://www.bilibili.com/video/BV1M5411j7Xx/?vd_source=8b4794944ae27d265c752edb598636de
 Learnt:
 Difficulty during Implementation:
 Logic of Solution:
-AC Code:
+AC Code: (!!!need help)
 
 Question: [459
 Outcome with Date: MM-DD:X|Y|O
@@ -916,52 +918,19 @@ Good Video/Blog:
 Learnt:
 Difficulty during Implementation:
 Logic of Solution:
-AC Code:
+AC Code: (!!!need help)
 
-Question: [20
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
-AC Code:
+### String Summarization
+1.题型：双指针，反转系列,kmp
 
-Question: [1047
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
-AC Code:
-
-Question: [150
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
-AC Code:
-
-Question: [239
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
-AC Code:
-
-Question: [347
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
-Difficulty during Implementation:
-Logic of Solution:
-AC Code:
+### Two Pointer Review
+1. frequent use in array and string
+2. 数组篇，字符串篇
+3. 数组篇：原地删除数组上的元素，不能真正的删除，只能覆盖
+4. 字符串篇：在替换空格中介绍，使用双指针填充字符串的方法，如果把这道题做到极致，就不用额外的空间了：首先扩充数组到每个空格替换成%20之后的大小，然后双指针从后向前替换空格
+5. 链表题：使用快慢指针，分别定义fast和slow指针，从头节点出发，fast指针每次移动两个节点，slow指针每次移动一个节点，如果fast和slow指针在途中相遇，就说明这个链表有环
+6. n数之和：哈希表解决了两数之和，n数之和使用双指针：通过前后两个指针不断向中间逼近，在一个for循环下完成两个for循环的工作；四数之和也是一样的，在三数之和的基础上再套一层for循环，依然使用双指针法
+7. 总结：除了链表一些题目一定要使用双指针，其他题目都是使用双指针来提高效率，一般是将o(n^2)的时间复杂度，降为o(n)
 
 ## Day 8
 
@@ -1110,6 +1079,7 @@ Difficulty during Implementation: 不知道为什么代码有错 需要理解 �
 Logic of Solution:  
 AC Code:  
 
+## Day 10
 Question: [1047 remove all adjacent duplicates in string](https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/)  
 Outcome with Date: 12-01:
 First Impression:
