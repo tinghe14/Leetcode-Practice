@@ -1173,3 +1173,16 @@ Learnt:
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
+
+## Binary Tree二叉树
+1. https://www.bilibili.com/video/BV1Hy4y1t7ij/?vd_source=8b4794944ae27d265c752edb598636de
+2. 种类：full binary tree满二叉树(节点数量2……k-1）,complete binary tree完全二叉树（除了底层全满的，并且底层是从左到右节点连续的,二叉搜索树（搜索一个节点的时间复杂度是logn级别的，全部左子树都小于中间节点，全部右子树都大雨中间节点，其对树的结构没有要求，对元素又要求），平衡二叉搜索树（全部左子树和右子树的高度绝对值的差不能大于1，很多广泛应用，使用这个数据结构，插入节点，查询元素都是o(logn)级别，需要有意识的了解python中的特点有序？插入等操作消耗）
+3. 二叉树的存储方式：链性存储和线性存储
+
+### 递归遍历
+
+### 迭代遍历
+
+### 统一遍历
+
+### 层序遍历
