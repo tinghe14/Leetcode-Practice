@@ -12,7 +12,7 @@ Big O notation:
 - O(N!): factorial time
 
 Average Time Complexity for Basic Data Structure:
-|Data Structure|Access|Search|Insertation|Deletion|
+|Data Structure|Access|Search or Look-up|Insertation|Deletion|
 |--------------|--------------|--------------|--------------|--------------|
 |Array|O(1)|O(N)|O(N)|O(N)|
 |Linked List|O(N)|O(N)|O(1)|O(1)|
@@ -20,8 +20,9 @@ Average Time Complexity for Basic Data Structure:
 
 ## Day 1
 Question: [704 binary search](https://leetcode.com/problems/binary-search/description/)  
-Outcome with Date: 11-23:X  
+Outcome with Date: 11-23:X; 12-4:X  
 First Impression: I know need to use left, right, mid pointers but I don't know how to set the stop criteria in the loop  
+First Impression at 2nd: don't know how to achive at o(log n), in my mind no idea about common algorithm achived in o(log n )  
 Good Video/Blog:  https://juejin.cn/post/7145742873009324040 https://www.bilibili.com/video/BV1fA4y1o715/?vd_source=8b4794944ae27d265c752edb598636de  
 Difficulty during Implementation: closed interval? open interval? need to consider in the questions, otherwise will have some erros -> once decide the definition of interval, all the parameters regarding the interval should follow the definition. 
 Logic of Solution:  
@@ -47,8 +48,9 @@ class Solution:
 ```
 
 Question: [35 Search Insert Position](https://leetcode.com/problems/search-insert-position/)  
-Outcome with Date: 11-23:X  
-First Impression: don't know how to use binary search to implement, and it seems if index out of boundary or within the array are different cases  
+Outcome with Date: 11-23:X; 12-4:X  
+First Impression: don't know how to use binary search to implement, and it seems if index out of boundary or within the array are different cases
+First Impresion at 2nd: know can use binary search and know the objective is to find the largest smaller value. but don't know how to do that if there is not a match    
 Good Video/Blog: https://www.bilibili.com/video/BV1dA411a7CB/?spm_id_from=333.337.search-card.all.click&vd_source=8b4794944ae27d265c752edb598636de https://www.bilibili.com/video/BV13i4y197w2/?spm_id_from=333.999.0.0&vd_source=8b4794944ae27d265c752edb598636de  
 Learnt: the objective changes to find the index in the array which is the most clostest to the target but bigger than target  
 Difficulty during Implementation: why return left, and why gets error when return idex is 0  
@@ -73,17 +75,49 @@ class Solution:
 ```
 ## Day 2
 Question: [34 Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  
-Outcome with Date: 11-24:X  
+Outcome with Date: 11-24:X, 12-4: X 
 First Impression:know that I can apply binary search twice by finding the target-1, and target+1 -> can't work, also the same thing will happen in target-1 and target+1->wrong  
+First Impression at 2nd: 看懂了答案 但是自己写的时候逻辑乱了起来  
 Good Video/Blog:https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/solutions/1136731/find-first-and-last-position-of-element-in-sorted-array/  
 Learnt:
 Difficulty during Implementation:  
 Logic of Solution: 
-AC Code:  (need help!!!) 
+1. binary框架 但是到等到发现相等时 额外几步 如果是在找first,那么mid-1的地方怎么样，如果再找last, mid+1的地方怎么养 继续binary search
+AC Code:  
+```Python
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        lower_pos = self.FirstorLastPos(nums, target, True)
+        upper_pos = self.FirstorLastPos(nums, target, False)
+        if (lower_pos == -1):
+            return [-1, -1]
+        return [lower_pos, upper_pos]
+
+    def FirstorLastPos(self, nums: List[int], target: int, isFirst: bool) -> int:
+        n = len(nums)
+        left, right = 0, n-1
+        while left <= right:
+            mid = left + (right - left) // 2
+            if nums[mid] == target:
+                if isFirst:
+                    if mid == left or nums[mid - 1] < target:
+                        return mid 
+                    right = mid - 1 
+                else:
+                    if mid == right or nums[mid + 1] > target:
+                        return mid
+                    left = mid + 1
+            elif nums[mid] > target:
+                right = mid - 1 
+            else:
+                left = mid + 1
+        return -1 
+```
 
 Question: [27 Remove Element](https://leetcode.com/problems/remove-element/)  
-Outcome with Date: 11-24:X  
-First Impression: no idea  
+Outcome with Date: 11-24:X, 12-4:X     
+First Impression: no idea
+First Impression at 2nd: 有想法去遍历 但是不知道对应应该做什么操作     
 Good Video/Blog: https://www.bilibili.com/video/BV12A4y1Z7LP/?vd_source=8b4794944ae27d265c752edb598636de  
 Learnt: use fast and slow pointers. fast pointer will update at everystep by 1, for slow pointer only update when it are not the target value. 覆盖, 清楚知道fast,slow pointers定义  
 Difficulty during Implementation: definitation of fast and slow pointers need to be clear  
@@ -924,7 +958,7 @@ AC Code: (!!!need help)
 1.题型：双指针，反转系列,kmp
 
 ### Two Pointer Review
-1. frequent use in array and string
+1. frequent use in array and string （！！！他给的题目还没有练过）
 2. 数组篇，字符串篇
 3. 数组篇：原地删除数组上的元素，不能真正的删除，只能覆盖
 4. 字符串篇：在替换空格中介绍，使用双指针填充字符串的方法，如果把这道题做到极致，就不用额外的空间了：首先扩充数组到每个空格替换成%20之后的大小，然后双指针从后向前替换空格
@@ -1155,29 +1189,65 @@ class Solution:
                 stack.append(item)
         return stack[0]
 ```
+## Day 11
 
-Question: [239
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
-Learnt:
+Question: [239 slidingg window maximum](https://leetcode.com/problems/sliding-window-maximum/)
+Outcome with Date: 12-04:X  
+First Impression:这题是hard说是一刷至少要理解思路 后面回来补充; 有点想法，感觉滑动窗口o(n)就能实现，但是一开始就败下了场，不知道怎么找k里面的最大值,找到了也会有问题，因为我需要记住下标，如果之前的最大值被移掉了 又要从头计算吗
+Good Video/Blog: https://www.bilibili.com/video/BV1XS4y1p7qj/?vd_source=8b4794944ae27d265c752edb598636de https://programmercarl.com/0239.%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC.html
+Learnt:（0）暴力解法是o(n*k) (1)去实现一个monotonic queue单调队列：维护队列里面单调递增或者单调递减 (2)流程 做一个长度为k的单调递减队列，保证当前窗口最大值在出口，如果新加的值比之前的值大，全都pop掉因为维护也没意义，最大值肯定都是当前值直到移动到当前值，他需要被pop的时候  
 Difficulty during Implementation:
 Logic of Solution:
 AC Code:
 
-Question: [347
-Outcome with Date: MM-DD:X|Y|O
-First Impression:
-Good Video/Blog:
+## 优先队列priorityqueue, 堆heap
+1. 图灵星球 https://www.youtube.com/watch?v=wTAoOhytiQs（不是python看看就好）https://www.geeksforgeeks.org/heap-and-priority-queue-using-heapq-module-in-python/
+2. 对于之前的常见数据结构数组，链表，堆，栈，如果我们想找最大或者最小值，一般都要挨个寻找花费o(n);使用priorityqueue或者heap能节省很多，达o(1)
+3. priorityqueue
+
+Question: [347 Top K Frequent Element](https://leetcode.com/problems/top-k-frequent-elements/)
+Outcome with Date:12-04:O
+First Impression: 自己一开始想用defaultdict,但发现most_common是Counter里的函数，而且我不知道这个most_common操作的时间复杂度是多少->o(nlogn)
+Good Video/Blog: https://www.bilibili.com/video/BV1Xg41167Lz/ 
 Learnt:
-Difficulty during Implementation:
-Logic of Solution:
+Difficulty during Implementation: （1）不能import Counter from collections一定是from...import...  
+Logic of Solution: (小唐说只要知道用heapq就行 之后看！！！)
 AC Code:
+```Python
+from collections import Counter
+
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        # hash table: nums: count
+        # most_common(k)
+        res = Counter()
+        for num in nums:
+            res[num] += 1
+        return [i for i, j in res.most_common(k)]
+```
+## Stack & Queue Summarization
 
 ## Binary Tree二叉树
+0. A full Binary tree is a special type of binary tree in which every parent node/internal node has either two or no children. It is also known as a proper binary tree; A Binary tree is a Perfect Binary Tree in which all the internal nodes have two children and all leaf nodes are at the same level. 
 1. https://www.bilibili.com/video/BV1Hy4y1t7ij/?vd_source=8b4794944ae27d265c752edb598636de
-2. 种类：(a)full binary tree满二叉树(节点数量2……k-1）,(b)complete binary tree完全二叉树（除了底层全满的，并且底层是从左到右节点连续的,(c)binary search tree二叉搜索树（搜索一个节点的时间复杂度是logn级别的，全部左子树都小于中间节点，全部右子树都大雨中间节点，其对树的结构没有要求，对元素又要求），(d)balanced binary search tree平衡二叉搜索树（全部左子树和右子树的高度绝对值的差不能大于1，很多广泛应用，使用这个数据结构，插入节点，查询元素都是o(logn)级别，需要有意识的了解python中的容器的底层实现，这样才能清楚的知乎到他们的数据是否有序，插入等操作消耗）
-3. 二叉树的存储方式：链性存储和线性存储
+2. 种类：(a)perfect binary tree满二叉树(节点数量2……k-1）,(b)complete binary tree完全二叉树（除了底层全满的，并且底层是从左到右节点连续的,(c)binary search tree二叉搜索树（搜索一个节点的时间复杂度是logn级别的，全部左子树都小于中间节点，全部右子树都大雨中间节点，其对树的结构没有要求，对元素又要求），(d)balanced binary search tree平衡二叉搜索树（全部左子树和右子树的高度绝对值的差不能大于1，很多广泛应用，使用这个数据结构，插入节点，查询元素都是o(logn)级别，需要有意识的了解python中的容器的底层实现，这样才能清楚的知乎到他们的数据是否有序，插入等操作消耗）
+3. 二叉树的存储方式：链性存储(就是我们常见的，用指针链接节点)和线性存储（用一个数组来保存二叉树）
+4. 链式存储：
+5. 线性存储：given母节点，左孩子是2*i-1, 右孩子是2*i+1
+6. leetcode里面的input都给你了，但是实际面试会让你传入一个二叉树。需要自己会构造，一般我们都用链式结构（单向双链）传入根节点
+7. 二叉树的遍历：即是图论中的两种遍历方式：(a)深度优先遍历和(b)广度优先遍历
+8. 深度优先搜索，我们一般用递归的方式实现，前序，中序，后序；也可以用对应的迭代法（非递归的方式 会考的给一个简单的二叉树问题，让你用迭代法实现）实现前中后序
+9. 根节点的顺序，前：中左右，中：左中右，后：左右中；比如前：现就是中节点，然后在左子树中继续前序搜索，在右子树中继续前序搜索
+10. 广度优先搜索，一层一层的遍历/一圈一圈的遍历，层序遍历（就是迭代法 用一个队列 先进先出 进行实现）
+11. 二叉树的定义/构造，leetcode都给好了，但是面试会考，其实很简单就是一种链表
+```Python
+class TreeNode: 
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+```
+12. iteration迭代还树内某段代码实现循环， recursion递归重复调用函数自身实现循环； 迭代与普通循环的区别：循环代码中参与运算的变量同时时保存结果的变量，当前保存的结果作为下一次循环计算的初始值；递归循环中，遇到满足终止条件的情况时逐层返回来结束。迭代则使用计数器结束循环。很多具体情况会采用多种循环结合
 
 #### python数据结构的底层实现
 1. c++中map, set, multimap, multiset的底层实现都是红黑树（平衡二叉搜索树），是一个排序的结构，所以map，set的插入，查找和删除的时间复杂度是o(logn)
@@ -1188,10 +1258,706 @@ AC Code:
 6. dict字典，使用伪随机探测（pesudo-random prbing)的散列表（hash table)作为字典的底层数据结构。由于这个实现细节，只有可哈希的对象才能作为字典的键。python中所有不可变的内置类型都是可哈希的。可变的类型如列表，字典和集合就是不可哈希的，因此不能作为字典的键。dict的获取，修改和删除平均复杂度都是O（1）[平均最坏复杂度都是O(n)]比list的查找和杉树都要快，但是使用hashtable内存的开销更大。为了保证较少的冲突，hashtable的装载因子，一般要小与0.75，在python当中当装载因子达到2/3的时候就会自动进行扩容。使用字典的常见缺点：不会按照键的添加术训来保存元素的顺序。如果需要保存添加顺序怎么办：python标准困的collections模块提供了ordereddict的有序字典
 7. set集合，集合是一种鲁棒性很好的数据结构，当元素顺序的重要性不如元素的唯一性和测试元素是否包含在集合中的效率的时候，大部分情况下这种数据结构及其有用。set和dict十分类似。事实上，集合被实现为带有空值的字典，只有键才是实际的集合元素。此外，集合还利用这种没有值的映射做了其他的优化。由于这一点，和dict一样，set可以快速的向集合中添加元素，删除元素，检查元素是否存在。平均时间复杂度为 o(1），最坏的时间复杂度是o（n）
 
+## Day 11
+
 ### 递归遍历
+1. https://www.bilibili.com/video/BV1Wh411S7xt/?vd_source=8b4794944ae27d265c752edb598636de
+2. https://programmercarl.com/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%80%92%E5%BD%92%E9%81%8D%E5%8E%86.html
+3. 递归三部曲 （a）确定递归函数的参数和返回值（不需要一开始确定，需要什么参数加什么参数就行，大部分二叉树题目，只要根节点和一个数组作为参数，数组是用来放我们遍历的结果 （回溯算法的参数就多了）返回值一般来说都是void 因为我们把想要的结果直接放在参数里了）（b）确定终止条件（溢出出bug一般都是因为终止条件没有定义好，深度优先搜索会往一个方向一直搜再返回，那一定是遇到null空节点的时候）（c）确定单层递归的逻辑（比如一层中 中序遍历的顺序 中遍历直接放重脚步进入保存数组，再对左，右递归调用）
+4. （a）确定递归函数的参数和返回值：确定哪些参数是递归的过程中需要处理的，那么就在递归函数里加上这个参数，并且还要明确每次递归的返回值是什么进而确定递归函数的返回类型 （b）确定终止条件：写完了递归算法，运行的时候，经常会遇到栈溢出的错误。如果递归没有终止，操作系统的内存栈必然就会溢出（c）确定单层递归的逻辑：确定每一次层递归需要处理的信息。在这里也就会重复调用自己来实现递归的过程
+
+Question: [144 binary tree preorder traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)  
+Outcome with Date: 12-04:X  
+First Impression:第一次自己写还是不太会  
+Good Video/Blog:https://programmercarl.com/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%80%92%E5%BD%92%E9%81%8D%E5%8E%86.html  
+Learnt:  
+Difficulty during Implementation:  
+Logic of Solution:
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        result = []
+        def traversal(root: TreeNode):
+            if root == None:
+                return 
+            result.append(root.val)
+            traversal(root.left)
+            traversal(root.right)
+        traversal(root)
+        return result
+```
+Question: [145 binary tree postorder traversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)  
+Outcome with Date: 12-04:X  
+First Impression: 知道思路了 结果返回集，定义递归函数，调用递归函数，返回结果  
+Good Video/Blog:https://programmercarl.com/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%80%92%E5%BD%92%E9%81%8D%E5%8E%86.html  
+Learnt:  
+Difficulty during Implementation: 根节点append的是val 记得不是root本身哦  
+Logic of Solution:  
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        result = []
+        def traversal(root: TreeNode):
+            if root == None:
+                return 
+            traversal(root.left)
+            traversal(root.right)
+            result.append(root.val)
+        traversal(root)
+        return result
+```
+
+Question: [94 binary tree inorder traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/)  
+Outcome with Date: 12-04: Y  
+First Impression:  
+Good Video/Blog:  
+Learnt:  
+Difficulty during Implementation: 才发现root的类型是之前我们怎么定义这个数的class的，奇怪的一点为什么basic case判断的是root是否为空而不是root.val（need help!!!）  
+Logic of Solution:  
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        result = []
+        def traversal(root: TreeNode):
+            if root == None:
+                return 
+            traversal(root.left)
+            result.append(root.val)
+            traversal(root.right)
+            return result 
+        return traversal(root)
+         
+```
 
 ### 迭代遍历
+1. https://programmercarl.com/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E8%BF%AD%E4%BB%A3%E9%81%8D%E5%8E%86.html 写出二叉树的非递归遍历很难么？前序和后序：https://www.bilibili.com/video/BV15f4y1W7i2/ 中序：
+2. 遍历：given a tree,把节点放在数组里
+3. 编程里使用栈（先进后出 所以前序的话：中节点入栈 出栈存入数组（数组是我们的遍历顺序） 右节点入栈 左节点入栈 左节点（中）出栈存入数组 左的右节点入栈...）来实现递归，那么这里迭代法也是用栈来模拟递归
+4. 前序：中左右-》后序：中右左，reversed（不能用built-in操作的话 就用后序迭代法）-〉左右中
+5. 中序：左中右：遍历的顺序（访问节点：-个个访问），和他处理的顺序是不一样的（处理节点：放在数组中），不能在简洁的前序代码中直接进行修改; 左孩子为空弹出自己，右孩子为空弹出栈中的一个元素；需要一个指针来遍历节点，栈来记录遍历过的元素
+
+Question: [144 binary tree preorder traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)  
+Outcome with Date: 12-05:X  
+First Impression: 看完书视频后，看了代码细节，尝试后序的遍历  
+Good Video/Blog: https://www.youtube.com/watch?v=xIS5oGZfaS4
+Learnt:  
+Difficulty during Implementation: (1)stack=[root]加的就是头节点 那个指针 不是整个数 （2）while stack那里不能写成stack != None因为None是一个特殊的类别Nonetype stack为空是也不是nonetype而是一个空栈，判断他为空len()==0 . 
+Logic of Solution:
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if root == None:
+            return []
+        stack = [root] # stack to process tree node #是头节点的意思 是个数
+        # TreeNode{val: 1, left: None, right: TreeNode{val: 2, left: TreeNode{val: 3, left: None, right: None}, right: None}}
+        result = [] # list of int to save traversal results
+        while stack:
+            # mid point
+            node = stack.pop()
+            result.append(node.val)
+            # right
+            if node.right:
+                stack.append(node.right)
+            if node.left:
+                stack.append(node.left)
+        return result
+```
+Question: [145 binary tree postorder traversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)  
+Outcome with Date: 12-05:Y  
+First Impression:  记得怎么写 经后需要多练习  
+Good Video/Blog:
+Learnt:  
+Difficulty during Implementation: 
+Logic of Solution:  
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if root == None:
+            return []
+        stack = [root]
+        result = []
+        while stack:
+            node = stack.pop()
+            result.append(node.val)
+            if node.left:
+                stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+        return reversed(result)
+```
+
+Question: [94 binary tree inorder traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/)  
+Outcome with Date:  
+First Impression:  
+Good Video/Blog: https://www.bilibili.com/video/BV1Zf4y1a77g/?spm_id_from=333.788&vd_source=8b4794944ae27d265c752edb598636de  
+Learnt: #左孩子为空弹出自己，右孩子为空弹出栈里元素  
+Difficulty during Implementation:  
+Logic of Solution:（！！了解了视频 之后再自己写）  
+AC Code:
+```Python
+
+         
+```
 
 ### 统一遍历
+1. 这是统一迭代法的写法， 如果学有余力，可以掌握一下 https://programmercarl.com/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E7%BB%9F%E4%B8%80%E8%BF%AD%E4%BB%A3%E6%B3%95.html
 
+## Day 12  
 ### 层序遍历
+1. 二叉树的层序遍历，相当于图论里的广度优先搜索 
+2. 看完本篇可以一口气刷十道题，试一试， 层序遍历并不难，大家可以很快刷了十道题。https://programmercarl.com/0102.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86.html
+3. 很明显按照二叉树本身结构是无法直接层序遍历，我们需要借助一个队列queue去保存每一层的元素，额外的一个size去记录正在遍历的二叉树这一层中有几个元素（也是队列的大小）；为什么要记录这个size：因为队列里的元素个数是不断变化的，如果不提前记录下来，我都不知道这个队列里面要弹出多少个元素（为什么会变化呢：因为弹出一个元素的时候就会加入他的左右孩子），怎么去记录这个size呢：，最后的结果是一个二维数组（【【第一层的元素】【第二层的元素】，。。】）
+4. 代码逻辑：（a）把头节点放入队列中（2）开始循环 当队列不为空时 先快照其size （3）再size--循环 探出node 放入其左右节点 记录这一层的节点（4）append到result list中
+5. deque相比list的好处是，list的pop(0)是O(n)复杂度，deque的popleft()是O(1)复杂度(!!!基本操作的时间复杂度确实是个大头！！！)
+6. 复杂度. 时间：O(n), 空间: O(n)
+
+```Python
+class Solution:
+    """二叉树层序遍历迭代解法"""
+
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        results = []
+        if not root:
+            return results
+        
+        from collections import deque
+        que = deque([root]) 
+        # que = deque()
+        # que.append(root)
+        
+        while que:#值得是一层
+            size = len(que)
+            result = []
+            for _ in range(size):
+                cur = que.popleft()
+                result.append(cur.val)
+                if cur.left:
+                    que.append(cur.left)
+                if cur.right:
+                    que.append(cur.right)
+            results.append(result)
+
+        return results     
+```
+
+```Python
+# 递归法
+# # 这个leetcode官方recursion图解写的很好 https://leetcode.com/problems/binary-tree-level-order-traversal/solutions/255802/binary-tree-level-order-traversal/
+class Solution:
+    def levelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        levels = []
+        if not root:
+            return levels
+        
+        def helper(node, level):
+            # start the current level
+            if len(levels) == level:
+                levels.append([])
+
+            # append the current node value
+            levels[level].append(node.val)
+
+            # process child nodes for the next level
+            if node.left:
+                helper(node.left, level + 1)
+            if node.right:
+                helper(node.right, level + 1)
+            
+        helper(root, 0)
+        return levels
+```
+Question: [102 binary tree level traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/)
+Outcome with Date: 12-05:X 递归和迭代法都要练习 这次的递归法看答案都理解不了   
+First Impression:(1)queue和deque分不清楚 而且不知道里面对应的python操作 (2)遍历逻辑忘记了 看了答案 
+Good Video/Blog: https://programmercarl.com/0102.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86.html  
+Learnt: (1) 翻了第三次错误了 是from collection import deque 而且这道题是deque(!!有时间看一下queue和deque的区别！！！)——》建队d=deque(),从队尾入队d.append(1),从对头入队d.appendleft(2),从队尾删除d.pop(),从对头删除d.popleft()
+Difficulty during Implementation:  (1)看完答案迭代法差不多写出来了 但是temp的位置放错了
+Logic of Solution: 
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        result = []
+        if root == None:
+            return result 
+        d = deque()
+        d.append(root)
+        while d:
+            layerSize = len(d)
+            temp = []
+            while layerSize:
+                node = d.popleft()
+                layerSize -= 1
+                temp.append(node.val)
+                if node.left:
+                    d.append(node.left)
+                if node.right:
+                    d.append(node.right)
+            result.append(temp)
+        return result
+         
+```
+```Python
+# 看了一开始深度优先所有的递归法 发现基本逻辑是一样的 但还是不会写 尝试自己在理解一下
+# 这个leetcode官方recursion图解写的很好 https://leetcode.com/problems/binary-tree-level-order-traversal/solutions/255802/binary-tree-level-order-traversal/
+# 12/05看完了还是不太会 之后要过来回顾！！！不太理解 现在就背 反正是固定写法,其实这个要理解一下 比如这里没有用deque 也没有用size, 而且为什么有node。
+# 12/05为什么 left和node.right时候level会被加两次 加左边的数的时候len(results) = level的 右边的时候因为左边加了一个list他们的值是相差1的; 终止条件在if node.right/left中实现了
+# 小唐说递归肯定是以深度优先遍历的，但是存储的时候是按一层层走的 讨巧的是if len(results) == levels 和后面results[level].append(node.val) 传入depth的目的是为了记住是哪一层
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        results = []
+        if root == None:
+            return results 
+
+        def helper(node, level):
+            if len(results) == level:
+                results.append([]) 
+            # start the current level
+            # append the current val to responding layer
+            results[level].append(node.val)
+            # process child nodes for the next level
+            if node.left:
+                helper(node.left, level+1)
+            if node.right:
+                helper(node.right, level+1)
+        helper(root, 0)
+        return results
+```
+
+Question: [107 binary tree level order traversal ii](https://leetcode.com/problems/binary-tree-level-order-traversal-ii/)  
+题目： 广度优先 但是从子节点输出到头节点
+Outcome with Date: 12-05: X  
+First Impression: 觉得一个栈可能就管用 但是不知道怎么判断循环截止（当数全都append到栈里的时候） 
+Good Video/Blog: https://programmercarl.com/0102.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86.html#_107-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E6%AC%A1%E9%81%8D%E5%8E%86-ii  
+Learnt: 按照广度优先搜索走 最后再reversed就行 但是我自己没想到；而且广度优先搜索的模版我还需要熟练
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:
+        results = []
+        if root == None:
+            return results
+
+        def helper(node, level):
+            if len(results) == level:
+                results.append([])
+            results[level].append(node.val)
+            if node.left:
+                helper(node.left, level+1)
+            if node.right:
+                helper(node.right, level+1)
+            return results 
+        helper(root, 0)
+        return reversed(results)   
+```
+
+Question: [199 binary tree right side view](https://leetcode.com/problems/binary-tree-right-side-view/)
+Outcome with Date: 12-05: X  
+First Impression:  有想法但是题目就读错了 像这种问题我就可以clarify是不是只能看见右边每一层离我最近的元素
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        # basic BFS in recursion
+        # first right then left 
+        results = []
+        if root == None:
+            return results
+        def helper(node, level):
+            if len(results) == level:
+                results.append([])
+            results[level].append(node.val)
+            if node.right:
+                helper(node.right, level + 1)
+            if node.left:
+                helper(node.left, level + 1)
+            return results
+        helper(root, 0)
+        return [lst[0] for lst in results]      
+```
+```Python
+# 代码分享录的解法 更好 我上面是o（2n）
+```
+
+
+Question: [637 average of levels in binary tree](https://leetcode.com/problems/average-of-levels-in-binary-tree/)
+Outcome with Date: 12-05:X   
+First Impression:  写了几次递归的写法就忘记了迭代的怎么写 哎 
+Good Video/Blog: 看了之前迭代的code
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque
+
+class Solution:
+    def averageOfLevels(self, root: Optional[TreeNode]) -> List[float]:
+        results = []
+        if root == None:
+            return results
+        d = deque()
+        d.append(root) 
+        while d:
+            size = len(d)
+            result = []          
+            while size:
+                node = d.popleft()
+                result.append(node.val)  
+                size -= 1
+                if node.left:
+                    d.append(node.left)
+                if node.right:
+                    d.append(node.right)
+            results.append(mean(result))
+        return results     
+```
+
+Question: [429 n-aray tree level order traversal](https://leetcode.com/problems/n-ary-tree-level-order-traversal/)
+Outcome with Date: 12-05: X  
+First Impression: 我觉得题目不清晰啊 这个null节点连在哪里 跟着哪一层？为什么头一层没有？那怎么区分 -> 问了小唐才知道 这是一种树的写法 用null隔开告诉你什么时候进入下一层 但是树节点本身没有null  
+Good Video/Blog: https://programmercarl.com/0102.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86.html#_429-n%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86
+Learnt: （1）提示给的是 这道题还是dfs的模板题，只不过一个节点有多个孩子 但是还没有很get到
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+ """
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+from collections import deque
+
+class Solution:
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        results = []
+        if root == None:
+            return results 
+        d = deque()
+        d.append(root)
+        while d:
+            size = len(d)
+            result = []
+            while size:
+                node = d.popleft()
+                result.append(node.val)
+                size -= 1
+                if node.children: 
+                    d.extend(node.children) # 我按照模版写的用append就运行不了，extend就可以为啥？->就是因为extend可以加入一个iterature的对性别
+                    # append() adds a single element to the end of the list while . extend() can add multiple individual elements to the end of the list.
+            results.append(result)
+        return results     
+```
+
+Question: [515 find largest value in each tree row](https://leetcode.com/problems/find-largest-value-in-each-tree-row/)  
+Outcome with Date: 12-05:Y   
+First Impression:  
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: mean的那道题换成max就行 
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque 
+class Solution:
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        results = []
+        if root == None:
+            return results
+        d = deque()
+        d.append(root) 
+        while d:
+            size = len(d)
+            result = []          
+            while size:
+                node = d.popleft()
+                result.append(node.val)  
+                size -= 1
+                if node.left:
+                    d.append(node.left)
+                if node.right:
+                    d.append(node.right)
+            results.append(max(result))
+        return results           
+```
+
+Question: [116 populating next right pointers in each node](https://leetcode.com/problems/populating-next-right-pointers-in-each-node/)
+Outcome with Date: 12-05:X  
+First Impression:没有想法  
+Good Video/Blog: https://programmercarl.com/0102.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86.html#_116-%E5%A1%AB%E5%85%85%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%8F%B3%E4%BE%A7%E8%8A%82%E7%82%B9%E6%8C%87%E9%92%88  
+Learnt: 文章中写的是本题依然是层序遍历，只不过在单层遍历的时候记录一下本层的头部节点，然后在遍历的时候让前一个节点指向本节点就可以了 （！！！need help）
+Difficulty during Implementation:  
+Logic of Solution： 
+AC Code:
+```Python
+      
+```
+
+Question: [117 populating next right pointers in each node ii](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/)
+Outcome with Date: 12-05:
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution： （！！！need help）
+AC Code:
+
+Question: [104 maximum depth of binary tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
+Outcome with Date: 12-05:Y      
+First Impression: 我就用的层序遍历模版最后len一下 感觉肯定有更简单的写法 -》答案也是这么写的 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution： 
+AC Code:
+```Python
+# 我的
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque 
+
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        results = []
+        if root == None:
+            return 0
+        d = deque()
+        d.append(root) 
+        while d:
+            size = len(d)
+            result = []          
+            while size:
+                node = d.popleft()
+                result.append(node.val)  
+                size -= 1
+                if node.left:
+                    d.append(node.left)
+                if node.right:
+                    d.append(node.right)
+            results.append(result)
+        return len(results)
+         
+```
+```Python
+#答案
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if root == None:
+            return 0
+        
+        queue_ = [root]
+        result = []
+        while queue_:
+            length = len(queue_)
+            sub = []
+            for i in range(length):
+                cur = queue_.pop(0)
+                sub.append(cur.val)
+                #子节点入队列
+                if cur.left: queue_.append(cur.left)
+                if cur.right: queue_.append(cur.right)
+            result.append(sub)
+            
+
+        return len(result)
+```
+
+Question: [111 minimum depth of binary tree](https://leetcode.com/problems/minimum-depth-of-binary-tree/)
+Outcome with Date: 12-05:X .    
+First Impression:不知道怎么写 但是知道第一次没有left或者没有right的时候就时最短长度 但是不知道怎么拿到这个长度 -》需要注意的是，只有当左右孩子都为空的时候，才说明遍历的最低点了。如果其中一个孩子为空则不是最低点！！！
+Good Video/Blog: https://programmercarl.com/0102.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86.html#_111-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%B0%8F%E6%B7%B1%E5%BA%A6 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution： 
+AC Code: （！！！need help 如下不是递归的写法吗 怎么做到这个效果的！！！）
+```Python
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if root == None:
+            return 0
+
+        #根节点的深度为1
+        queue_ = [(root,1)]
+        while queue_:
+            cur, depth = queue_.pop(0)
+            
+            if cur.left == None and cur.right == None:
+                return depth
+            #先左子节点，由于左子节点没有孩子，则就是这一层了
+            if cur.left:
+                queue_.append((cur.left,depth + 1))
+            if cur.right:
+                queue_.append((cur.right,depth + 1))
+
+        return 0
+         
+```
+------------------
+Question: [226
+Outcome with Date: 12-05:   
+First Impression:  
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution： 
+AC Code:
+```Python
+      
+```
+
+Question: [101
+Outcome with Date: 12-05:   
+First Impression:  
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution:
+AC Code:
+```Python
+
+         
+```
+
+Question: [104
+Outcome with Date: 12-05:   
+First Impression:  
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+      
+```
+
+Question: [559
+Outcome with Date: 12-05:   
+First Impression:  
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+         
+```
+
+Question: [111
+Outcome with Date: 12-05:   
+First Impression:  
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+      
+```
+
+Question: [222
+Outcome with Date: 12-05:   
+First Impression:  
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+         
+```
