@@ -117,7 +117,7 @@ class Solution:
 Question: [27 Remove Element](https://leetcode.com/problems/remove-element/)  
 Outcome with Date: 11-24:X, 12-4:X     
 First Impression: no idea
-First Impression at 2nd: 有想法去遍历 但是不知道对应应该做什么操作     
+First Impression at 2nd: 有想法去遍历 但是不知道对应应该做什么操作 看了答案后自己写出来了   
 Good Video/Blog: https://www.bilibili.com/video/BV12A4y1Z7LP/?vd_source=8b4794944ae27d265c752edb598636de  
 Learnt: use fast and slow pointers. fast pointer will update at everystep by 1, for slow pointer only update when it are not the target value. 覆盖, 清楚知道fast,slow pointers定义  
 Difficulty during Implementation: definitation of fast and slow pointers need to be clear  
@@ -139,8 +139,9 @@ class Solution:
 
 ## Day 3
 Question: [977 Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/)  
-Outcome with Date: 11-25:O  
+Outcome with Date: 11-25:O, 12-06:O
 First Impression: have idea that I can apply two pointers in left and right to compare each time to find the bigger one, but has some error  
+First Impression at 2nd: 小错误 循环不变量 更新的时候left,right的位置放错了-》不是每时每刻都更新，只有当满足条件的时候才更新 
 GoodVideo/Blog:https://programmercarl.com/0977.%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E5%B9%B3%E6%96%B9.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC  
 Learnt: make a same size array can't use directly equal such as new_arr = arr, the right approach is new_arr = [-1]*len(arr)  
 Difficulty during Implementation: none  
@@ -168,8 +169,9 @@ class Solution:
 ```
 
 Question: [209 Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
-Outcome with Date: 11-25:X  
+Outcome with Date: 11-25:X, 12-07: X
 First Impression: don't know how to do  
+First Impression at 2nd: 用了sort但是subarry应该是连续的 不能sort 然后也一点想法也没了 小唐说subarray是必须连续的 subsequence是可以不连续的-》暴力解法起码要知道两个for循环一个是开头的index 一个是结尾的index->滑动窗口的思路 用一个滑动窗口（一个for循环） 来做两个for循环的事情 那么这个for循环中的i 是开头指针 还是结尾指针呢 如果是开头 那么 【】还是一个个遍历结尾 和两层for循环就没区别了 所以这个for循环的i时结尾 当我们找到满足大于目标值得结尾index 我们再移动开头的位置 缩小这个长度-》时间复杂度：O(n) 空间复杂度：O(1) 一些录友会疑惑为什么时间复杂度是O(n)。不要以为for里放一个while就以为是O(n^2)啊， 主要是看每一个元素被操作的次数，每个元素在滑动窗后进来操作一次，出去操作一次，每个元素都是被操作两次，所以时间复杂度是 2 × n 也就是O(n)
 Good Video/Blog: https://www.bilibili.com/video/BV1tZ4y1q7XE/?vd_source=8b4794944ae27d265c752edb598636de  
 Learnt: key idea is two pointers, and we fix the right pointer (for loop) and slide the left pointer  
 Difficulty during Implementation: the order of codes is very important, what will be change which can't put in the latter; float("inf")  
@@ -191,8 +193,9 @@ class Solution:
 ```
 
 Question: [59 Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii/)  
-Outcome with Date: 11-25:X  
+Outcome with Date: 11-25:X, 12-07: X(还是很难写 下次还要看！！)  
 First Impression: no idea  
+First Impression at 2nd: 记住了最外一圈怎么做 但是不知道后面圈怎么走-》本质是个模拟题 很常考-》这题要用上循环不变量，这题是在一圈一圈的循环 一共填充n*n个数 count必须小于这个 ；这里的不变量定义成对于每条边的处理规则->解决了几圈的问题 就进入了循环 因为每一圈的位置都不是固定了 所以起始位置是一个变量 一直要变的 类似的终止位置 也是一直在变的 所以也要用变量 ;往里缩的时候也要注意方向 方向不一样可能要用减号
 Good Video/Blog: https://www.bilibili.com/video/BV1SL4y1N7mV/?vd_source=8b4794944ae27d265c752edb598636de https://blog.csdn.net/PolyCozy/article/details/126990506?spm=1001.2014.3001.5501  
 Learnt: 1. initiate n array: (a) [0]* n, (b) [0 for _ in range(n)], 2. initiate 2D nn matrix: nums = [[0]* n for _ in range(n)] 3.使用range()函数逆序遍历 for i in range(start, end - 1, -1)  
 Difficulty during Implementation: 1. initiate 2D nn matrix: nums = [[0]* n for _ in range(n)]， 2.how to create the loop function -> num++ at the end it shoud be n*n numbers， 3.停顿在区间定义 要不要equal呢,同理奇数的时候应该怎么办->还是不知道  
@@ -1770,27 +1773,61 @@ class Solution:
             results.append(max(result))
         return results           
 ```
+## Day 13
 
 Question: [116 populating next right pointers in each node](https://leetcode.com/problems/populating-next-right-pointers-in-each-node/)
-Outcome with Date: 12-05:X  
-First Impression:没有想法  
-Good Video/Blog: https://programmercarl.com/0102.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86.html#_116-%E5%A1%AB%E5%85%85%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%8F%B3%E4%BE%A7%E8%8A%82%E7%82%B9%E6%8C%87%E9%92%88  
-Learnt: 文章中写的是本题依然是层序遍历，只不过在单层遍历的时候记录一下本层的头部节点，然后在遍历的时候让前一个节点指向本节点就可以了 （！！！need help）
+Outcome with Date: 12-06:X
+First Impression: 我以为是层讯遍历然后再每次节点展开的时候做一个next指针赋值的操作
+Good Video/Blog: 官方的解答更清楚
+Learnt: (1)在每一层第一记录size的时候做操作，后面子树就展开了 操作就会乱 刚被pop的next指向队列中的头节点（此时头节点就是他右边的数）当没有头节点的时候 正好指向的就是none(2)这个#号表达 不是要自己实现的 自己实现的是整个数的编译，这个井号只是告诉你哪一层是哪一层 -》看来这道题可以问的是你想要怎样的输出，我应该输出头节点 还是你想要知道我的遍历顺序
+Difficulty during Implementation:  当root为空时返回的也不是之前模板的results了 是这个空root
+Logic of Solution： 
+AC Code:
+```Python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+class Solution:
+    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        if root == None:
+            return root 
+        from collections import deque
+        d = deque()
+        d.append(root)
+        depth = 0
+        while d:
+            size = len(d) 
+            for i in range(size):
+                node = d.popleft()
+                if i < size-1:
+                    node.next = d[0]
+                if node.left:
+                    d.append(node.left)
+                if node.right:
+                    d.append(node.right)
+        return root
+```
+
+
+Question: [117 populating next right pointers in each node ii](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/)
+Outcome with Date: 12-06: Y
+First Impression: 我感觉解题思路和perfect binary tree一样 就没有变-》对的
+Good Video/Blog:  
+Learnt: 
 Difficulty during Implementation:  
 Logic of Solution： 
 AC Code:
 ```Python
-      
+ # same as above     
 ```
 
-Question: [117 populating next right pointers in each node ii](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/)
-Outcome with Date: 12-05:
-First Impression: 
-Good Video/Blog: 
-Learnt: 
-Difficulty during Implementation:  
-Logic of Solution： （！！！need help）
-AC Code:
+
 
 Question: [104 maximum depth of binary tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
 Outcome with Date: 12-05:Y      
@@ -1886,72 +1923,311 @@ class Solution:
         return 0
          
 ```
-------------------
-Question: [226
-Outcome with Date: 12-05:   
-First Impression:  
-Good Video/Blog: 
-Learnt: 
+
+## Day 13 
+###  第二次学习树dfs, bfs
+1. 昨天感觉刷的不好 理解不好 今天打算换一个视频看基础（确实dfs适合递归，bfs适合迭代） + 再看一遍随想录视频
+2. https://turingplanet.org/2020/07/12/%e6%a0%91tree%e6%b7%b1%e5%ba%a6%e4%bc%98%e5%85%88%e6%90%9c%e7%b4%a2dfs%e8%a7%a3%e9%a2%98%e5%a5%97%e8%b7%af%e3%80%90leetcode%e5%88%b7%e9%a2%98%e5%a5%97%e8%b7%af%e6%95%99%e7%a8%8b9%e3%80%91/ DFS/depth-first tree
+3. tree是类似linked list的概念，内存中不一定连续的数据，由各个节点的reference串起来组成。节点可以分成parent和child两类，只有一个入口root，可以看作一个特殊的无环无向图; dfs是一种递归形势的搜索方式，偏向垂直的概念，向下扎；dfs递归三部曲模板：(a)base case (b)do somehting (c)recurse for subproblems要相信自己的递归是对的 后两部顺序可以遍 就是看你的遍历顺序；top down dfs: 把值通过参数的形势从上往下传，一般dfs本身不返回值，bottom up dfs更难也更常见，把值从下(subproblem)往上传，当前递归层利用subproblem传上来的值计算当前层的新值并返回，一定会有返回值；bottom up dfs (对于递归问题，建议大家找一个中间状态建立自己的思维，并且要相信自己的递归)general step(a)base case(b)向子问题要答案return value(c)利用子问题的答案构建当前问题(当前递归层)的答案(d)若有必要，做一些额外操作(e)返回答案（给父问题）
+4. https://turingplanet.org/2020/07/12/%e6%a0%91tree%e9%a2%98%e5%9e%8b%e5%b9%bf%e5%ba%a6%e4%bc%98%e5%85%88%e6%90%9c%e7%b4%a2bfs%e5%a5%97%e8%b7%af%e3%80%90leetcode%e5%88%b7%e9%a2%98%e5%a5%97%e8%b7%af%e6%95%99%e7%a8%8b8%e3%80%91/ BFS/breath-first tree
+5. BFS是层的概念进行的搜索算法，对于图来说就是一圈一圈的，适合解决与层数相关的题目。bfs十分简单，理由这个queue的模版就行了，bfs迭代模版(a)利用queue记录所有的遍历元素要被展开的节点 先进先出 initialize queue with ann entry points对于二叉树只有一个入口，对于图就有多个 basecase的多个都要写进去(b)while queue is not empty(b.1)for each node in the queue (currently)当前层有多少个就记录下来 因为第三步会展开数 所以这里的记录很重要 (b.2)poll out the element(add to result)(b.3)expand it, offer children to the queue in order对于树来说拿到一个节点 展开他的意思就是展开他的子树们(b.4) increase level
+
+Question: [226 invert binary tree](https://leetcode.com/problems/invert-binary-tree/)  
+Outcome with Date: 12-06: x（题目说要优先掌握递归）   
+First Impression: 题目看起来简单 但是我不知道怎么去交换左右节点 直觉是要用层序迭代遍历 但要是递归的话 又怎么写？对！好像是这个问题 之前的遍历都没有用到指针 这里要变化指针 那么怎么高呢（!!need help 递归方法， 特别是我要知道中序遍历的顺序，这对理解很重要->博主不建议写中旬 会给自己挖坑）  
+Good Video/Blog: https://www.bilibili.com/video/BV1sP4y1f7q7/?vd_source=8b4794944ae27d265c752edb598636de https://programmercarl.com/0226.%E7%BF%BB%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91.html#%E9%80%92%E5%BD%92%E6%B3%95  
+Learnt: (1)视频讲的是dfs递归方法这题适合前序和后序，用中序会比较绕 用递归 想起递归三部曲 确定返回值参数 确定终止条件 处理逻辑（前 中 后序遍历之前就要确定一个）（2）bfs的解法在代码随想录pdf中,解法其实很简单 只要交换一下就好了 我是不是对这个栈的存储形势没有好好理解 一开始栈里面安排的是这一层从左到右的节点 pop出来的时候 给他们交换下节点 就可以了？？（！！！need help 还需要理解下）
 Difficulty during Implementation:  
 Logic of Solution： 
 AC Code:
 ```Python
-      
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root == None:
+            return root 
+        d = deque()
+        d.append(root)
+        while d:
+            size = len(d)
+            for i in range(size):
+                node = d.popleft()
+                node.left, node.right = node.right, node.left
+                if node.left:
+                    d.append(node.left)
+                if node.right:
+                    d.append(node.right)
+        return root    
 ```
 
-Question: [101
-Outcome with Date: 12-05:   
-First Impression:  
-Good Video/Blog: 
-Learnt: 
+Question: [101 symmetric tree](https://leetcode.com/problems/symmetric-tree/)  
+Outcome with Date: 12-06: x （题目说要优先掌握递归） 
+First Impression: 层序遍历popleft和pop比较 但是自己不能两个都pop因为模板只pop一个 那么我是不是还要塞回去？或者有没有peek方法？这个不行 因为我要保证每一层都能匹配上 但是我每次pop的时候只有一个数 就会不匹配左右-》其实和上一题是类似的 反转下左右子树 是否一样 这题考查的就是对于两个二叉树遍历比较的情况  
+Good Video/Blog: https://www.bilibili.com/video/BV1ue4y1Y7Mf/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt: （1）递归dfs的话 要确定遍历顺序 一定要好好想 这确定了理解的深度-》此题只能用后序(左右中)bottom up收集完左右孩子的信息 上一级才能有这个消息 （什么题目一定要求后序：要收集子孩子信息 才能向上一级返回）这里的递归参数就是左子树和右子树的节点 终止条件 判断什么时候return false, true 就要分类（2）后序可以理解成一个回溯  
 Difficulty during Implementation:  
 Logic of Solution:
-AC Code:
+AC Code: （!!!need help层序遍历不会写）
 ```Python
 
          
 ```
 
-Question: [104
-Outcome with Date: 12-05:   
-First Impression:  
-Good Video/Blog: 
-Learnt: 
-Difficulty during Implementation:  
-Logic of Solution: 
+Question: [104 maximum depth of binary tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)  
+Outcome with Date: 12-06: X  
+First Impression:按卡尔的建议 在用递归的写法写下 但是不知道怎么写停止条件 我总感觉这里我需要指针-》如果用球高度的方法 从下往上 左右中 后序遍历， 终止条件就是碰到了空间点了 空节点的告诉就是0 中节点就是处理节点 返回的是左子树和右子树的最大值+1（加一：当前父节点的高度）
+Good Video/Blog: https://www.bilibili.com/video/BV1Gd4y1V75u/?vd_source=8b4794944ae27d265c752edb598636de    
+Learnt:(1)什么是深度？高度？深度： 二叉树中任意一个节点到根节点的距离 要用前序遍历（中左右） 从上往下 中是我们的处理过程 我们往下遍历一个就加一 这符合我们求深度的过程；高度：二叉树任意一个节点到叶子节点的距离 要用后序遍历（左右中） 从下往上 中放在最后也是处理逻辑在做后，我们就可以把叶子节点的高度返回给其父节点 父节点知道他的叶子节点后 我的父节点直接加个一就可以了-》求深度：也可以用根节点的高度（后序 往上长 发芽的过程）
+Difficulty during Implementation: (1)为什么要把helper function写成类里的一个程序？->小唐说这随便 选一个习惯的就好 类里的一个函数叫method （我还是不要写成method 我有时会忘记self给自己挖坑）（2）注意这个getheight的逻辑 下一个节点不为空 里面的递归使用helper function就不用做这个判断为不为空？  
+Logic of Solution: （！！need help）
 AC Code:
 ```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        return self.getHeight(root, 0)
+
+    def getHeight(self, node: TreeNode, height: int):
+        if node == None:
+            return 0
+        leftheight = self.getHeight(node.left, height+1)
+        rightheight = self.getHeight(node.right, height+1)
+        return 1+max(leftheight, rightheight)
       
 ```
 
-Question: [559
-Outcome with Date: 12-05:   
-First Impression:  
+Question: [559 maximum depth of nary tree](https://leetcode.com/problems/maximum-depth-of-n-ary-tree/)
+Outcome with Date: 12-05: X  
+First Impression: 我直接用了上面的code 我感觉没区别 但是报错maximum recursion depth exceeded in comparison->这里变成了children没有左右孩子了
 Good Video/Blog: 
 Learnt: 
-Difficulty during Implementation:  
-Logic of Solution: 
+Difficulty during Implementation:这个需要理解一下 不太理解为什么不需要height作为参数也可以 可能是都可以的写法（！！need help）
+Logic of Solution: 逻辑是 既然不分左右子树 那么没关系 对每个child 算max
 AC Code:
 ```Python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
 
-         
+class Solution:
+    def maxDepth(self, root: 'Node') -> int:
+        return self.getHeight(root)
+
+    def getHeight(self, node: 'Node') -> int:
+        if node == None:
+            return 0
+        height = 0
+        for i in range(len(node.children)):
+            height = max(height, self.getHeight(node.children[i]))
+        return 1+height         
 ```
 
-Question: [111
-Outcome with Date: 12-05:   
-First Impression:  
-Good Video/Blog: 
-Learnt: 
-Difficulty during Implementation:  
+Question: [111 minimum depth of binary tree](https://leetcode.com/problems/minimum-depth-of-binary-tree/) 卡尔建议 用递归写法  
+Outcome with Date: 12-06:X   
+First Impression: 感觉逻辑和上面也没啥区别 换成min就行 不知道为什么 也是报错 -》先看视频讲解，和最大深度 看似差不多，其实 差距还挺大，有坑 -> 是定义有错 
+Good Video/Blog: https://www.bilibili.com/video/BV1QD4y1B7e2/?vd_source=8b4794944ae27d265c752edb598636de  同学的python code更符合我的书写逻辑 https://blog.csdn.net/weixin_47617361/article/details/128141286?csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%22128141286%22%2C%22source%22%3A%22weixin_47617361%22%7D  
+Learnt: (1)题目中给的minimun depth: the number of nodes along the shortest path from the root node down to the nearest leaf node根节点到最近的叶子节点的距离->一定要从叶子节点开始 所以是算叶子节点的高度！所以要做个判断 根节点如果有一方没有子节点 那么要去计算另外一方的最小高度(2)递归的终止条件 我们这里写的是 当遇节点遍历到叶子节点的再下一个即是空节点的时候 他的高度是0（高！度！）-》但是也可以写成其他的终止条件 见下 
+Difficulty during Implementation:  (！！！need help编译错误 而且不知道什么时候加height的参数什么时候不加->感觉不用加 因为底层的下一个为0嘛 之后都在叠加一)(1)不写成class method的话 一定要先定义 才能调用 (2)注意错过好多次！！之前代码里应该也有问题！！！ node.left == None (一般不会写== None 因为none是个特殊的值 所以一般用is None 不会去判断值是否相等 而是判断是否就是nonetype) 和 if not node.left (3) if ! node.left 和 if not node.left-> not的是作用在if上 这个node.left是没有！操作符
 Logic of Solution: 
 AC Code:
 ```Python
-      
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+# 小唐帮忙debug的
+class Solution:
+    def minDepth(self, root: Optional[TreeNode]) -> int:     
+        def getHeight(node: TreeNode) -> int:
+            """Find the minimum depth start from node"""
+            if node is None:
+                return 0
+            leftDepth = getHeight(node.left)
+            rightDepth = getHeight(node.right)
+            if leftDepth and rightDepth:
+                return 1 + min(leftDepth, rightDepth)
+            else:
+                return leftDepth + rightDepth + 1 #如果leftdepth is none， 那么这个值也是0 同一个概念 
+
+        return getHeight(root)    
+```
+### 树的递归dfs写法总结
+1. 对于树的高度：要不要传入depth(当调用的时候就是helper（root, 0）)，这个与下面的终止条件的定义也是相关的
+2. 递归里面终止条件 也有两种写法（a）判断传入none的时候 即是叶子节点在下一个 这个时候就要终止了 因为叶子节点的高度为1 所以此处的高度为0（b）如果没有判断这个none那么就要判断是否有if node.left, if node.right 在做对应的左右子树的调用
+3. 第一点要不要穿入树的高度 在（a）就不用 因为知道了base case是0，在(b)就一定需要
+4. 递归写法可以写在class里的method 但是我会容易忘记self.也可以内部调用 但是就要注意 先定义 才能调用
+5. 卡尔推荐的是所有题目用递归写 因为写法简单 就是一个递推公式 第二次刷的时候再用迭代
+
+Question: [222 count complete tree nodes](https://leetcode.com/problems/count-complete-tree-nodes/)  
+Outcome with Date: 12-06: X  
+First Impression: 按照老师说的去理解递归写法 但是写出来的逻辑 比要求的数大很多 怀疑自己哪里有重复计算 但是也不知道具体在哪-》一个小错误 但也很重要 left那边不用加一 因为是只有计算到parent时才加一
+Good Video/Blog: https://www.bilibili.com/video/BV1eW4y1B7pD/?vd_source=8b4794944ae27d265c752edb598636de  
+Learnt: （1）complete binary tree: except leaf node all full and it starts with left 
+Difficulty during Implementation:  
+Logic of Solution: （这个剪枝的方法之后也要会！！！先跳过bit manipulation）
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
+        if root is None:
+            return 0
+        def count(node: TreeNode) -> int:
+            if node == None:
+                return 0
+            # recursive + postorder(left,right -> middle)
+            left_count = count(node.left) #这里一开始+1了所以报错 但不是这个逻辑 只有middle的时候 我们才要加自己本身
+            right_count = count(node.right)
+            return left_count + right_count + 1
+        return count(root)         
+```
+```Python
+# 上面是time o(n)
+# full binary tree满二叉树的话 节点数量：(2^depth)-1
+# 利用完全二叉树的特性: 子树是满二叉树的话 直接用公式计算 =满左子树（只遍历了两侧的节点 如果相等的话就是满二叉树 没有遍历所有节点）+满右子树+1 -》判断是不是满二叉树也是写在终止条件里
+# 没有自己写 直接复制的代码
+class Solution:
+    def countNodes(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        return 1 + self.countNodes(root.left) + self.countNodes(root.right)     
 ```
 
-Question: [222
-Outcome with Date: 12-05:   
-First Impression:  
+Question:[110 balanced binary tree](https://leetcode.com/problems/balanced-binary-tree/)  
+Outcome with Date: 12-06: X  
+First Impression: 这个balanced的定义我都不知道：balanced binary search tree平衡二叉搜索树（全部左子树和右子树的高度绝对值的差不能大于1）-》意思是maximun depth和子节点的minimun depth《=1对吧 我先按这个逻辑试着写下代码 不是这个意思 是所有的 我看是直接看下解答吧->自己还是写了 不会递归函数的返回值 不知道是depth呢还是bool  
+Good Video/Blog: https://www.bilibili.com/video/BV1Ug411S7my/  
+Learnt: （1）balanced binary tree 任何一个节点 左右子树的高度不超过1 （！不是深度！）(2)卡尔递归写的返回数是int 节点的高度 他中间会做个判断 一旦不平衡就返回-1 这样就知道不满足了 （2）终止条件：看是不是空节点 
+Difficulty during Implementation:  
+Logic of Solution: 
+1. 递归终止条件还是遇到空间点
+2. 按后序遍历，左右子树分别计算的时候 发现已经不是平衡二叉树 就可以终止 所以这里调用的可以判断是不是-1 然后操作中节点的时候 也是判断左右相差是否《1 如果小于1返回的就是此时的高度max+1!!!
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        # dfs, recursive, postorder(left, right ->  mid)/bottom up
+        # require every maximun depth - minmun depth <= 1
+        def countChildren(node: TreeNode) -> int:
+            '''given a node, return the depths of its left tree and its right tree'''
+            if node is None:
+                return 0 
+            left_height = countChildren(node.left)
+            if left_height == -1:
+                return -1
+            right_height = countChildren(node.right)
+            if right_height == -1:
+                return -1
+            if abs(right_height - left_height) > 1:
+                return -1
+            else:
+                return 1 + max(right_height, left_height)
+        if countChildren(root) != -1:
+            return True
+        return False
+```
+## Day 14
+
+Question:[257 binary tree paths](https://leetcode.com/problems/binary-tree-paths/)  
+Outcome with Date: 12-07: X   
+First Impression: 不知道怎么记录走过的道路-》“这是大家第一次接触到回溯的过程， 我在视频里重点讲解了 本题为什么要有回溯，已经回溯的过程。 如果对回溯 似懂非懂，没关系， 可以先有个印象” 其实递归和回溯是相辅相成的 只要有递归就一定有回溯-》back tracking是dfs的暴力解法
+Good Video/Blog: https://www.bilibili.com/video/BV1ZG411G7Dh/ 
+Learnt:(1)这里的递归法 要用前序遍历 让父节点指向孩子节点 这样才能把这个路径 按照top down输出出来（2）回溯：用一个容器记录从头到尾的一条路径 再一个个弹出子节点（此处就是回溯过程）回到根节点 再一个个弹入其他路径的节点 （3）递归的三部曲：参数 节点和pass用来记录单条路径的和result数组放的是所有路径结果 终止：收集路径的过程 到叶子节点就行 没必要到空节点（node.left and node.right都为空 代表遍历到叶子节点）然后把pass放进results就行, 操作：前序 中左右 中进行的操作就是把每个节点 放进pass里-》我是不是可以换个角度理解 因为是dfs所以一定所有边都会遍历 （想象那个遍历的动态图）而且也只会每个节点遍历1次 dfs就是一个扫描所有路径的过程
+Difficulty during Implementation:  (1)用递归又忘记了需要先定义 在调用（！！！！错了三遍）
+Logic of Solution: (!!!need help)
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
+        def dfsFindPath(node: TreeNode, path: str, result: List[str]) -> list[str]:
+            # 中：
+            path += str(node.val) #这里写错了 要累加 所以也是+=
+            #终止条件 不用到空字符串 到空字符串的前一个就行
+            #if (node.left and node.right) is None: #这样居然不可以！！这样的话 是left或者right是none可能又个优先级的问题
+            if node.left is None and node.right is None:
+                #做的操作是append路径到结果集
+                result.append(path)
+            # preorder: 中左右
+            if node.left:
+                dfsFindPath(node.left, path + '->', result)
+            if node.right:
+                dfsFindPath(node.right, path + '->', result)
+            return result
+        path = ''
+        result = []
+        if not root: return result
+        results = dfsFindPath(root, path, result)
+        return results
+```
+
+Question:[404 sum of left leaves](https://leetcode.com/problems/sum-of-left-leaves/)
+Outcome with Date: 12-06: X 
+First Impression: 我以为就是一个前序dfs记录左叶节点的值之和
+Good Video/Blog: https://www.bilibili.com/video/BV1GY4y1K7z8/?vd_source=8b4794944ae27d265c752edb598636de
+Learnt: （0）这题定义的是 所有叶子节点左边的那个 所以是可以大于 两个的 需要向面试官确认（1）判断条件有两个 必须要是叶子节点 必须要是其母节点的左孩子（2）设计想要的元素 要注意 node.left is none and node.right is none 只能告诉是叶节点 并不能告诉你这是左叶子节点！！-》用他的母节点来帮助 左孩子要不为空 左孩子的左右孩子为空 （3）这道题用后序遍历 先收集左子树的左叶子节点之和 右子树的左叶子节点之和 再返回
+Difficulty during Implementation:  （1）！！！错了第四次！！！递归函数 先定义 在调用
+Logic of Solution: 
+AC Code:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumOfLeftLeaves(self, root: TreeNode) -> int:
+        if not root: 
+            return 0
+        # 用后序 把左子树的左叶子节点之和 右子树的左叶子节点之和 返回去
+        left_left_leaves_sum = self.sumOfLeftLeaves(root.left)  # 左
+        right_left_leaves_sum = self.sumOfLeftLeaves(root.right) # 右
+        # 中 判断想要收集的元素 是不是我们想要的左叶子节点
+        cur_left_leaf_val = 0
+        if root.left and not root.left.left and not root.left.right: 
+            cur_left_leaf_val = root.left.val 
+        # 递归函数本身的调用 有返回值 所以左边右边调用也会有返回值   
+        return cur_left_leaf_val + left_left_leaves_sum + right_left_leaves_sum # 中
+```
+
+Question:[513 !! 
+Outcome with Date: 12-06:  
+First Impression: 
 Good Video/Blog: 
 Learnt: 
 Difficulty during Implementation:  
@@ -1959,5 +2235,52 @@ Logic of Solution:
 AC Code:
 ```Python
 
-         
+```
+
+Question:[112  
+Outcome with Date: 12-06:  
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+```
+
+Question:[113 
+Outcome with Date: 12-06:  
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+```
+
+Question:[106  
+Outcome with Date: 12-06:  
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+```
+
+Question:[ 
+Outcome with Date:  
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
 ```
