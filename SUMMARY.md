@@ -2196,7 +2196,7 @@ class Solution:
 ```
 
 Question:[404 sum of left leaves](https://leetcode.com/problems/sum-of-left-leaves/)
-Outcome with Date: 12-06: X 
+Outcome with Date: 12-07: X 
 First Impression: 我以为就是一个前序dfs记录左叶节点的值之和
 Good Video/Blog: https://www.bilibili.com/video/BV1GY4y1K7z8/?vd_source=8b4794944ae27d265c752edb598636de
 Learnt: （0）这题定义的是 所有叶子节点左边的那个 所以是可以大于 两个的 需要向面试官确认（1）判断条件有两个 必须要是叶子节点 必须要是其母节点的左孩子（2）设计想要的元素 要注意 node.left is none and node.right is none 只能告诉是叶节点 并不能告诉你这是左叶子节点！！-》用他的母节点来帮助 左孩子要不为空 左孩子的左右孩子为空 （3）这道题用后序遍历 先收集左子树的左叶子节点之和 右子树的左叶子节点之和 再返回
@@ -2225,32 +2225,170 @@ class Solution:
         return cur_left_leaf_val + left_left_leaves_sum + right_left_leaves_sum # 中
 ```
 
-Question:[513 !! 
-Outcome with Date: 12-06:  
-First Impression: 
+Question:[513 find bottom left tree value](https://leetcode.com/problems/find-bottom-left-tree-value/)  
+Outcome with Date: 12-07:X  
+First Impression: 知道了应该判断这些条件 在终止条件中 但是居然不知道给终止条件 要返回个什么值（这里其实要做个比较 到了叶子节点 判断当前深度（函数参数）有没有比最大深度（全局变量）大 是的话 就更新全局变量 同时记录节点 这样才能返回 题目需要的） （单层遍历逻辑 就是需要按照左右的方向进行递归 有个回溯的过程） （1）找到叶子节点们 （2）找到左叶子节点们 （3）找到最深的左叶子节点（1个或者多个）->同样深度 返回最左边的  发现自己原来动定义错了 要求是要在last row里面leftmost value  return the leftmost value in the last row of the tree ->所以可以是右节点的
+Good Video/Blog:https://www.bilibili.com/video/BV1424y1Z7pn/?vd_source=8b4794944ae27d265c752edb598636de   
+Learnt: （1）因为是找到要求层的某个值 所以用层序遍历很简单
+Difficulty during Implementation: （1）汗两天不到层序的模版都忘了（！！！need rememeber again） （2）while循环不变量 需要自己更新值啊！要不然是永远满足的(3)这题前中后序都可以 因为中序位置在哪都不重要 不重要的话单层循环逻辑里面也不用写 这里只要强调左在右边就可以了
+Logic of Solution: 
+AC Code:
+```Python
+## 层序遍历
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+        # bfs 
+        if root is None: 
+            return 0
+        if root.left is None and root.right is None: 
+            return root.val 
+        from collections import deque
+        d = deque()
+        d.append(root)
+        results = []
+        while d:
+            size = len(d)
+            result = []
+            while size:
+                node = d.popleft()
+                result.append(node.val)
+                size -= 1
+                if node.left:
+                    d.append(node.left)
+                if node.right:
+                    d.append(node.right)
+            results.append(result)
+        return results[-1][0]
+```
+```Python
+#递归写法 没有自己写
+class Solution:
+    def findBottomLeftValue(self, root: TreeNode) -> int:
+        max_depth = -float("INF")
+        leftmost_val = 0
+
+        def __traverse(root, cur_depth): 
+            nonlocal max_depth, leftmost_val
+            if not root.left and not root.right: 
+                if cur_depth > max_depth: 
+                    max_depth = cur_depth
+                    leftmost_val = root.val  
+            if root.left: 
+                cur_depth += 1
+                __traverse(root.left, cur_depth)
+                cur_depth -= 1
+            if root.right: 
+                cur_depth += 1
+                __traverse(root.right, cur_depth)
+                cur_depth -= 1
+
+        __traverse(root, 0)
+        return leftmost_val
+```
+
+Question:[112 path sum](https://leetcode.com/problems/path-sum/submissions/856428149/)  
+Outcome with Date: 12-07:  
+First Impression: (1)这里有个reference类别回溯里常碰到的问题 请看下面代码（2）找path的话 对中节点的操作 要放在终止条件前面！！小唐教的 递归写法要小心！（1）需要改动的参数 都放成递归的参数 要不然他有可能会被后续的参数给一起更新 因为是reference类型的数（2）推荐写成method的class不要分开写 要不然还是有调用时 复制参数 里外值得不是同一个东西的问题 (3)要返回一个list of list类型的话 是写成这个形式List[list]
 Good Video/Blog: 
 Learnt: 
 Difficulty during Implementation:  
 Logic of Solution: 
 AC Code:
 ```Python
-
+###path回溯一个重要的code!!!!
+###对后面回溯的题目很重要！！！
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> list:
+        # dfs, preorder, path_sum
+        def dfs(node: TreeNode, path: list, path_list: list) -> list:
+            path.append(node.val) #这里写错了要注意 先中 再append 要不然漏节点了
+            if node.left is None and node.right is None:
+                path_list.append([x for x in path]) #reference类别（除了int,str,floot,bool）如果有后续操作修改 它本身也会跟着修改（他是一个pointer）!!
+            if node.left:#所以这里要复制一遍
+                dfs(node.left, path, path_list)
+                path.pop()#这里需要回溯一下
+            if node.right:
+                dfs(node.right, path, path_list)
+                path.pop()#这里需要回溯一下
+            return path_list
+        if root is None:
+            return False 
+        path = []
+        path_list= []
+        print(dfs(root, path, path_list))#257那题没错 不用回溯 也不用复制 是因为他是一个str非reference类别
 ```
-
-Question:[112  
-Outcome with Date: 12-06:  
-First Impression: 
-Good Video/Blog: 
-Learnt: 
-Difficulty during Implementation:  
-Logic of Solution: 
-AC Code:
 ```Python
-
+## 递归写法要小心！
+## （1）需要改动的参数 都放成递归的参数 要不然他有可能会被后续的参数给一起更新 因为是reference类型的数
+## （2）推荐写成method的class不要分开写 要不然还是有调用时 复制参数 里外值得不是同一个东西的问题
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> list:
+        # dfs, preorder, path_sum
+        def dfs(node: TreeNode, path: list, path_list: list, path_sum: int) -> bool:
+            nonlocal flag #把他写外面
+            path.append(node.val)
+            if node.left is None and node.right is None:
+                path_list.append([x for x in path]) 
+                path_sum = sum(path)
+                if path_sum == targetSum:
+                    flag = True #boolen值这些东西直接return不了 本来我想的逻辑时当发现了sum是等于target sum就return True
+                    #小唐说bool只是传到上一层 不能直接传到最外面 不能这么简单的写 所以放在参数里更简单
+                    print("True")
+            if node.left:
+                dfs(node.left, path, path_list, path_sum)
+                path.pop()
+            if node.right:
+                dfs(node.right, path, path_list, path_sum)
+                path.pop()
+        if root is None:
+            return False 
+        path = []
+        path_list = []
+        path_sum = 0
+        flag = False
+        dfs(root, path, path_list, path_sum) #调用传参的时候 都会复制一遍 所以在里面改bool值外面也接受不到 但reference类型的参数的时候 复制一遍 外面会变 写成method的class
+        #定义了用的就是本身self.什么 就不会有这个问题
+        return flag
 ```
-
+```Python
+# 我来写一个干净的class method来总结这道题的题解
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        if root is None:
+            return False 
+        path, path_list, path_sum, self.flag = [], [], 0, False
+        self.dfs(root, path, path_list, path_sum, targetSum)
+        return self.flag
+    
+    def dfs(self, node: TreeNode, path: list, path_list: List[list], path_sum: int, targetSum): #小唐说path_list可以删掉
+        path.append(node.val) #这个问题是函数条件不成立没有返回值-》这里是dfs不需要返回值 条件成立我就吧外面值修改了
+        if node.left is None and node.right is None:
+            path_list.append([x for x in path]) 
+            if sum(path) == targetSum:
+                self.flag = True #要是把他放入参数的话 其实是新定义一个z=flag 吧z当flag用 那么修改z flag不会变-》这是封装的特性（参数都是这样）不希望函数影响外面的东西
+                # 哪怕是穿入的变量也不想要改参数的本身，然后int哪些不是reference类别的话 是他们数据结构的特性 等到了函数里的参数 也是要符合封装性
+                # self.的实现是一个指针 把他变成了reference类型（address）类似的吧flag变成长度为1的list也行 即要flag[0] == True这样里面的也会改
+        if node.left:
+            leftNode = self.dfs(node.left, path, path_list, path_sum, targetSum)
+            path.pop() #还是同一个理由 reference的list类型 手动需要回溯过去
+        if node.right:
+            rightNode = self.dfs(node.right, path, path_list, path_sum, targetSum)
+            path.pop()
+```
 Question:[113 
-Outcome with Date: 12-06:  
+Outcome with Date: 12-07:  
 First Impression: 
 Good Video/Blog: 
 Learnt: 
@@ -2262,7 +2400,7 @@ AC Code:
 ```
 
 Question:[106  
-Outcome with Date: 12-06:  
+Outcome with Date: 12-07:  
 First Impression: 
 Good Video/Blog: 
 Learnt: 
@@ -2273,7 +2411,78 @@ AC Code:
 
 ```
 
-Question:[ 
+Question:[105 
+Outcome with Date:  
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+```
+
+Question:[654  
+Outcome with Date: 12-07:  
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+```
+
+Question:[617 
+Outcome with Date: 12-07:  
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+```
+
+Question:[700  
+Outcome with Date: 12-07:  
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+```
+
+Question:[98 
+Outcome with Date:  
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+```
+Question:[530  
+Outcome with Date: 12-07:  
+First Impression: 
+Good Video/Blog: 
+Learnt: 
+Difficulty during Implementation:  
+Logic of Solution: 
+AC Code:
+```Python
+
+```
+
+Question:[501 
 Outcome with Date:  
 First Impression: 
 Good Video/Blog: 
