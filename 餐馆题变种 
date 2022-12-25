@@ -1,0 +1,37 @@
+# 餐馆题变种 O(1)实现 join(name), serve(), remove(name)
+
+class Restaurant:
+    # hashmap: key: id, value: node (因为可以访问那个node 不需要知道在哪)
+    # doubly link list: id 
+    def __init__(self): #head, tail不能输入实现的细节 因为他们不知道这些东西
+        # key: cur id, value:前一个人的id
+        self.prev = {}
+        # key: cur id value:后一个人的id 
+        self.next = {}
+        # auxilary head and tail
+        self.connect("HEAD", "TAIL") #不需要做额外判断
+    
+    def connect(self, x, y):
+        self.prev[y] = x
+        self.next[x] = y
+
+    def join(self, id):
+        self.connect(self.prev["TAIL"], id)
+        self.connect(id, "TAIL")
+    
+    def serve(self):
+        if self.next["HEAD"] == "TAIL":
+            return None
+        cur = self.next["HEAD"]
+        self.connect(cur, self.next[cur])
+        self.prev.pop(cur)
+        self.next.pop(cur)
+        return cur
+
+    def remove(self, id):
+        if id not in self.prev:
+            return False 
+        self.connect(self.prev[id], self.next[id])
+        self.prev.pop(id)
+        self.next.pop(id)
+        return True 
