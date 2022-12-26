@@ -1146,6 +1146,7 @@ class Solution:
 ```
 
 
+
 ## Trie
 [208 Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree/description/)
 - Tag: Hash Table, String, Design, Trie
@@ -1887,6 +1888,195 @@ class Solution:
 - Logic of Solution: 
 - 一题多解:
 
+## Backtracking
+[39 Combination Sum](https://leetcode.com/problems/combination-sum/description/)
+- Tag: Array, Backtracking
+- Time: 12-26
+- Logic of Solution: given an array of distinct integers, return a list of all unique combinations of cancdidates where the chosen numbers sum to target. The same number may be chosen from cnadidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different
+- 一题多解:
+```Python
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        # bracktracking 
+        # 1.要inistiate的结果的list 
+        # 2.搜索的起点是什么
+        # 常见trick:把输入的东西sort一下 更好去重
+        self.sums = []
+        self.candidates = sorted(candidates) #这个才有返回值
+        self.target = target
+        self.backtracking([], 0)
+        return self.sums
+        #回溯要有两个参数：一个时当前的path,一个ind代表之后能走的方向（去重）
+    def backtracking(self, cur, ind):
+        # 1.解是否满足条件，满足时，记住
+        if sum(cur) == self.target: 
+            self.sums.append(cur[:])
+        # 2.（optional）是否可以提前结束
+        if sum(cur) >= self.target:
+            return 
+        # 3.搜索所有的可能方向
+        for i in range(ind, len(self.candidates)):
+            cur.append(self.candidates[i])
+            self.backtracking(cur, i) # 这里是i因为可以重复自己
+            cur.pop()
+```
+
+[40 Combination Sum II](https://leetcode.com/problems/combination-sum-ii/description/)
+- Tag: Array, Backtracking
+- Time: 12-26
+- Logic of Solution: each candidate may only be used once in the combination
+- 一题多解:
+```Python
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        #backtracking是爆搜
+        #去重技巧 sort 
+        #此时没有visited因为就是从左往右搜
+        self.candidates = sorted(candidates)
+        self.target = target
+        self.paths = []
+        self.backtracking(0, [])
+        return self.paths
+    
+    def backtracking(self, start_ind, cur):
+        #1.满足条件append
+        #2.搜接下来所有可能方向 (optional 可以判断不能搜的时候 直接return)
+        #一般没有返回值 会记录走过的方向作为参数 curr状态 和start_ind下面搜的方向
+        if sum(cur) == self.target:
+            self.paths.append(cur[:])
+            return #这时候就满足条件 可以不用继续搜 （除非有负数）
+        if sum(cur) > self.target:
+            return 
+        for i in range(start_ind, len(self.candidates)):
+            if i > start_ind and self.candidates[i] == self.candidates[i-1]: #接下来不能重复 关键start_ind [1,2,2,3]->[1,2,3]可以 再一个[1,2,3]不可以 但是[1,2,2,3]可以
+                continue
+            cur.append(self.candidates[i])
+            self.backtracking(i+1, cur)
+            cur.pop()
+```
+
+[46 Permutations](https://leetcode.com/problems/permutations/description/)
+- Tag: Array, Backtracking
+- Time: 12-26
+- Logic of Solution: 组合 比如说[1,0] 这两个数的所有不同顺序的组合为[1,0]和[0,1]
+- 一题多解:
+```Python
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        self.perms = []
+        self.nums = nums
+        self.backtracking([],set())
+        return self.perms
+    def backtracking(self, cur, cur_ind): # cur走过的路径，cur_ind试过的方向
+        if len(cur) == len(self.nums):
+            self.perms.append(cur[:])
+        for i in range(len(self.nums)):
+            if i in cur_ind:
+                continue 
+            cur.append(self.nums[i])
+            # cur_ind是set 
+            cur_ind.add(i)
+            self.backtracking(cur, cur_ind)
+            cur.pop()
+            # set要pop指定的数
+            cur_ind.remove(i)
+```
+
+[79 Word Search](https://leetcode.com/problems/word-search/description/)
+- Tag: Array, Backtracking, Matrix
+- Time: 12-26
+- Logic of Solution: 
+- []一题多解:
+```Python
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        # backtracking 一般是没有return值的 -》一般分治法有返回着 
+        # 比如返回有没有这个解 下面搜索时也要判断有没有true 就要有分治法的思想 一层层往上传
+        self.target = [str(i) for i in word]
+        self.board = board
+        self.m, self.n = len(board), len(board[0]) 
+        self.exist = False
+        #self.visited = [] #要频繁判断在不在里面肯定是set 而且是在变的 所以要传入
+        #每个起点都要遍历一遍 
+        for i in range(self.m):
+            for j in range(self.n):
+                if self.board[i][j] == self.target[0]:
+                    self.backtracking(len(self.target)-1, i, j, {(i,j)})
+                if self.exist:
+                    return True
+        return False
+
+    def backtracking(self, remain, curx, cury, visited): #需要maintain一个visited走过的不能再走
+        # 1.解是否满足条件，满足时，记住 (不是分治法 没有base case 是硬搜)
+        # 2.（optional）是否可以提前结束
+        # 3.搜索所有的可能方向
+        if remain == 0:
+            self.exist = True
+            return
+        for dx, dy in [(1,0), (0,1), (-1,0), (0,-1)]:
+            newx, newy = dx + curx, dy + cury
+            #可以往这一个方向走的条件1.不在visit 2.没有出借 3.满足下一个字母的要求
+            if (newx, newy) not in visited and newx >= 0 and newx < self.m and newy >= 0 and newy < self.n \
+                and self.board[newx][newy] == self.target[-remain]:
+                visited.add((newx, newy))
+                self.backtracking(remain-1, newx, newy, visited)
+                visited.remove((newx, newy)) #set不用pop用remove因为没有序 一定要有参数 
+```
+
+[78 Subsets](https://leetcode.com/problems/subsets/description/)
+- Tag: Array, Backtracking, Bit Manipulation
+- Time: 12-26
+- Logic of Solution: given an integer array nums of unique elements, return all possible subsets. The solution set must not contain duplicate substes
+- 一题多解:
+```Python
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        # dfs
+        # T & S:  Time complexity: O(N×2^N) to generate all subsets and then copy them into output list. 子节点就那么多？？
+        # 终止条件：剩余集合为空
+        # startind: 这层递归从哪开始取
+        self.path = []
+        result = []
+        self.backtracking(nums,0,result)
+        return self.path
+    def backtracking(self, nums, startind, result) -> None:
+        self.path.append(result[:])
+        if startind == len(nums):
+            #result = [] #不能要 及时是每一个节点都要更新 但是下一层的递归还是要依靠上一层的prev结果
+            return 
+        for i in range(startind, len(nums)):#这层递归的子集 #之前写的变化的不是下标 就会有没从startind开始的数字 for num in nums[startind:]
+            result.append(nums[i])
+            self.backtracking(nums, i+1, result) #下层递归从哪可以开始取
+            result.pop()
+```
+
+[90 Subsets II](https://leetcode.com/problems/subsets-ii/)
+- Tag: Array, Backtracking, Bit Manipulation
+- Time: 12-26
+- Logic of Solution: given an integer array nums that may contain duplicates, return all possible subsets. The solution set must not contain duplicate substes
+- 一题多解:
+```Python
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        self.subsets = []
+        self.nums = sorted(nums)
+        self.backtracking([], 0)
+        return self.subsets
+
+    def backtracking(self, cur, ind):
+        self.subsets.append(cur[:])
+        for i in range(ind, len(self.nums)):
+            # 去重：通过sort 找到附近重复的值
+            # 第一种 先找前面再找后面 和先找后面再找前面是重复 所以可以通过找ind后的去重
+            # 第二种 前进方向本身就是重复的 因为本身有重复 
+            if i > ind and self.nums[i] == self.nums[i-1]: 
+                #重复的那串只搜索第一个
+                continue 
+            cur.append(self.nums[i])
+            self.backtracking(cur, i+1)
+            cur.pop()
+```
+
 ## Graph
 
 [78 Subsets](https://leetcode.com/problems/subsets/description/)
@@ -1921,22 +2111,316 @@ class Solution:
 2. 假设存在n个节点，我们先将所有节点的父亲标为自己，每次要连接节点i和j时，我们可以将i的父亲标为j,每次要查询两个节点是否相连时，我们可以查找i和j的祖先是否最终为同一个人
 3. 并查集，其中union操作可以将两个集合连在一起，find操作可以查找给定节点的祖先，并且可以的话，将集合的层数/高度降低
 
+[Number of Connected Components in an Undirected Graph](https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/description/)
+- Tag: DFS, BFS, Union Find, Graph
+- Time: 12-26
+- Logic of Solution: 
+- []一题多解:
+```Python
+class Solution:
+    # T O(n + edge)
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        """Typical Union Find"""
+        connect = UnionFind(n)
+        for i, j in edges:
+            connect.union(i, j)
+        res = set()
+        for i in range(n):
+            res.add(connect.find(i))
+        return len(res)
 
 
-## Implement Question
-[Smallest Number in Infinite Set](https://leetcode.com/problems/smallest-number-in-infinite-set/description/)
-- Tag: Hash Table, Design, Heap (Priority Queue)
-- Time: 12-14
+class UnionFind:
+    def __init__(self, n):
+        self.n = n
+        self.parents = [i for i in range(n)] #range不是list 是interate
+        self.ranks = [0] * n 
+
+    def find(self, i):
+        while self.parents[i] != i:
+            i, self.parents[i] = self.parents[i], self.parents[self.parents[i]]
+        return i 
+
+    def union(self, i, j):
+        x, y = self.find(i), self.find(j)
+        if x == y:
+            return 
+        if self.ranks[x] > self.ranks[y]:
+            x, y = y, x 
+        self.parents[x] = y 
+        if self.ranks[x] == self.ranks[y]:
+            self.ranks[y] += 1 
+        return 
+           
+#  # 用一个元素代表连通分量       
+# class UnionFind:
+#     def __init__(self, n):
+#         self.n = n
+#         # 每个元素的parent都是他自己： 反过来的树，所有点都是singleton不相连的
+#         self.parent = list(range(n))
+#         # 大概代表这个元素到叶子节点有多远 为了高效实现union find
+#         self.rank = [1] * n
+#         # 可以维护也可以不 代表有多少个连通分类 不维护的话 扫描一遍 找到他们的prepresent放到set
+#         # self.ncomp = n
+    
+#     # find():给你元素 要知道他的represent
+#     # T: 接近O(1)
+#     def find(self, x):
+#         while self.parent[x] != x:
+#             # 短接 会很快
+#             x, self.parent[x] = self.parent[x], self.parent[self.parent[x]]
+#         return x
+#     # union()：告诉你两个数是相连的 就要更新他们的状态
+#     # T: 接近O(1)
+#     def union(self, x, y):
+#         x, y = self.find(x), self.find(y)
+#         if x == y:
+#             return
+#         # 比较rank 让小的指向大的
+#         if self.rank[x] < self.rank[y]:
+#             x, y = y, x
+#         self.parent[y] = x
+#         if self.rank[x] == self.rank[y]:
+#             self.rank[x] += 1
+#         # self.ncomp -= 1
+#         return
+```
+
+[200 Number of Islands](https://leetcode.com/problems/number-of-islands/description/)
+- Tag: Array, DFS, BFS, Union Find, Matrix
+- Time: 12-25
+- Logic of Solution: 
+- [x]一题多解:
+```Python
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        # bfs 
+        # T&S: O(m*n)
+        from collections import deque
+        visited = set() #需要频繁判断在不在里面 并且没有value
+        count = 0 
+        m, n = len(grid), len(grid[0])
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '0' or (i, j) in visited:
+                    continue 
+                #一次bfs就是一个岛 
+                count += 1
+                queue = deque([(i, j)])
+                visited.add((i, j))
+                while queue:
+                    curi, curj = queue.popleft()
+                    for di, dj in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                        nexti, nextj = curi + di, curj + dj
+                        if (nexti < m and nexti >= 0 and nextj < n and nextj >= 0) \
+                            and grid[nexti][nextj] == '1' and (nexti, nextj) not in visited:
+                            queue.append((nexti, nextj))
+                            visited.add((nexti, nextj))
+        return count 
+
+
+                
+
+#     def numIslands(self, grid: List[List[str]]) -> int:
+#         # 关于（i，j）的union find 下标
+#         # T: O(m*n)
+#         m = len(grid)
+#         n = len(grid[0])
+#         islands = UnionFind(m, n)
+#         for i in range(m):
+#             for j in range(n):
+#                 if grid[i][j] == "0":
+#                     continue
+#                 for di, dj in [(1, 0), (-1, 0), (0, -1), (0, 1)]: #寻找的方向
+#                     newi, newj = i + di, j + dj
+#                     if newi < m and newi >= 0 and newj < n and newj >= 0 and grid[newi][newj] == "1": #判断有没有出界的技巧
+#                         islands.union((i, j), (newi, newj))
+#         res = set()
+#         for i in range(m):
+#             for j in range(n):
+#                 if grid[i][j] == '1':
+#                     res.add(islands.find((i,j)))
+#         return len(res)          
+
+# # unionfind是在做一个封装的活 除非特殊情况
+# class UnionFind:
+#     # 变成一个dict后面union find都不用改 可以是关于任何元素的union find 这里是关于index的 比如说还可以是string的
+#     def __init__(self, m, n):
+#         self.parents = {(i, j) : (i, j) for i in range(m) for j in range(n)}
+#         self.ranks = {(i, j) : 0 for i in range(m) for j in range(n)}
+
+#     def find(self, x):
+#         while self.parents[x] != x: # tuple可以逻辑比较 相等 etc 
+#             x, self.parents[x] = self.parents[x], self.parents[self.parents[x]]
+#         return x 
+#     def union(self, x, y):
+#         x, y = self.find(x), self.find(y)
+#         if x == y:
+#             return 
+#         if self.ranks[x] > self.ranks[y]:
+#             y, x = x, y
+#         self.parents[x] = y #接上去
+#         if self.ranks[x] == self.ranks[y]:
+#             self.ranks[y] += 1 
+#         return 
+```
+
+[Max Area of Island](https://leetcode.com/problems/max-area-of-island/description/)
+- Tag: Array, DFS, BFS, Union Find, Matrix
+- Time: 12-25
+- Logic of Solution: 
+- []一题多解:
+```Python
+class Solution:
+    def maxAreaOfIsland(self, grid):
+        # 先把岛接起来
+        m, n = len(grid), len(grid[0])
+        islands = UnionFind(m, n)
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 0:
+                    continue 
+                for di, dj in [(1,0), (-1,0), (0,1), (0, -1)]:
+                    newi, newj = i+di, j+dj 
+                    if (newi < m and newi >= 0 and newj < n and newj >= 0) and grid[newi][newj] == 1:
+                        islands.union((i,j), (newi,newj))
+        # union接完了 才可以做操作
+        from collections import defaultdict 
+        areas = defaultdict(int)
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1: #什么时候才要find 并不是所有的元素都要找represent
+                    areas[islands.find((i,j))] += 1
+        if len(areas) == 0: return 0 #如果都为0
+        return max(areas.values())
+
+class UnionFind:
+    def __init__(self, m, n):
+        self.parents = {(i,j):(i,j) for i in range(m) for j in range(n)}
+        self.ranks = {(i,j):0 for i in range(m) for j in range(n)}
+
+    def find(self, x):
+        while x != self.parents[x]:
+            x, self.parents[x] = self.parents[x], self.parents[self.parents[x]]
+        return x 
+    def union(self, x, y):
+        x, y = self.find(x), self.find(y)  # represents 
+        if x == y:
+            return 
+        # 不是同一个represent就要union 
+        if self.ranks[x] > self.ranks[y]:
+            x, y = y, x 
+        # union 
+        self.parents[x] = y
+        # 更新rank 
+        if self.ranks[x] == self.ranks[y]:
+            self.ranks[y] += 1 
+        return 
+
+    
+    # def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+    #     # bfs
+    #     m, n = len(grid), len(grid[0])
+    #     max_area = 0
+    #     visited = set() 
+    #     from collections import deque 
+    #     for i in range(m):
+    #         for j in range(n):
+    #             #什么时候不用搜
+    #             if (i, j) in visited or grid[i][j] == 0:
+    #                 continue 
+    #             queue = deque()
+    #             queue.append((i,j))
+    #             temp_area = 0 
+    #             # 每次加东西就更新 说明此点被考虑了
+    #             visited.add((i,j))
+    #             while queue:
+    #                 curi, curj = queue.popleft()
+    #                 # do something这里算面积
+    #                 temp_area += 1 
+    #                 for di, dj in [(1,0), (-1,0), (0,1), (0,-1)]:
+    #                     #什么时候要把这个点算面积
+    #                     #\后不能打东西
+    #                     if (curi+di < m and curi+di >= 0 and curj+dj < n and curj+dj >=0) and \
+    #                         grid[curi+di][curj+dj] == 1 and (curi+di, curj+dj) not in visited:
+    #                         queue.append((curi+di, curj+dj))
+    #                         visited.add((curi+di, curj+dj))
+    #             max_area = max(max_area, temp_area)
+    #     return max_area 
+```
+
+[]()
+- Tag: 
+- Time: 12-26
 - Logic of Solution: 
 - 一题多解:
-??
 
-[155 Min Stack](https://leetcode.com/problems/min-stack/)
-- Tag: Stack, Design
-- Time: 12-19
+### Topological Sort
+[207 Course Schedule]()
+- Tag: DFS, BFS, Graph, Topological Sort
+- Time: 12-26
 - Logic of Solution: 
 - 一题多解:
-
+```Python
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        # topological sort: 有一堆顺序patrail order关系 但只知道一对一对的关系 这些顺序可以传递
+        # 输出时某一种toplogical order 
+        # 一般给定edges,然后计算in-degree计算谁指向他
+        # BFS图的复杂度: T: O(e+v)， s:O(e+v)
+        from collections import defaultdict, deque 
+        in_degree, out_edges = defaultdict(int), defaultdict(list)
+        queue = deque()
+        for lst in prerequisites:
+            in_degree[lst[0]] += 1
+            out_edges[lst[1]].append(lst[0])
+        for course in range(numCourses):
+            if in_degree[course] == 0:
+                queue.append(course)
+        # bfs
+        res = [] #最后要跟num courses比较大小 
+        while queue:
+            cur = queue.popleft()
+            res.append(cur)
+            for pointed in out_edges[cur]:
+                in_degree[pointed] -= 1
+                if in_degree[pointed] == 0: #减到零的才加
+                    queue.append(pointed)
+        return len(res) == numCourses 
+```
+[Parallel Courses](https://leetcode.com/problems/parallel-courses/description/)
+- Tag: Graph, Topological Sort
+- Time: 12-26
+- Logic of Solution: 
+- 一题多解:
+```Python
+class Solution:
+    def minimumSemesters(self, n: int, relations: List[List[int]]) -> int:
+        from collections import defaultdict, deque
+        in_degree, out_edges = defaultdict(int), defaultdict(list)
+        for item in relations:
+            in_degree[item[1]] += 1 
+            out_edges[item[0]].append(item[1])
+        queue = deque()
+        for course in range(1, n):
+            if in_degree[course] == 0:
+                queue.append(course)
+        res_order = []
+        res = 0
+        while queue:
+            size = len(queue)
+            res += 1
+            for i in range(size):
+                cur = queue.popleft()
+                res_order.append(cur)
+                for pointed in out_edges[cur]:
+                    in_degree[pointed] -= 1
+                    if in_degree[pointed] == 0: #topo的判断
+                        queue.append(pointed)
+        if len(res_order) < n:
+            return -1
+        return res
+```
 
 ## Greedy 
 [392 Is Subsequence](https://leetcode.com/problems/is-subsequence/description/)
@@ -2033,19 +2517,281 @@ class Solution:
 
 ## Math & Geometry
 
+## Design Question
+[Smallest Number in Infinite Set](https://leetcode.com/problems/smallest-number-in-infinite-set/description/)
+- Tag: Hash Table, Design, Heap (Priority Queue)
+- Time: 12-14
+- Logic of Solution: 
+- 一题多解:
+??
+
+[155 Min Stack](https://leetcode.com/problems/min-stack/)
+- Tag: Stack, Design
+- Time: 12-19
+- Logic of Solution: 
+- 一题多解:
+
+[Moving Average from Data Stream](https://leetcode.com/problems/moving-average-from-data-stream/description/)
+- Tag: Array, Design, Queue, Data Steam
+- Time: 12-26
+- Logic of Solution: 
+- 一题多解:
+```Python
+from collections import deque 
+
+class MovingAverage:
+    #这个数据结构最开始需要什么 比如union find 是singlton
+    def __init__(self, size: int):
+        self.size = size 
+        self.queue = deque()
+        self.sum = 0
+    
+    # def next(self, val: int) -> float:
+    #     # T&S: O(k), sum需要k
+    #     # optimized init 就记录sum 多了就减一 T: O(1), S:O(k)
+    #     self.queue.append(val)
+    #     cur_size = len(self.queue)
+    #     if cur_size <= self.size:
+    #         return sum(self.queue)/cur_size 
+    #     else:
+    #         self.queue.popleft()
+    #         return sum(self.queue)/self.size  
+    def next(self, val):
+        self.sum += val 
+        self.queue.append(val)
+        if len(self.queue) > self.size:
+            self.sum -= self.queue.popleft() 
+        return self.sum / len(self.queue)
+
+# Your MovingAverage object will be instantiated and called as such:
+# obj = MovingAverage(size)
+# param_1 = obj.next(val)
+```
+
+[146](LRU Cache)
+- Tag: Hash Table, Linked List, Design, Doubly-Linked List
+- Time: 12-26
+- [x]Logic of Solution: 
+- 一题多解:
+```Python
+# class LRUCache:
+#     # design题就是考虑需要什么操作
+#     # 这里有个get需要o(1) 所以一定要知道hash map
+#     # 使用过插入到头o(1) 所以只能linked list 但是pop出去的时候 不是o(1)需要找到她 所以需要双向linked list可以直接知道他们前面的顺序
+#     # 因为还需要找到存在哪 需要一个hash map
+#     # 只需要一个hash map（key和node）和一个doubly linked list (最近使用的东西 放在左头 最远使用的放在右边 并且记住了value值 如果有个key找打了她就会告诉value值在哪 我们需要维护顺序 并且可以把使用过的东西在放在最前面 所以需要双向链表 就可以直接知道前面的坐标)
+
+#     def __init__(self, capacity: int): # argument不需要count和其他 因为不需要外部实现 这是我实现的细节
+#         #要维护当前多少个node 存起来 要不然算就不是o（1）
+#         self.count = 0
+#         self.capacity = capacity # head是个需的head
+#         self.head = LinkedNode() #必须知道头和尾 前面最近用 后面最少用 所以要知道头节点和尾节点 否则遍历到尾节点需要o(n)
+#         self.tail = self.head # linked list一般的head是第一个元素前面的元素 #当没有元素的时候head和tail指的是同一个东西
+#         self.nodemap = dict() # key 和node pair (node里有key) #pop的知道是哪个key 
+#         self.valmap = dict() # key 和val 
+
+#     def get(self, key: int) -> int:
+#         if key not in self.nodemap:
+#             return -1 
+#         # 找到了要把放前面 #分类讨论如果是尾部掉到头 还需要更新尾
+#         cur = self.nodemap[key]
+#         if cur is self.head.next:
+#             return self.valmap[key] #没有循环 就放在这
+#         #记下来改变之后的所有指针方向 对于未知的node都用current, head, tail表示 然后就之后就可以直接带
+#         # 把操作中涉及的node先记下来 然后直接按照改的方式更改 
+#         # 写一个正常的情况：有些edge case, r是空，p和q一样， etc
+#         p = self.head.next 
+#         q = cur.prev 
+#         r = cur.next
+#         #更新链接的时候tail可能会变
+#         if cur is self.tail: 
+#             self.tail = q 
+#         self.head.next = cur 
+#         cur.prev = self.head
+#         cur.next = p 
+#         p.prev = cur 
+#         q.next = r 
+#         if r:
+#             r.prev = q  #如果cur是tail r是none的话 none.prev会报错
+#         return self.valmap[key] 
+#         # count没变 
+#         # nodemap 不用变 node还是那个node 只是连接方式变了 
+
+#     def put(self, key: int, value: int) -> None:
+#         if key in self.valmap:
+#             self.valmap[key] = value #修改了值也是一次使用 trick：get一遍就行
+#             self.get(key) #会有一个值 但是没有return 
+#         else:
+#             newnode = LinkedNode(val=key) 
+#             self.nodemap[key] = newnode 
+#             self.valmap[key] = value 
+#             self.count += 1 
+#             p = self.head.next 
+#             self.head.next = newnode 
+#             newnode.prev = self.head 
+#             newnode.next = p 
+#             if p is not None:
+#                 p.prev = newnode
+#             else:
+#                 self.tail = newnode 
+#         if self.count > self.capacity:
+#             t = self.tail
+#             p = self.tail.prev 
+#             self.tail = p 
+#             p.next = None
+#             self.count -= 1
+#             self.nodemap.pop(t.val)
+#             self.valmap.pop(t.val)
+#             del t #删除节点 python有garbaby collection可能就没有
+        
+# class LinkedNode:
+#     # linked list只是node的集合而已 把他们连起来 所以基本单元是node 本身就是node 定义的是每一个node 他们的头就是linked list
+#     # tree也是一样 只是node集合
+#     def __init__(self, val=0, next=None, prev=None): #定义初始值方便些
+#         self.val = val
+#         self.next = next 
+#         self.prev = prev 
+
+# # Your LRUCache object will be instantiated and called as such:
+# # obj = LRUCache(capacity)
+# # param_1 = obj.get(key)
+# # obj.put(key,value)
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.hashmap = dict() # key: value
+        self.next = dict() # curr key: next key
+        self.prev = dict() # cur key: prev key
+        self.connect("HEAD", "TAIL")
+
+    def connect(self, node1, node2):
+        self.next[node1] = node2
+        self.prev[node2] = node1
+
+    def get(self, key):
+        if key not in self.next:
+            return -1 
+        self.connect(self.prev[key], self.next[key]) #需要连前也练后 否则会只存在一个dic中
+        self.connect(key, self.next["HEAD"])
+        self.connect("HEAD", key)
+        return self.hashmap[key]
+    
+    def put(self, key, value):
+        if key in self.next:
+            self.hashmap[key] = value
+            self.get(key)
+        else:
+            self.hashmap[key] = value
+            self.connect(key, self.next["HEAD"])
+            self.connect("HEAD", key)
+        if len(self.hashmap) > self.capacity:
+            cur = self.prev["TAIL"]
+            self.connect(self.prev[cur], "TAIL")
+            self.hashmap.pop(cur)
+            self.prev.pop(cur)
+            self.next.pop(cur)            
+```
+
+[Insert Delete GetRandom O(1)]()
+- Tag: 
+- Time: 12-26
+- Logic of Solution: 
+- 一题多解:
+```Python
+from random import randrange
+
+class RandomizedSet:
+    # set不能根据index来remove他是hashmap 是根据key来删除
+    # hashmap (key: value, value:ind)
+    # array (python list) (#remove时 对换 删除最后一个 因为不需要保持顺序 #随机取 就随机)
+    def __init__(self):
+        self.hashmap = dict()
+        self.array = []
+
+    def insert(self, val: int) -> bool:
+        if val in self.hashmap:
+            return False 
+        self.array.append(val)
+        self.hashmap[val] = len(self.array)-1
+        return True 
+
+    def remove(self, val: int) -> bool:
+        if val not in self.hashmap:
+            return False 
+        cur_ind = self.hashmap[val]
+        tail_ind = len(self.array)-1
+        tail = self.array[-1]
+        self.hashmap[tail] = cur_ind 
+        self.hashmap.pop(val)
+        self.array[cur_ind] = tail 
+        self.array.pop()
+        return True        
+
+    def getRandom(self) -> int:
+        rem_ind = randrange(0, len(self.array))
+        return self.array[rem_ind]        
+
+# Your RandomizedSet object will be instantiated and called as such:
+# obj = RandomizedSet()
+# param_1 = obj.insert(val)
+# param_2 = obj.remove(val)
+# param_3 = obj.getRandom()
+```
+
+[]()
+- Tag: 
+- Time: 12-26
+- Logic of Solution: 
+- 一题多解:
+```Python
+```
 
 ## Dynamic Programming
 [161 One Edit Distance](https://leetcode.com/problems/one-edit-distance/)
 - Tag: 
 - Time: 12-16
 - Logic of Solution: 
-- 一题多解:
-??
+- [x]一题多解:
+```Python
+from collections import deque 
+
+class MovingAverage:
+    #这个数据结构最开始需要什么 比如union find 是singlton
+    def __init__(self, size: int):
+        self.size = size 
+        self.queue = deque()
+        self.sum = 0
+    
+    # def next(self, val: int) -> float:
+    #     # T&S: O(k), sum需要k
+    #     # optimized init 就记录sum 多了就减一 T: O(1), S:O(k)
+    #     self.queue.append(val)
+    #     cur_size = len(self.queue)
+    #     if cur_size <= self.size:
+    #         return sum(self.queue)/cur_size 
+    #     else:
+    #         self.queue.popleft()
+    #         return sum(self.queue)/self.size  
+    def next(self, val):
+        self.sum += val 
+        self.queue.append(val)
+        if len(self.queue) > self.size:
+            self.sum -= self.queue.popleft() 
+        return self.sum / len(self.queue)
+
+# Your MovingAverage object will be instantiated and called as such:
+# obj = MovingAverage(size)
+# param_1 = obj.next(val)
+```
+
 
 ---
 
 []()
 - Tag: 
-- Time: 12-24
+- Time: 12-26
 - Logic of Solution: 
 - 一题多解:
+```Python
+```

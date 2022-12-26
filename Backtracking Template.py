@@ -57,3 +57,35 @@ def dfs(self, cur_state):
         cur_state.append(direction)
         dfs(cur) 
         cur_stat.pop()
+
+[39 Combination Sum](https://leetcode.com/problems/combination-sum/description/)
+- Tag: Array, Backtracking
+- Time: 12-26
+- Logic of Solution: given an array of distinct integers, return a list of all unique combinations of cancdidates where the chosen numbers sum to target. The same number may be chosen from cnadidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different
+- 一题多解:
+```Python
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        # bracktracking 
+        # 1.要inistiate的结果的list 
+        # 2.搜索的起点是什么
+        # 常见trick:把输入的东西sort一下 更好去重
+        self.sums = []
+        self.candidates = sorted(candidates) #这个才有返回值
+        self.target = target
+        self.backtracking([], 0)
+        return self.sums
+        #回溯要有两个参数：一个时当前的path,一个ind代表之后能走的方向（去重）
+    def backtracking(self, cur, ind):
+        # 1.解是否满足条件，满足时，记住
+        if sum(cur) == self.target: 
+            self.sums.append(cur[:])
+        # 2.（optional）是否可以提前结束
+        if sum(cur) >= self.target:
+            return 
+        # 3.搜索所有的可能方向
+        for i in range(ind, len(self.candidates)):
+            cur.append(self.candidates[i])
+            self.backtracking(cur, i) # 这里是i因为可以重复自己
+            cur.pop()
+```
