@@ -1809,7 +1809,71 @@ class Solution:
             paths.append(result)
         return [x[-1] for x in paths]
 ```
+[1448 Count Good Nodes in Binary Tree](https://leetcode.com/problems/count-good-nodes-in-binary-tree/description/)
+- Tag: Tree, DFS, BFS, Binary Tree 
+- Time: 12-25
+- Logic of Solution: 
+- 一题多解:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        # 就是普通的search 只是记录了一个当前路径的最大值而已（不含自己） 所以是内涵回溯的dfs
+        # 这里是top down的所以只有前序遍历 可以让父节点指向孩子节点
+        # T&S: O(n)
+        # 和257一样 要先加中间的节点 因为是靠中间节点do something的嘛 所以要放前面？？
+        if root is None: return 0
+        self.count = 0
+        self.path = []
+        self.dfs(root, root.val)
+        return self.count
+    def dfs(self, node, tempmax):
+        if node.val >= tempmax:
+            self.count += 1
+            tempmax = node.val
+        else:
+            pass 
+        if node.left is None and node.right is None: #叶子节点
+            return 
+        if node.left:
+            self.dfs(node.left, tempmax)
+        if node.right:
+            self.dfs(node.right, tempmax)
+```
 
+[98 Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree/description/)
+- Tag: Tree, BFS, DFS, Binary Tree
+- Time: 12-25
+- Logic of Solution: 
+- 一题多解:
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        # 分治
+        # 三部曲：神奇函数的参数和返回值 递推公式 base case 
+        # bool, max, min
+        return self.helper(root)[0]
+
+    def helper(self, node):
+        if node is None: 
+            return True, float("-Inf"), float("Inf")
+        left, right = self.helper(node.left), self.helper(node.right)
+        resb = left[0] and right[0] and node.val > left[1] and node.val < right[2]
+        resmax = max(left[1], right[1], node.val) #一个函数call好多遍时间复杂度会高很多
+        resmin = min(left[2], right[2], node.val)
+        return resb, resmax, resmin #因为都要用 所以返回三个值
+```
 ## Recurrsion & Backtracking
 - 回溯是递归的副产品，只要有递归就会有回溯
 - 回溯的效率：虽然很难，很不好理解，但是回溯法并不是什么高效的算法，因为回溯的本质是穷举，即穷举出所有可能，然后选出我们想要的答案，如果想要回溯法高效一点，可以加一些剪枝的操作，但也改变不了回溯就是穷举的本质
@@ -1925,9 +1989,41 @@ class Solution:
 ```
 [57 Insert Interval](https://leetcode.com/problems/insert-interval/description/)
 - Tag: Array
-- Time: 12-23
+- Time: 12-25
 - Logic of Solution: 
 - [x]一题多解:
+```Python
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        # make use of the property that the intervals were initially sorted according to their start times
+        # one pass linear scan T: O(n), S: O(n)
+        res = []
+        # 前面没有重合 都是res[1]比新数组小 然后经历一段overlap 直到 res[0]比新数组的尾巴大
+        # edge case考虑： 两个都为空 任意一个为空 题目规定newinterval不为空 两个都只有一个数
+        # 需要多思考下这个逻辑
+        for i in range(len(intervals)):
+            if newInterval[1] < intervals[i][0]: # no overlap #1
+                res.append(newInterval)
+                res = res + intervals[i:]
+                return res
+            elif newInterval[0] > intervals[i][1]: #no overlap #2
+                res.append(intervals[i])
+            else:
+                newInterval = [min(newInterval[0], intervals[i][0]), max(newInterval[1], intervals[i][1])]
+        res.append(newInterval)
+        return res 
+
+        # # T: O(n log n), S: (n)
+        # intervals.append(newInterval)
+        # intervals.sort(key = lambda x: x[0]) #这样的写法要记住 x= lambda: a,b: a*b
+        # res = []
+        # for interval in intervals:
+        #     if len(res) ==0 or res[-1][1] < interval[0]:
+        #         res.append(interval)
+        #     elif res[-1][1] >= interval[0]:
+        #         res[-1][1] = max(res[-1][1], interval[1]) #前节点相交了 但是用哪个还不一定呢
+        # return res 
+```
 
 []()
 - Tag: 
