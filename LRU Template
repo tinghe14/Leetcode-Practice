@@ -24,7 +24,7 @@ class Restaurant:
         if self.next["HEAD"] == "TAIL":
             return None
         cur = self.next["HEAD"]
-        self.connect(cur, self.next[cur])
+        self.connect(self.prev[cur], self.next[cur])
         self.prev.pop(cur)
         self.next.pop(cur)
         return cur

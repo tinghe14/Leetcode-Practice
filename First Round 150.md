@@ -703,6 +703,41 @@ class Solution:
 ```Python
 ```
 
+### Prefix Sum
+
+[Binary Subarrays With Sum](https://leetcode.com/problems/binary-subarrays-with-sum/)
+- Tag: Array, Hash Table, Sliding Window, Prefix Sum
+- Time: 12-27
+- Logic of Solution: 
+- 一题多解:
+```Python
+class Solution:
+    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+        # prefix[j] - prefix[i] = target, T&S: O(n)
+        # create prefix sum 
+        # seen, key: value, prefix[i] = freq
+        # 还需要多想想 还需要想一想two sum 
+        n = len(nums)
+        pre_sum = [0]*n 
+        pre_sum[0] = nums[0]
+        for i in range(1, n):
+            pre_sum[i] = pre_sum[i-1] + nums[i]
+        from collections import defaultdict 
+        seen = defaultdict(int)
+        seen[0] = 1 #这样本身也能取到
+        res = 0
+        for i in range(n):
+            val = pre_sum[i] - goal
+            if val in seen.keys():
+                res += seen[val]
+            seen[pre_sum[i]] += 1 
+        print(seen)
+        return res 
+```
+
+## Quick Selct
+top k in O(n)
+
 ## Bit Manipulation: XOR 
 [389 Find the Difference](https://leetcode.com/problems/find-the-difference/description/)
 - Tag: Hash Table, String, Bit Manipulation, Sorting
@@ -1563,10 +1598,44 @@ class Solution:
                 stack.append(tokens[i])
         return int(stack[0])
 ```
+
+[22 Generate Paretheses](https://leetcode.com/problems/generate-parentheses/description/)
+- Tag: String, Dynamic Programming, Backtracking
+- Time: 12-27
+- Logic of Solution: 
+- []一题多解:
+```Python
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        # brute force: backtracking, 2 rules to follow
+        # (1) total k open and k close 
+        # (2) we can add as many as open but only can add close so far close < open
+        # 小唐说这种算法复杂的的大概几的指数次方 几的n次方和他有几个搜索方向有关 2（2n） 下次再搞
+        self.results = []
+        self.n = n
+        self.backtracking(0, 0, [])
+        return self.result 
+    def backtracking(self, num_open, num_close, cur): #current num of open, num of close 
+        if num_open == self.n and num_close == self.n:
+            self.results.append("".join(cur))
+            return
+        # 问题在添加路的这里 加open只有小于n的条件 但是加close需要小于open并且小于n 
+        if num_open < self.n:
+            cur.append('(')
+            self.backtracking(num_open+1, num_close, cur)
+            cur.pop()
+        if num_close < self.n and num_close < num_open:
+            cur.append(')')
+            self.backtracking(num_open, num_close+1, cur)
+            cur.pop()
+        return 
+```
+
 ## Monotonic Stack
 - a stack where elements are always in sorted order
 - monotonic decreasing means that the stack will always be sorted in descending order
 - monotonic stacks are a good option when a problem involves comparing the size of numeric elements, with their order being relevant
+- 什么问题合适：需要扫描一遍 后面答案和前面有关 或者前面答案和后面有关 而且必须是栈 看上去能用stack 最关键一点发现维护的栈是单调 当你想加入一点 不能维持这个单调性质 已经知道了很多答案 所以可以pop了
 
 [739 Daily Temperatures](https://leetcode.com/problems/daily-temperatures/description/)
 - Tag: Array, Stack, Monotonic Stack
@@ -1607,11 +1676,71 @@ class Solution:
     #     return result
 ```
 
-[739 Daily Temperatures](https://leetcode.com/problems/daily-temperatures/)
+[853 Car Fleet](https://leetcode.com/problems/car-fleet/)
+- Tag: Array, Stack, Monotonic Stack, Sorting
+- Time: 12-27
+- Logic of Solution: 
+- 一题多解:
+```Python
+class Solution:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        # the remaining distance / speed is the time
+        # if the car in later position spent less time than the car in front position to the target-> they will meet
+        # put them into stack, remove the one at the front, one we pop an item it means we have a car fleet 
+        # monotonic stack: increasing
+        stack = [] # time to the destination
+        pair = [(p, s) for p, s in zip(position, speed)]
+        pairs = sorted(pair, key=lambda x: x[0], reverse=True)
+        for p, s in pairs:
+            time = (target - p)/s # decimal caculation in python -> if need integer use //
+            stack.append(time)
+            if len(stack) > 1 and stack[-1] <= stack[-2]:
+                stack.pop()
+        return len(stack)
+```
+
+[84 Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/description/)
 - Tag: Array, Stack, Monotonic Stack
 - Time: 12-19
 - Logic of Solution: 
 - 一题多解:
+```Python
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        #以一条边为底边的最大面积
+        #栈里面的都是可以充分利用（height,ind）height的ind起点 从左往右看 比如（3，0）代表的就是这个栈里所有下标都可以用上3
+        #如果碰到height小的 大的那些都要pop 因为完全使用他们为左边的矩形已经找到了 记录成temp max  然后这个小height的ind就要从可以完全利用的ind开始
+        # increasing monotonic stack
+        stack = []
+        temp_max = 0
+        for ind, height in enumerate(heights + [0]): #list的加法是extend trick不用额外考虑最后stack剩下的
+            # if len(stack) == 0:
+            #     stack.append((ind, height))# append没有两个元素 一定要打括号
+            popitem = (ind, height) #如果没有操作 本来应该是这个
+            while len(stack) > 0 and stack[-1][1] >= height:
+                popitem = stack.pop()
+                temp_max = max(temp_max, popitem[1]*(ind-popitem[0]))
+            stack.append((popitem[0], height)) #只有不满足条件才pop
+        return temp_max 
+
+        stack, max_area = [], 0
+        for ind, height in enumerate(heights + [0]): #list的加法是extend trick不用额外考虑最后stack剩下的
+            popitem = (ind, height) #如果没有操作 本来应该是这个
+            while stack and stack[-1][1] >= height:
+                popitem = stack.pop()
+                max_area = max(max_area, popitem[1]*(ind-popitem[0]))
+            stack.append((popitem[0], height)) #只有不满足条件才pop
+        return max_area
+        
+        # # brute force O(n^2)
+        # temp_max = float('-Inf') #所有的答案 所以是global
+        # for i in range(len(heights)): #以什么作为左边起始
+        #     temp_min = float('Inf')
+        #     for j in range(i, len(heights)): #找到右边的节点 能找到最大面积
+        #         temp_min = min(temp_min, heights[j])
+        #         temp_max = max(temp_max, temp_min * (j-i+1))
+        # return temp_max 
+```
 
 ## Tree
 - ??他的time and space我不是很清楚 :
@@ -2273,6 +2402,8 @@ class Solution:
 ```Python
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
+        # Time complexity: each step has 3 option after first level (can't go back) and we have L length of word -> 3^L
+        # in the worst case w2e need to iterate every node in the board -> N3^L
         # backtracking 一般是没有return值的 -》一般分治法有返回着 
         # 比如返回有没有这个解 下面搜索时也要判断有没有true 就要有分治法的思想 一层层往上传
         self.target = [str(i) for i in word]
@@ -2477,6 +2608,75 @@ class UnionFind:
 ```Python
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        m, n = len(grid), len(grid[0])
+        island = UnionFind(m, n)
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '0':
+                    continue 
+                for di, dj in [(1, 0), (-1, 0), (0, 1), (0,-1)]:
+                    newx, newy = i + di, j + dj
+                    if newx >= 0 and newx < m and newy >=0 and newy < n and grid[newx][newy] == '1':
+                        island.union((i,j), (newx, newy))
+        res = set()
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '1': #union find只是模板一样 但是还是要自己修改主函数的
+                    res.add(island.find((i,j)))
+        return len(res)
+                
+
+class UnionFind:
+    def __init__(self, m, n):
+        self.parent = {(i, j):(i, j) for i in range(m) for j in range(n)}
+        self.rank = {(i, j): 0 for i in range(m) for j in range(n)}
+    
+    def find(self, x): #tuple可以逻辑比较
+        while self.parent[x] != x:
+            x, self.parent[x] = self.parent[x], self.parent[self.parent[x]]
+        return x
+    def union(self, x, y):
+        x, y = self.find(x), self.find(y) #这里是找到represent #不是用parent好像错过几次了
+        if x == y:
+            return 
+        if self.rank[x] > self.rank[y]: #是rank比较
+            x, y = y, x 
+        self.parent[x] = y
+        if self.rank[x] == self.rank[y]:
+            self.rank[y] += 1
+        return 
+    
+
+    # def numIslands(self, grid: List[List[str]]) -> int:
+    #     # T: O(m*n) 每个点之多遍历一次
+    #     # S: the queue is min(m, n)
+    #     m, n = len(grid), len(grid[0])
+    #     count = 0 
+    #     visited = set()
+    #     from collections import deque 
+    #     queue = deque()
+    #     for i in range(m):
+    #         for j in range(n):
+    #             if grid[i][j] == '0' or (i, j) in visited: #对于每一个节点试探能否施行bfs 
+    #                 continue 
+    #             if grid[i][j] == '1' and (i, j) not in visited:
+    #                 queue.append((i,j))
+    #                 visited.add((i, j)) #每次遍历过要加进去
+    #                 count += 1
+    #                 while queue:
+    #                     # 已经加了就可以pop了
+    #                     curi, curj = queue.popleft()
+    #                     for di, dj in [(1,0), (-1,0), (0,1), (0,-1)]:
+    #                         #curi, curj = queue.popleft()
+    #                         newi, newj = curi + di, curj + dj 
+    #                         if (newi, newj) not in visited and newi >= 0 and newi < m and newj >= 0 and newj < n and grid[newi][newj]=='1': #惰性求值放最后
+    #                             queue.append((newi, newj))
+    #                             visited.add((newi, newj))
+    #     return count 
+```
+```Python
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
         # bfs 
         # T&S: O(m*n)
         from collections import deque
@@ -2500,10 +2700,6 @@ class Solution:
                             queue.append((nexti, nextj))
                             visited.add((nexti, nextj))
         return count 
-
-
-                
-
 #     def numIslands(self, grid: List[List[str]]) -> int:
 #         # 关于（i，j）的union find 下标
 #         # T: O(m*n)
@@ -3164,7 +3360,7 @@ class Solution:
 
 []()
 - Tag: 
-- Time: 12-26
+- Time: 12-27
 - Logic of Solution: 
 - 一题多解:
 ```Python
