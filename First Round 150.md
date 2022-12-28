@@ -284,6 +284,23 @@ class Solution:
     #     return result
 ```
 
+[Find All Duplicates in an Array]()
+- Tag: Array, Hash Table
+- Time: 12-26
+- Logic of Solution: 
+- []一题多解: 有个更高效的解法可以省去memeory因为是（1～n）并且都为正数字 所以可以
+```Python
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        from collections import Counter 
+        count = Counter(nums)
+        res = []
+        for num in count.keys():
+            if count[num] == 2:
+                res.append(num)
+        return res 
+```
+
 [Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/description/)
 - Tag: 
 - Time: 12-11
@@ -326,6 +343,75 @@ class Solution:
             dic[num] = ind
 ```
 
+[Two Sum II - Input Array is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/)
+- Tag: Array, Two Pointers, Binary Search
+- Time: 12-26
+- Logic of Solution: 
+- [x]一题多解:
+```Python
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        # Two Pointer: given they are sorted
+        # T: O(n),  S: O(1)
+        left, right = 0, len(numbers)-1
+        temp_sum = 0
+        while left < right:
+            temp_sum = numbers[left] + numbers[right]
+            if temp_sum < target:
+                left += 1
+            elif temp_sum > target:
+                right -= 1
+            else:
+                return [left+1, right+1]
+        return [-1, -1]   
+
+    # def twoSum(self, numbers: List[int], target: int) -> List[int]:
+    #     # Hash Map
+    #     # T&S: O(n)
+    #     from collections import defaultdict 
+    #     d = defaultdict(int)
+    #     for ind, num in enumerate(numbers):
+    #         if target - num in d.keys():
+    #             if ind < d[target-num]:
+    #                 return [ind+1, d[target-num]+1]
+    #             else:
+    #                 return [d[target-num]+1, ind+1]
+    #         else:
+    #             d[num] = ind 
+```
+
+[15 3Sum](https://leetcode.com/problems/3sum/description/)
+- Tag: Array, Two Pointers, Sorting
+- Time: 12-26
+- Logic of Solution: 
+- []一题多解:
+```Python
+from collections import defaultdict
+
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        # sorted iterature the number and a nested for loop using two pointers
+        # T: O(n^2 ), S: O(n)
+        nums = sorted(nums) #n log n 
+        res = []
+        for ind in range(len(nums)): #要去重一下 因为不能用有重复的值
+            if ind >0 and nums[ind-1] == nums[ind]:
+                continue
+            left, right = ind+1, len(nums)-1
+            target = 0 - nums[ind]
+            while left < right:
+                if (nums[left] + nums[right]) < target:
+                    left += 1 
+                elif (nums[left] + nums[right]) > target:
+                    right -= 1
+                else:
+                    res.append([nums[ind], nums[left], nums[right]])
+                    left += 1
+                    while nums[left-1] == nums[left] and left < right:
+                        left += 1 #循环不变量又忘记了一定需要更新他们 要不然退不出循环
+        return res
+```
+
 [49 Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)
 - Tag: Array, Hash Table, String, Sorting
 - Time: 12-19
@@ -352,6 +438,48 @@ class Solution:
 - [x]一题多解:
 ```Python
 class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        # quickselct O(n) 算了 下次 但是是分治法思想
+        # textbook answer for find kth smallest or biggest or kth most frequent or kth lesss frequent
+        # average case is O(n) and worse case is O(n^2) but can be ignore, everytime chose a bad pivot
+        # as a result, we will have the perfect ordering in order, sort by frequentcy
+        # all the elements on the left are more frequent than pivot and all the elements on the right are less frequent
+
+        #bucket sort: 因为知道每个元素的重复次数是1～k次 所以我们有k个bucket 这样O(n)就可以算得 #O(n)
+        from collections import defaultdict, Counter
+        if len(nums) == 1 and k==1:
+            return nums
+        count_map = defaultdict(list) # key: value, key: frequent, value: which number 
+        res = []
+        counter = Counter(nums) #o(n)
+        for num, freq in counter.items():
+            count_map[freq].append(num)
+        for i in range(len(nums), 0, -1): #最大的frequent往前 #注意！第三个参数是步长 #有edge case如果长度就为1 0是取不到的
+            if i in count_map.keys():
+                for j in count_map[i]: #哪个数 有这个i frequent次数
+                    res.append(j)
+                    if len(res) == k:
+                        return res 
+    # def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    #     # k min-heap, T: O(n log k), S:O(n + k): n for counter, k for final heap
+    #     import heapq as pq #priority heap
+    #     from collections import Counter
+    #     counter = Counter(nums) #O(n)
+    #     heap = [] # heapq的initialize就是个list啊！！
+    #     # 1. to add first k elements in to k-min heap: k log k 
+    #     # 2. pop every item after n-k: n-k * log k (logk: time complexity for heap pop/push )
+    #     # 3. conver the final min-heap into array: k log k 
+    #     for num, c in counter.items(): #得到counter的pair需要用items
+    #         pq.heappush(heap, (c, num)) #定义一个小顶堆 大小为k hq.heappush(pri_que, (freq, val))
+    #         if len(heap) > k:
+    #             pq.heappop(heap) #priority heap pop也是要有参数的 heap 本身
+    #     res = [0]*k
+    #     for i in range(k-1, -1, -1):
+    #         res[i] = pq.heappop(heap)[1] #先pop最小的
+    #     return res 
+```
+```Python
+class Solution:
     # T: O: (N log K), n: nums, k: keep k in heap
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         from collections import Counter
@@ -373,6 +501,83 @@ class Solution:
     #     from collections import Counter
     #     c = Counter(nums)
     #     return [i for (i,j) in c.most_common(n=k)]
+```
+
+[238 Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/description/)
+- Tag: Array, Prefix Sum
+- Time: 12-26
+- Logic of Solution: 
+- []一题多解:
+```Python
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        #prefix product - i - postfix product
+        # T&S: O(n)
+        prefix_product, postfix_product, res = [0]*len(nums), [0]*len(nums), [0]*len(nums)
+        # 0位置的左边没有数 所以应该赋值1， -1位置的右边没有数 所以也是1
+        prefix_product[0] = 1
+        postfix_product[-1] =1
+        for i in range(1, len(nums)):
+            prefix_product[i] = prefix_product[i-1] * nums[i-1]
+        for i in range(len(nums)-2, -1, -1):
+            postfix_product[i] = postfix_product[i+1] * nums[i+1]
+        for i in range(len(nums)):
+            res[i] = prefix_product[i] * postfix_product[i]
+        return res 
+```
+
+[36 Valid Sudoku](https://leetcode.com/problems/valid-sudoku/)
+- Tag: Array, Hash Table, Matrix
+- Time: 12-26
+- Logic of Solution: 
+- 一题多解:
+```Python
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        from collections import defaultdict 
+        row, col = defaultdict(set), defaultdict(set) #key: value, key: which row, value: visited number
+        square = defaultdict(set) #key: value, key: (i//3, j//3), value: visited number
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == '.':
+                    continue
+                if board[i][j] in row[i] or board[i][j] in col[j] or board[i][j] in square[(i//3, j//3)]:
+                    return False
+                row[i].add(board[i][j])
+                col[j].add(board[i][j])
+                square[(i//3, j//3)].add(board[i][j])
+        return True
+```
+[271 Encode and Decode Strings](https://leetcode.com/problems/encode-and-decode-strings/description/)
+- Tag: Array, String, Design
+- Time: 12-26
+- Logic of Solution: 直接抄的code
+- 一题多解:
+```Python
+class Codec:
+    # diffcult: any possible character
+    def encode(self, strs: List[str]) -> str:
+        """Encodes a list of strings to a single string.
+        """
+        res = ""
+        for s in strs:
+            res = res + str(len(s)) + '#'+ s
+        return res
+
+    def decode(self, s):
+        res, i = [], 0
+
+        while i < len(s):
+            j = i
+            while s[j] != "#":
+                j += 1
+            length = int(s[i:j])
+            res.append(s[j + 1 : j + 1 + length])
+            i = j + 1 + length
+        return res
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.decode(codec.encode(strs))
 ```
 
 [128 Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/)
@@ -413,12 +618,90 @@ class Solution:
     #     return temp_max     
 ```
 
-[]()
+[Max Consecutive Ones II](https://leetcode.com/problems/max-consecutive-ones-ii/description/)
 - Tag: 
-- Time: 12-21
+- Time: 12-26
+- Logic of Solution: 
+- [x]一题多解:
+```Python
+class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        #optimal: sliding window 
+        # brute force method are doing repeated work because seuqnces overlap
+        # we are checking consecutive sequences blindly
+        # if our seq is valid, continue expanding since we want to get the largest
+        # if our seq is not valid, stop expanding and contract our sequence #contract收缩
+        left, right = 0, 0
+        count_zeros =0
+        longest = 0
+        while right < len(nums):
+            if nums[right] == 0:
+                count_zeros += 1 
+            while count_zeros ==2:
+                if nums[left] == 0:
+                    count_zeros -=1
+                left += 1 
+            longest = max(longest, right-left+1)
+            right += 1
+        return longest
+        
+        # # flip:交换 翻转
+        # #暴力解法 以每一个数为开始 连续的1能有几个 T:O(n^2)
+        # longest = 0
+        # for i in range(len(nums)):
+        #     count_zeros = 0
+        #     for j in range(i, len(nums)):
+        #         if count_zeros == 2:
+        #             break #break这个循环去外面， continue是进行下一个循环
+        #         if nums[j] == 0:
+        #             count_zeros += 1 
+        #         if count_zeros <=1:
+        #             longest = max(longest, j-i+1)
+        # return longest
+
+#我的暴力写法也是有错的：我这只能替换第一个0 但是不能替换之后的0
+# class Solution:
+#     def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+#         # flip:交换 翻转
+#         flip0 = 1
+#         count = 0
+#         longest = 0
+#         for i in range(len(nums)):
+#             if nums[i] == 1:
+#                 count += 1
+#                 longest = max(longest, count)
+#             elif nums[i] == 0 and flip0 == 1:
+#                 count += 1
+#                 flip0 -= 1
+#                 longest = max(longest, count)
+#             elif nums[i] == 0 and flip0 == 0: #还是有一个edge case错过 因为没有判断第二个0的时候 什么操作都没有记录 会丢失之前累加的信息
+#                 longest = max(longest, count)
+#                 count = 0
+#         return longest
+```
+[Max Consectuice Ones III](https://leetcode.com/problems/max-consecutive-ones-iii/)
+- Tag: Array, Binary Search, Sliding Window, Prefix Sum
+- Time: 12-26
 - Logic of Solution: 
 - 一题多解:
+```Python
+```
 
+[Split Array into Consecutive Subsequences](https://leetcode.com/problems/split-array-into-consecutive-subsequences/)
+- Tag: Array, Hash Table, Greedy, Heap (Priority Queue)
+- Time: 12-26
+- Logic of Solution: 
+- 一题多解:
+```Python
+```
+
+[Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/)
+- Tag: String
+- Time: 12-26
+- Logic of Solution: 
+- 一题多解:
+```Python
+```
 
 ## Bit Manipulation: XOR 
 [389 Find the Difference](https://leetcode.com/problems/find-the-difference/description/)
@@ -2785,6 +3068,97 @@ class MovingAverage:
 # param_1 = obj.next(val)
 ```
 
+## Other
+
+### Text File
+最近面经考的多：file modification + string matching + toplogucal sort
+[Word Frequency](https://leetcode.com/problems/word-frequency/)
+- Tag: shell
+- Time: 12-26
+- Logic of Solution: 
+- 一题多解:
+```Python
+# Read from the file words.txt and output the word frequency list to stdout.
+python3 -c '
+import re
+a = open("words.txt")
+b = a.read().strip() #remove spaces at begining and at the end of the strings
+a.close()
+z = b.split("\n") #根据分隔符 分成一个list of items
+y=" ".join(z) #把list转换成 string
+# I used regex to split on any whitespace bc I failed a test case
+c=re.split(r"\s+", y) #按照pattern slit y成一个个符合要求的list里的元素 \s+一个个或者多个space, \S: not white space, \d: digit, \D: not digit, \w+一个或者多个word, \W: not word *：0 or more, ?:0 or 1, {2:}: 2 or more, {3,5}" 3, 4,5个， 
+d=dict()
+for w in c:
+	x=d.get(w,0)
+	d[w]=x+1
+out=[(w[1],w[0]) for w in list(d.items())]
+out.sort(reverse=True)
+for o in out:
+	print(o[1],o[0])
+'
+```
+
+[Transpose File](https://leetcode.com/problems/transpose-file/description/)
+- Tag: shell
+- Time: 12-26
+- Logic of Solution: 
+- 一题多解:
+```Python
+python3 -c '
+from collections import defaultdict
+data = defaultdict(list)
+with open("file.txt") as f:
+   for line in f:
+       for i, word in enumerate(line.split()):
+           data[i].append(word)
+for line in data.values():
+    print(" ".join(line))
+'
+```
+
+[Find Duplicate File in Sytem](https://leetcode.com/problems/find-duplicate-file-in-system/description/)
+- Tag: Array, Hash Table, String
+- Time: 12-26
+- Logic of Solution: followup: (1)real file system, how will you search files: DFS or BFS: BFS is easiler to paralleizes, 如果太深会爆栈 (2) if the file content is very large(GB file), how will you modify your solution: compare the size if not equal, then files are different can stop early,  (3) if you can only read the file by 1kb each time, how will you modify your solution: 文件的值要1kb 1kb度 我的算法是用hash tbable,就要找1kb读可以算hash value值的算法that is the file cannot fit the whole rame. use a buffer to read controlled by a loop, read until not needed or to the end (4)what is the most time-consuming part and memory consuming part of it? how to optmize: bfs和dfs永远是o(v+e) 一颗树的e是v-1所以就是顶点树(5)how to make sure the duplicated files you find are not false positve: compare byte to byte to avoid false postive due to collision
+- []一题多解:
+```Python
+class Solution:
+    def findDuplicate(self, paths: List[str]) -> List[List[str]]:
+        # manipulate string and save in dictionary
+        files = collections.defaultdict(list)
+        for x in paths:
+            sep = x.split()
+            path_x = sep[0]
+            for f in sep[1:]:
+                fname, content = f.split("(")
+                files[content].append(path_x + "/" + fname)
+        return [v for k, v in files.items() if len(v) > 1]
+```
+
+[Making File Names Unique](https://leetcode.com/problems/making-file-names-unique/description/)
+- Tag: Array, Hash Table, String
+- Time: 12-26
+- Logic of Solution: 
+- 一题多解:
+```Python
+class Solution:
+    def getFolderNames(self, names: List[str]) -> List[str]:
+        from collections import defaultdict
+        used = set()
+        counter = defaultdict(int)
+        result = []
+        for name in names:
+            count = counter[name]
+            candidate = name
+            while candidate in used:
+                count += 1
+                candidate = f'{name}({count})'
+            counter[name] = count
+            result.append(candidate)
+            used.add(candidate)
+        return result
+```
 
 ---
 
