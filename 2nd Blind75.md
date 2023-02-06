@@ -405,13 +405,145 @@ class Solution:
 ```
 
 # Linked List
+
+```Python
+# def linked list
+class ListNode:
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+```
+
 [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)
-- 01/30: 
+- 01/30: 没有想法，linked list next指针好像又不好理解
+```Python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # dummy head 翻转后要被指向的头
+        # a->b->c
+        if head is None:
+            return head
+        dummy_head, p1, p2 = None, head, head.next #初始状态 还没轮到c
+        while p2 != None: #不为空
+            p1.next = dummy_head # b->a
+            dummy_head, p1, p2 = p1, p2, p2.next #往后一个
+        p1.next = dummy_head #最后的节点转一下
+        return p1
+
+#迭代法
+class Solution:
+    def reverseList(self, head: ListNode)-> ListNode:
+        pre, cur = None, head
+        while(cur != None):
+            temp = cur.next #保存一下 cur的下一个节点，因为接下来要改变cur.next
+            cur.next = pre #反转
+            pre = cur #更新pre, cur指针
+            cur = temp
+        return pre 
+
+#递归法
+class Solution:
+    def reverseList(self, head: ListNode)-> ListNode:
+        def reverse(pre, curr):
+            if not cur:
+                return pre
+            temp = cur.next
+            cur.next = pre
+            return reverse(cur, temp)
+        return reverse(None, head)
+``` 
 
 [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/)
-- 01/30:
+- 01/30: 没有想法
+```Python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode() # don't need to worry about edge case which need inserting to empty list
+        tail = dummy
+        while list1 and list2:
+            if list1.val < list2.val:
+                tail.next = list1
+                list1 = list1.next
+            else:
+                tail.next = list2
+                list2 = list2.next
+            tail = tail.next
+        if list1:
+            tail.next = list1
+        elif list2:
+            tail.next = list2
+        return dummy.next
+
+#迭代法
+class Solution:
+    def mergeTwoLists(self, l1, l2):
+        #maintain an unchanging reference to node ahead of the return node
+        prehead = ListNode(-1)
+        prev = prehead
+        while l1 and l2:
+            if l1.val <= l2.val:
+                pre.next = l1
+                l1 = l1.next
+            else:
+                prev.next = l2
+                l2 = l2.next
+            prev = prev.next 
+        #at least one of l1 and l2 can still have nodes at this point.
+        #so connect the non-null list to the end of the merged list
+        prev.next = l1 if l1 is not None else l2
+        return prehead.next 
+
+#递归法
+class Solution:
+    def mergeTwoLists(self, l1, l2):
+        if l1 is None:
+            return l2
+        elif l2 is None:
+            return l1
+        elif l1.val < l2.val:
+            l1.next = self.mergeTwoLists(l1.next, l2)
+            return l1
+        else:
+            l2.next = self.mergeTwoLists(l1, l2.next)
+            return l2
+```
+
+[Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)
+- 02/02: 没有想法
+```Python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        # T: O(n), S: O(1)
+        if head is None:
+            return False
+        slow, fast = head, head.next
+        while slow != fast:
+            if fast is None or fast.next is None:
+                return False 
+            slow = slow.next #走一格
+            fast = fast.next.next #走两格
+        return True
+```
 
 # Trees
+[Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/)
+- 02/04: 没有想法还是忘记了迭代和递归的写法
+
 # Tries
 # Heap / Priority Queue
 # Backtracking
