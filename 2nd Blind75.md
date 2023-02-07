@@ -405,7 +405,6 @@ class Solution:
 ```
 
 # Linked List
-
 ```Python
 # def linked list
 class ListNode:
@@ -540,9 +539,183 @@ class Solution:
         return True
 ```
 
+[Reorder List](https://leetcode.com/problems/reorder-list/description/)
+- 02/06: 没有想法
+```Python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        # can divide into 3 steps
+        # 2 pointers: slow and fast to find medium
+        # reverse second part in-place
+        # connect them together
+        # 1st part
+        # T: o(n), S: o(1)
+        if not head:
+            return None
+        slow, fast = head, head
+        while fast and fast.next: #这个boundary不是很确定怎么设置
+            slow = slow.next
+            fast = fast.next.next
+        # 2nd part
+        prev, cur = None, slow
+        while cur:
+            temp = cur.next
+            cur.next = prev
+            prev = cur
+            cur = temp
+            # more elegant way in python
+            #cur.next, prev, cur = prev, cur, cur.next
+        # 3rd part
+        first, second = head, prev
+        while second.next:
+            first.next, first = second, first.next
+            second.next, second = first, second.next
+```
+
+[Remove Nth Node from End of List]()
+- 02/06: 有想法 但是不会实现 dummy head的思想要多应用（删除head的情况 更简单）
+```Python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        # the dummy head is set to avoid the case that we need t o delete head
+        dummy = ListNode(0, head)
+        left = dummy
+        right = head
+        while n:
+            right = right.next
+            n -= 1 
+        while right:
+            left = left.next
+            right = right.next 
+        # delete
+        left.next = left.next.next
+        return dummy.next
+```
 # Trees
 [Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/)
-- 02/04: 没有想法还是忘记了迭代和递归的写法
+- 02/06: 基本操作忘了
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        # recursive
+        # T: o(n), S: o(h) h: height of recursive tree, the largest is n
+        # if root is None: 
+        #     return root
+        # right = self.invertTree(root.right)
+        # left = self.invertTree(root.left)
+        # root.right, root.left = left, right
+        # return root
+        # iterative, here is the same as BFS
+        from collections import deque
+        if root is None:
+            return root
+        queue = deque([root])
+        while queue:
+            curr = queue.popleft()
+            curr.left, curr.right = curr.right, curr.left
+            if curr.left:
+                queue.append(curr.left)
+            if curr.right:
+                queue.append(curr.right)
+        return root
+```
+
+[Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
+- 02/06: 基础不牢固 三种写法不能立刻写出
+``` Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        # recursive, same as divide and conquer here
+        # T, S: o(n), best case of s is tree is completely balanced, o(logn)
+        # if not root:
+        #     return 0
+        # return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+        # iterative
+        # stack = [[root, 1]]
+        # res = 0 
+        # while stack:
+        #     node, depth = stack.pop()
+        #     if node:
+        #         res = max(res, depth)
+        #         stack.append([node.left, depth+1])
+        #         stack.append([node.right, depth+1])
+        # return res 
+
+        # BFS
+        from collections import deque
+        q = deque()
+        if root:
+            q.append(root)
+        level = 0 
+        while q:
+            for i in range(len(q)):
+                node = q.popleft()
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            level += 1
+        return level
+```
+
+[Same Tree](https://leetcode.com/problems/same-tree/description/?orderBy=most_votes)
+- 02/06: 没有想法
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        # recursive, same as divide and conquer
+        # if p is None and q is None:
+        #     return True 
+        # if p is not None and q is not None and p.val == q.val:
+        #     return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+        # else:
+        #     return False
+
+        # iterative
+        stack = [(p, q)]
+        while stack:
+            p, q = stack.pop()
+            if p and q and p.val == q.val:
+                stack.extend([
+                    (p.left, q.left),
+                    (p.right, q.right)
+                ])
+            elif p or q:
+                return False 
+        return True 
+```
 
 # Tries
 # Heap / Priority Queue
