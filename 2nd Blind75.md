@@ -717,6 +717,148 @@ class Solution:
         return True 
 ```
 
+[Subtree of Another Tree](https://leetcode.com/problems/subtree-of-another-tree/)
+- 02/07: 没有想法 (这里面有kmp 小唐说考了就认命)
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+        # DFS, T: O(mn) n: num nodes in root, m: num nodes in subroot
+        # S: O(m+n) max num nodes in stack call
+    #     if root is None:
+    #         return False
+    #     if subRoot is None:
+    #         return True
+    #     return self.identTree(root.left, subRoot) or self.identTree(root.right, subRoot)
+
+    # def identTree(self, p, q):
+    #     if p is None and q is None:
+    #         return True 
+    #     if p is not None and q is not None and p.val == q.val:
+    #         return self.identTree(p.left, q.left) and self.identTree(p.right, q.right)
+    #     return False
+
+        # string matching
+        # tree serialzation problem, then string matching
+        # (node value + structure of tree)-> single traversal is not enough
+        # -> two traversals also not enough (inorder and preorder)(inorder and postorder)
+        # speical char for null node using one traversal (either preorder or postorder)
+        # one more limitation, 2# vs 22##, add one more special char to encode
+        # space or ^ char
+        # string matching: find() function or KMP algorithm
+        def serialize(node, tree_str):
+            if node is None:
+                tree_str.append('#')
+                return 
+            tree_str.append('^')
+            tree_str.append(str(node.val))
+            serialize(node.left, tree_str)
+            serialize(node.right, tree_str)
+        p_lst, q_lst = [], []
+        serialize(root, p_lst)
+        serialize(subRoot, q_lst)
+        p = ''.join(p_lst)
+        q = ''.join(q_lst)
+        # if p.find(q) != -1: # O(nm)
+        #     return True 
+        # else:
+        #     return False
+        # KMP algorithm T: O(m+n)
+```
+
+[Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/)
+- 02/07: 没有想法
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        # Binary Search Tree: 有特殊性质
+        # iterative approach, T: O(n), S: O(1)
+        cur = root
+        while cur:
+            if p.val > cur.val and q.val > cur.val:
+                cur = cur.right 
+            elif p.val < cur.val and q.val < cur.val:
+                cur = cur.left 
+            else:
+                return cur 
+```
+
+[Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/)
+- 02/07: 没有想法 忘记模板了
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        # iterative, T&S: O(n)
+        # from collections import deque
+        # if root is None:
+        #     return root 
+        # queue = deque([root])
+        # paths = []
+        # while queue:
+        #     size = len(queue)
+        #     tree_path = []
+        #     for i in range(size):
+        #         node = queue.popleft()
+        #         tree_path.append(node.val)
+        #         if node.left:
+        #             queue.append(node.left)
+        #         if node.right:
+        #             queue.append(node.right)
+        #     paths.append(tree_path)
+        # return paths
+        # recursive, T&S: O(n)
+        levels = []
+        if not root:
+            return levels 
+        def recursive(node, level):
+            if len(levels) == level:
+                levels.append([])
+            levels[level].append(node.val)
+            if node.left:
+                recursive(node.left, level+1)
+            if node.right:
+                recursive(node.right, level+1)
+        recursive(root, 0)
+        return levels
+```
+
+[Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree/)
+- 02/07: 没有想法
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        # divide and conquer, T&S: O(n)
+        def isBST(node, low=-float('Inf'), high=float('Inf')):
+            if not node:
+                return True 
+            if node.val <= low or node.val >= high:
+                return False 
+            return (isBST(node.right, node.val, high) and isBST(node.left, low, node.val))
+        return isBST(root)
+```
 # Tries
 # Heap / Priority Queue
 # Backtracking
