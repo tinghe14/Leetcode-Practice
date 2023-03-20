@@ -26,7 +26,7 @@ class Solution:
 ```
 
 [Valid Anagram](https://leetcode.com/problems/valid-anagram/)
-- 01/19: 可以bug free写出来
+- 01/19: 可以bug free写出来, 03/12: 忘记了dict的del, 还忘了检查最后长度
 ```Python
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
@@ -181,7 +181,7 @@ class Solution:
 
 # Two Pointers
 [Valid Palindrome](https://leetcode.com/problems/valid-palindrome/)
-- 01/26 不知道怎么对string进行处理
+- 01/26 不知道怎么对string进行处理, 03/12: right index包含不包含，边界如何保持不出界的小tips
 ```Python
 class Solution:
     def isPalindrome(self, s: str) -> bool:
@@ -257,6 +257,19 @@ class Solution:
             min_value = min(min_value, prices[i])
             max_profit = max(max_profit, prices[i] - min_value)
         return max_profit
+```
+
+[Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
+- 03/14: 没有想法
+```Python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        # one-pass, T O(n), S O(1)
+        total = 0
+        for i in range(1, len(prices)):
+            if prices[i] - prices[i-1] > 0:
+                total += prices[i] - prices[i-1]
+        return total
 ```
 
 [Longest Substring without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
@@ -859,14 +872,369 @@ class Solution:
             return (isBST(node.right, node.val, high) and isBST(node.left, low, node.val))
         return isBST(root)
 ```
+
+[kth Smallest Element in a BST](https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/)
+- 02/07: 没有想法
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        # recursive inorder traversal in BST
+        # k-1th element in the array
+        # T&S: O(n)
+        # def inorder(node):
+        #     return inorder(node.left) + [node.val] + inorder(node.right) if node else []
+        # return inorder(root)[k-1]
+        # iterative inorder traversal
+        # T: O(H+k), H: tree height: H, balanced tree: logN + K\
+        # completely unbalanced tree O(N+K)
+        # S: O(H)-> N ～ logN
+        stack = []
+        while True:
+            while root:
+                stack.append(root)
+                root = root.left 
+            root = stack.pop()
+            k -= 1 
+            if not k:
+                return root.val
+            root = root.right
+```
+
+[Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+- 02/07: 没有想法
+```Python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        # recursive, T&S: O(n)
+        # base case
+        if not preorder or not inorder:
+            return None
+        root = TreeNode(preorder[0])
+        mid = inorder.index(preorder[0])
+        root.left = self.buildTree(preorder[1:mid+1], inorder[:mid])
+        root.right = self.buildTree(preorder[mid+1:], inorder[mid+1:])
+        return root
+```
+
 # Tries
+[Implement Trie Prefix Tree](https://leetcode.com/problems/implement-trie-prefix-tree/)
+- 02/08: 没有想法
+```Python
+class TrieNode:
+    def __init__(self):
+        self.children = {} # trie node list 
+        self.endWord = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode() # search in O(26)->O(1)
+
+    def insert(self, word: str) -> None:
+        cur = self.root 
+        for c in word:
+            if c not in cur.children:
+                cur.children[c] = TrieNode()
+            cur = cur.children[c]
+        cur.endWord = True
+        
+    def search(self, word: str) -> bool:
+        cur = self.root
+        for c in word:
+            if c not in cur.children:
+                return False
+            cur = cur.children[c]
+        if cur.endWord:
+            return True
+        return False       
+
+    def startsWith(self, prefix: str) -> bool:
+        cur = self.root 
+        for c in prefix:
+            if c not in cur.children:
+                return False 
+            cur = cur.children[c]
+        return True      
+# Your Trie object will be instantiated and called as such:
+# obj = Trie()
+# obj.insert(word)
+# param_2 = obj.search(word)
+# param_3 = obj.startsWith(prefix)
+```
+
+[Design Add and Search Words Data Structure](https://leetcode.com/problems/design-add-and-search-words-data-structure/)
+- 02/08: 没有想法
+```Python
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.word = False
+
+class WordDictionary:
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def addWord(self, word: str) -> None:
+        curr = self.root
+        for c in word:
+            if c not in curr.children:
+                curr.children[c] = TrieNode()
+            curr = curr.children[c]
+        curr.word = True
+
+    def search(self, word: str) -> bool:
+        def dfs(j, root):
+            curr = root 
+            for i in range(j, len(word)):
+                c = word[i]
+                if c == '.':
+                    for child in curr.children.values():
+                        if dfs(i+1, child):
+                            return True 
+                    return False 
+                else:
+                    if c not in curr.children:
+                        return False
+                    curr = curr.children[c]
+            return curr.word 
+        return dfs(0, self.root)
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
+```
+
 # Heap / Priority Queue
+[Find Median From Data Stream]()
+
 # Backtracking
+[Combination Sum](https://leetcode.com/problems/combination-sum/description/)
+- 02/08: 没有想法
+```Python
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        # T: 看几个选择 就是几的n次方 N**N
+        # S: N**N 也是 因为要记住这些东西
+        self.path_lst = []
+        self.target = target
+        self.candidates = sorted(candidates)
+        self.backtracking([],0)
+        return self.path_lst
+    def backtracking(self, path, start_index): # start_index: can't look back
+        if sum(path) == self.target:
+            self.path_lst.append(path[:]) #注意了
+            return #这时就满足条件 可以不用搜了 除非有复数
+        elif sum(path) > self.target:
+            return 
+        for num in range(start_index, len(self.candidates)):
+            path.append(self.candidates[num])
+            self.backtracking(path, num)
+            path.pop()
+```
+
+[Word Search](https://leetcode.com/problems/word-search/description/)
+- 02/08: 没有想法
+```Python
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        # T&S: O(4**N)
+        self.target = [str(i) for i in word]
+        self.row, self.col = len(board), len(board[0])
+        self.board = board 
+        self.exist = False
+        for i in range(self.row):
+            for j in range(self.col):
+                if board[i][j] == self.target[0]:
+                    self.backtracking(len(self.target)-1, i, j, {(i,j)})
+                if self.exist:
+                    return True 
+        return False
+        
+    def backtracking(self, remain, curx, cury, visited):
+        if remain == 0:
+            self.exist = True 
+            return 
+        for x, y in [(1,0), (-1,0), (0,1), (0,-1)]:
+            newx, newy = curx+x, cury+y 
+            if (newx, newy) not in visited and newx>=0 and newx <self.row \
+               and newy>=0 and newy<self.col and self.board[newx][newy] == self.target[-remain]:
+                visited.add((newx, newy))
+                self.backtracking(remain-1, newx, newy, visited)
+                visited.remove((newx, newy))
+```
+
 # Graphs
+[Number of Islands]()
+
+[Clone Graph]()
+
+[Pacific Atlantic Water Flow]()
+
+[Course Schedule]()
+
+[Number of Connected Components In An Undirected Graph]()
+
 # Advanced Graphs
 # 1-D Dynamic Programming
+[Fibonacci Number](https://leetcode.com/problems/fibonacci-number/)
+- 03/13: 第一次学dp 这个解法很简单 但是思想很深刻
+```Python
+class Solution:
+    def fib(self, n: int) -> int:
+    # 4. iterative bottom-up, T O(n), S O(1)
+    # T each value from 2 to n is computed once
+    # S 3 units of space to store the computed values for every loop iteration
+    # only needed to look at resulys of fib(n-1) and fib(n-2) to determine fib(n)
+        if n <= 1:
+            return n
+        # prev1:fib(n-1) prev2:fib(n-2)
+        current, prev1, prev2 = 0, 1, 0
+        for i in range(2, n+1):
+            current = prev1 + prev2
+            temp = prev1
+            prev2 = prev1
+            prev1 = current
+        return current
+    # 3. top-down approach recursion using memoization, T O(n) S O(n)
+    # use memoization to store the pre-computed answer, then return the answer for n
+    # we will leverage recursion, but in a smarter way by not repeating the work to 
+    # calculate existing values
+    # 这个方法好像有点问题 速度不在一个级别 而且为什么要加self不是很理解
+        # self.memo = {}
+        # self.memo[0], self.memo[1] = 0, 1
+        # # at every recursive call of fib(n), if n exists in the map, return the cached value for n
+        # if n in self.memo:
+        #     return self.memo[n]
+        # else:
+        #     self.memo[n] = self.fib(n-1) + self.fib(n-2)
+        #     return self.memo[n] 
+    # 2. Bottom-up approach iteration using memoization, T O(n) S O(n)
+    # improve by using iteration, still solving for all of the sub-problems and return the answer for n
+    # using already computed Fibonacci values. while using a bottom-up appraoch, we can iteratively and 
+    # store the values, only returning once we reach the result
+        # memo = {}
+        # memo[0], memo[1] = 0, 1
+        # for i in range(2, n+1):
+        #     memo[i] = memo[i-1] + memo[i-2]
+        # return memo[n]
+    # 1. Recursion, T O(2^n) depth of recursive tree; S O(n) stack
+    # it has the potential to be bad in cases that there isn't enough physical memory
+    # to handle the increasingly growing stack, leading to a StackOverflowError
+        # if n <= 1:
+        #     return n
+        # else:
+        #     return self.fib(n-1) + self.fib(n-2)
+```
+
+[Climbing Stairs](https://leetcode.com/problems/climbing-stairs/)
+- 03/13: recursion方法 在等号左边不能用这个自调用 但是为什么呢
+```Python
+class Solution:
+    # def __init__(self):
+    #     self.memo = {0:0, 1:1, 2:2}
+    def climbStairs(self, n: int) -> int:
+        # 4. iterative bottom up, T O(n) S O(1)
+        if n <= 2:
+            return n
+        curr, prev1, prev2 = 0, 2, 1
+        for i in range(3, n+1):
+            curr = prev1 + prev2
+            temp = prev1
+            prev1 = curr
+            prev2 = temp
+        return curr
+        #3. top-down recursion approach with memoization, T O(n) S O(n)
+        # if n in self.memo:
+        #     return self.memo[n]
+        # else:
+        #     self.memo[n] = self.climbStairs(n-1) + self.climbStairs(n-2)
+        #     return self.memo[n]
+        #2. bottom-up iteration approach with memoization, T O(n) S O(n)
+        # memo = {}
+        # memo[0], memo[1], memo[2] = 0, 1, 2
+        # for i in range(3, n+1):
+        #     memo[i] = memo[i-1] + memo[i-2]
+        # return memo[n] 
+        # climb(n) = climb(n-1) + climb(n-2)
+        # 1. recursion, T O(2^n) S O(n)
+        # if n <= 2:
+        #     return n
+        # else:
+        #     return self.climbStairs(n-1) + self.climbStairs(n-2)
+```
+
+[word wrap]()
+- 03/15
+```Python
+
+```
+
 # 2-D Dynamic Programming
 # Greedy
 # Intervals
+[merge intervals](https://leetcode.com/problems/merge-intervals/)
+- 03/15: given an array of meeting time intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input. 加一个是与之前相比没有交叉，但是说不定与后面一个怎么样 所以都要用merged的-1与waiting的那个相互比较
+```Python
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        # T: O(n log n), S: O(1)
+        intervals.sort(key=lambda x:x[0])
+        merged = []
+        for interval in intervals:
+            if len(merged) == 0 or merged[-1][1] < interval[0]: # first element or no overlap
+                merged.append(interval)
+            else:
+                merged[-1][1] = max(merged[-1][1], interval[1])
+        return merged 
+```
+
+[meeting room](https://leetcode.com/problems/meeting-rooms/)
+- given an array of meeting time intervals where intervals[i] = [starti, endi], determine if a person could attend all meetings
+- 03/15
+```Python
+class Solution:
+    def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
+        intervals.sort(key=lambda x: x[0]) #怎么sort开头我忘记了
+        for i in range(1, len(intervals)):
+            if intervals[i-1][1] > intervals[i][0]:
+                return False
+        return True 
+```
+
+[meeting room II](https://leetcode.com/problems/meeting-rooms-ii/)
+- 03/15:
+- given an array of meeting time intervals where intervals[i] = [starti, endi], return the minimum number of conference rooms required
+```Python
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        # mini num of conference rooms = maximum overlap meeting given any time
+        start_times = [interval[0] for interval in sorted(intervals,key=lambda x:x[0])]
+        end_times = [interval[1] for interval in sorted(intervals, key=lambda x:x[1])]
+        count = 0
+        max_count = 0
+        s, e = 0, 0
+        while s < len(intervals) and e < len(intervals):
+            if start_times[s] < end_times[e]:
+                count += 1
+                s += 1
+            else:
+                count -= 1
+                e += 1
+            max_count = max(max_count, count)
+        return max_count
+```
+
 # Math & Geometry
 # Bit Manipulation
