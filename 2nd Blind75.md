@@ -1088,12 +1088,21 @@ class Solution:
 
 # Advanced Graphs
 # 1-D Dynamic Programming
+- 如果一个问题有很多重叠子问题，使用动态规划是最有效的
+- 动态规划中每一个状态一定是由上一个状态推导出来的，这一点就区别于贪心，贪心没有状态推导，而是直接从局部直接选最优的 （每一次拿最大的就行，和上一个状态无关）
+- 动态规划的解题步骤： 动规五部曲
+1. 确定dp数组(dp table)以及下标的含义
+2. 确定递推公式
+3. dp数组如何初始化
+4. 确定遍历顺序
+5. 举例推导dp数组
+
 [Fibonacci Number](https://leetcode.com/problems/fibonacci-number/)
 - 03/13: 第一次学dp 这个解法很简单 但是思想很深刻
 ```Python
 class Solution:
     def fib(self, n: int) -> int:
-    # 4. iterative bottom-up, T O(n), S O(1)
+    # 4. DP: iterative bottom-up, T O(n), S O(1)
     # T each value from 2 to n is computed once
     # S 3 units of space to store the computed values for every loop iteration
     # only needed to look at resulys of fib(n-1) and fib(n-2) to determine fib(n)
@@ -1120,7 +1129,7 @@ class Solution:
         # else:
         #     self.memo[n] = self.fib(n-1) + self.fib(n-2)
         #     return self.memo[n] 
-    # 2. Bottom-up approach iteration using memoization, T O(n) S O(n)
+    # 2. DP: Bottom-up approach iteration using memoization, T O(n) S O(n)
     # improve by using iteration, still solving for all of the sub-problems and return the answer for n
     # using already computed Fibonacci values. while using a bottom-up appraoch, we can iteratively and 
     # store the values, only returning once we reach the result
@@ -1175,6 +1184,136 @@ class Solution:
         #     return self.climbStairs(n-1) + self.climbStairs(n-2)
 ```
 
+[House Robber](https://leetcode.com/problems/house-robber/)
+- 03/21: dp在想法还还是有步骤落下，optimized的临界条件有错
+```Python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        # optimized DP
+        # T n, S 1
+        if len(nums) == 0:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+        prev1, prev2 = nums[0], max(nums[0], nums[1])
+        current = max(prev1, prev2) #input [1,1]时会报错
+        for i in range(2, len(nums)):
+            current = max(prev1+nums[i], prev2)
+            prev1 = prev2 
+            prev2 = current
+        return current
+
+        # 1. dp[i] maximum amount of money can get until the ith
+        # 2. dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+        # 3. dp[0] = nums[0], dp[1] = max(nums[0], nums[1])
+        # 4. 从前到后
+        # 5. 
+        # T n, S n 
+        # if len(nums) == 0:
+        #     return 0
+        # if len(nums) == 1:
+        #     return nums[0]
+        # dp = [0] * len(nums)
+        # dp[0], dp[1] = nums[0], max(nums[0], nums[1]) #有edge case
+        # for i in range(2, len(nums)):
+        #     dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+        # return dp[-1]
+```
+
+[hourse robber ii](https://leetcode.com/problems/house-robber-ii/description/)
+- 03/22
+```Python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums) == 0:
+            return 0
+        elif len(nums) == 1:
+            return nums[0]
+        elif len(nums) == 2:
+            return max(nums[0], nums[1])
+        else:
+            return max(self.rob_simple(nums[1:]), self.rob_simple(nums[:-1]))
+        
+    def rob_simple(self, nums):
+        prev1 = nums[0]
+        prev2 = max(nums[0], nums[1])
+        for i in range(2, len(nums)):
+            temp = prev2
+            prev2 = max(nums[i]+prev1, prev2)
+            prev1 = temp
+        return prev2
+```
+[longest palindromic substring](https://leetcode.com/problems/longest-palindromic-substring/description/)
+- 03/22: 很难的感觉 brute force也写不出来, 二维的dp解法之后学到二维要自己写，这个code属于是被模版的 要么我记住模版记住题型 什么东西都往上套 要么我就需要活学活用 这样的话很多boundary case都要临时考虑 考验功底 就需要平时自己都写出答案来联系 看解答是不行的 只是记住了
+```Python
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        # brute force: pick all possible starting and ending positions for a substring
+        # and then verify if it is a panlindrome
+        # T (n^3) check all possible substring of s (two nested loops), and then checking if each substring is a palindrome (one additional loop)
+        # S (1) only use a constant amount of extra space to store the longest palindrome so far 
+        # if len(s) < 2:
+        #     return s 
+        # longest_palindrome = s[0] # default case应该是第一个字母
+        # for i in range(len(s)):
+        #     for j in range(i+1, len(s)):
+        #         substring = s[i:j+1]
+        #         if substring == substring[::-1] and len(substring) > len(longest_palindrome):
+        #             longest_palindrome = substring
+        # return longest_palindrome
+        # dp， T（n^2）, S(n^2)
+        # 1. dp(i,j), whether s[i:j+1] is palindrome 
+        # 2. dp(i,j) = dp(i+1, j-1) and s[i] == s[j]
+        # 3. base cases
+        # another way of checking, traverse each character as the center, looking for expansion whether
+        # T (n^2)
+        max_len, max_pal = 0, ''
+        for i in range(len(s)):
+            # odds
+            l, r = i, i
+            while l >= 0 and r <= len(s) -1 and s[l] == s[r]:
+                if (r-l+1) > max_len:
+                    max_len = r-l+1 
+                    max_pal = s[l:r+1]
+                l -= 1
+                r += 1
+            # even
+            l, r = i, i+1
+            while l >= 0 and r <= len(s) -1 and s[l] == s[r]:
+                if (r-l+1) > max_len:
+                    max_len = r-l+1
+                    max_pal = s[l:r+1]
+                l -= 1
+                r += 1
+        return max_pal
+```
+
+[palinfromic substrings](https://leetcode.com/problems/palindromic-substrings/description/)
+- 03/22: 写二维dp要回来看全部的解法
+```Python
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        # traverse each character, then expand to check if it is palindrom
+        # T n^2
+        count = 0
+        for i in range(len(s)):
+            if len(s) == 0:
+                return count
+            # odds
+            l, r = i, i
+            while l >= 0 and r <= len(s)-1 and s[l] == s[r]: # trick to fulfill the bounardy issue
+                count += 1
+                l -= 1
+                r += 1
+            # evens
+            if len(s) >= 2:
+                l, r = i, i+1
+                while l >= 0 and r<= len(s)-1 and s[l] == s[r]:
+                    count += 1
+                    l -= 1
+                    r += 1
+        return count 
+```
 [word wrap]()
 - 03/15
 ```Python
@@ -1186,6 +1325,7 @@ class Solution:
 # Intervals
 [merge intervals](https://leetcode.com/problems/merge-intervals/)
 - 03/15: given an array of meeting time intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input. 加一个是与之前相比没有交叉，但是说不定与后面一个怎么样 所以都要用merged的-1与waiting的那个相互比较
+- Is the space O(N) since you use a new list to keep the result? We donot take results space into account. You can always check with interviewer if he want to consider the space for result.
 ```Python
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
@@ -1236,5 +1376,115 @@ class Solution:
         return max_count
 ```
 
+[Insert Interval](https://leetcode.com/problems/insert-interval/)
+- 03/20: 没有熟练掌握
+```Python
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        # T n, S 1
+        # insert the newInterval by starting pointer
+        # then reuse the merge interval code
+        i = 0 
+        while i < len(intervals) and intervals[i][0] < newInterval[0]:
+            i += 1 
+        intervals.insert(i, newInterval)
+        res = []
+        for cur_inter in intervals:
+            if len(res) == 0 or res[-1][1] < cur_inter[0]:
+                res.append(cur_inter)
+            else:
+                res[-1][1] = max(res[-1][1], cur_inter[1])
+        return res
+
+        # T n, S n
+        # intervals can be divide into 3 parts,
+        # no overlap in the left; no overlap in the right; overlap in between
+        # start, end = 0, 1 # constant helping us to access the starting and end point
+        # s, e = newInterval[start], newInterval[end]
+        # left, right = [], []
+        # for cur_interval in intervals:
+        #     if cur_interval[end] < s:
+        #         left.append(cur_interval)
+        #     elif cur_interval[start] > e:
+        #         right.append(cur_interval)
+        #     else:
+        #         s = min(s, cur_interval[start])
+        #         e = max(e, cur_interval[end])
+        # return left + [[s, e]] + right
+```
+
+
 # Math & Geometry
+
 # Bit Manipulation
+
+# Greedy - 代码随想录
+- 核心： 当通过局部最优我们可以得到整体最优的时候
+- 如何验证这个核心：靠自己手动模拟，如果模拟可行，就试一试贪心策略，如果不可行，可能需要动态规划
+- 最好的的实际策略：举反例，如果想不到反例，就试一试贪心策略
+
+[Assign Cookies](https://leetcode.com/problems/assign-cookies/)
+- 03/21: 多考虑下什么题目可以greedy解答，以及这里为了避免out of boundary的trick
+```Python
+class Solution:
+    def findContentChildren(self, g: List[int], s: List[int]) -> int:
+        # 为了满足更多的小孩，就不要造成饼干尺寸的浪费
+        # 大尺寸的饼干既可以满足胃口大的孩子也可以满足胃口小的孩子，那么就应该优先满足胃口大的
+        # 局部最优大饼干喂给胃口大的，充分利用饼干尺寸喂饱一个，全局最优就是喂饱尽可能多的小孩
+        g.sort(reverse=True)
+        s.sort(reverse=True)
+        j, res = 0, 0
+        for i in range(len(g)):
+            if j <= len(s)-1 and g[i] <= s[j]: # add ahead to aviod out of boundary
+                res += 1
+                j += 1 
+        return res
+```
+
+[Maximum Subarray](https://leetcode.com/problems/maximum-subarray/)
+- 03/21: 需要多想想
+```Python
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        # brute force, T n^2, S 1
+        # max_res = -float('inf')
+        # for i in range(len(nums)):
+        #     curr_subarray = 0
+        #     for j in range(i, len(nums)): # 这里不是i+1呢 需要考虑
+        #         curr_subarray += nums[j]
+        #         max_res = max(max_res, curr_subarray)
+        # return max_res
+        # greedy: 当开始时为负数 那么直接抛弃 换下一个为正的起点
+        # 相当于暴力解法中不断调整最大子区间的起始位置 T n, S 1
+        # 贪心理论很直白 但是实际并不好想 不要小看贪心
+        # curr_max, res_max = 0, -float('inf')
+        # for i in range(len(nums)):
+        #     curr_max += nums[i]
+        #     if curr_max > res_max:
+        #         res_max = curr_max
+        #     if curr_max < 0:
+        #         curr_max = 0 
+        # return res_max
+        # dp: T n, S n
+        # 动规五部曲： 
+        # 1. 确定dp数组以及下表含义: dp[i] 包括下标i之前的最大连续子序列和为dp[i]
+        # 2. 确定递推公式: dp[i]只有两个方向可以推出来, nums[i]加入当前连续子序列和, 从头开始计算当前连续子序列和
+        # 3. dp数组如何初始化: 从递推公式可以看出来dp[i]是依赖于dp[i - 1]的状态，dp[0]就是递推公式的基础。根据dp[i]的定义，很明显dp[0]应为nums[0]即dp[0] = nums[0]
+        # 4. 确定遍历顺序: 递推公式中dp[i]依赖于dp[i - 1]的状态，需要从前向后遍历。
+        # 5. 举例推导dp数组
+        if len(nums) == 0:
+            return 0
+        dp = [0] * len(nums)
+        dp[0] = nums[0]
+        result = dp[0]
+        for i in range(1, len(nums)):
+            dp[i] = max(dp[i-1]+nums[i], nums[i]) #状态转移公式
+            result = max(result, dp[i]) #保存dp[i]最大的值
+        return result
+
+        # maxSum = currenSum = nums[0]
+        # for i in range(1,len(nums)):
+        #     currenSum = max(nums[i],currenSum+nums[i])
+        #     maxSum = max(maxSum, currenSum)
+        # return maxSum
+```
