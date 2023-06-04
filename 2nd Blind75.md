@@ -12,7 +12,7 @@ class Solution:
 ```
 
 [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/)
-- 01/19: 一遍过
+- 01/19: 一遍过, 03/22:一遍过，他的升级版II不能写出最优解 只能写出brute force这题还能提现举一反三的有two sum和sliding window的解法
 ```Python
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
@@ -22,6 +22,43 @@ class Solution:
                 num_map[nums[i]] = i
             else:
                 return True
+        return False
+```
+[Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/description/)
+```Python
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        # T nk, S 1
+        # for i in range(len(nums)):
+        #     j = 1
+        #     while i+j <= len(nums)-1 and i+j <= i+k:
+        #         if nums[i] == nums[i+j]:
+        #             return True 
+        #         j += 1
+        # return False
+        # similar to two sum using one pass to check duplicates 
+        # T n, S n
+        # dic = {} # num:ind # duplicates?->update
+        # for ind, num in enumerate(nums):
+        #     if num in dic and ind - dic[num] <= k: 
+        #         print(dic)
+        #         return True
+        #     dic[num] = ind # dic get updates by the most closest one
+        # return False
+        # sliding window: hash map support constant time in search, delete and insert
+        # T n S k
+        # search, insert, and delete an element is O(1) at set
+        # maintain a set which will store k elements we have seen before at time i
+        # when we traverse the list, if we see this number in the set before
+        # return True
+        # otherwise, add this number and when we add it also keep the length of set still being k limitation
+        seen = set()
+        for ind, num in enumerate(nums):
+            if num in seen:
+                return True
+            seen.add(num) 
+            if len(seen) > k:
+                seen.remove(nums[ind-k])
         return False
 ```
 
