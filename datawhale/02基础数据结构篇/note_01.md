@@ -24,7 +24,27 @@ homepage: https://github.com/datawhalechina/leetcode-notes/blob/main/docs/ch02/i
       def __init__(self):
         self.head = None
     ~~~
-  - 创建空链表，只需要把相应的链表头节点变量设置为空链接即可，python中用none
+  1. 创建空链表，只需要把相应的链表头节点变量设置为空链接即可，python中用none
+  2. 建立线性链表 (O(n),n为线性表长度)
+  ~~~
+  def create(self, data):
+    self.head = ListNode(0)
+    cur = self.head
+    for i in range(len(data)):
+      node = ListNode(data[i])
+      cur.next = node
+      cur = cur.next
+  ~~~
+  3. 求线性链表的长度 (O(n),n为线性表长度)
+  ~~~
+  def length(self):
+    count = 0
+    cur = self.head
+    while cur:
+      count += 1
+      cur = cur.next
+    return count
+  ~~~
 ### 练习题目01
 ### 练习题目02
 ### 链表基础题目
