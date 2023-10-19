@@ -9,8 +9,22 @@ homepage: https://github.com/datawhalechina/leetcode-notes/blob/main/docs/ch02/i
 - 除了单链表以外，还有duobly linked list, circular link list
   - doubly linked list: 每个链节点有指向前驱和后继的两个指针
   - circular linked list: 它的最后一个链节点指向头节点，形成一个环
--  链表的基本操作（单链表为例）
-  - 结构定义：链表是由链节点通过next链接而构成的
+- 链表的基本操作（单链表为例）
+  - 结构定义：链表是由链节点通过next链接而构成的。我们可以先定义一个简单的listNode，再来定义完整的linkedList类
+    - listNode：使用成员变量val表示数据元素的值，使用指针变量next表示后继指针
+    - linkedNode:使用一个链节点变量head来表示链表的头节点
+    ~~~
+    # listNode
+    class ListNode:
+      def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+    # linkedList
+    class LinkedList:
+      def __init__(self):
+        self.head = None
+    ~~~
+  - 创建空链表，只需要把相应的链表头节点变量设置为空链接即可，python中用none
 ### 练习题目01
 ### 练习题目02
 ### 链表基础题目
