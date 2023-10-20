@@ -55,18 +55,46 @@ homepage: https://github.com/datawhalechina/leetcode-notes/blob/main/docs/ch02/i
       cur = cur.next
     return None
   ~~~
-  5. 插入元素：头部(与链表的长度无关，O(1))，尾部(要将cur从链表头部移到尾部, O(n))，中间
+  5. 插入元素：头部(与链表的长度无关，O(1))，尾部(要将cur从链表头部移到尾部, O(n))，中间(将cur从链表头部移动到第i个链节点之前，操作的平均时间复杂度是O(n)因此,链表中间插入元素的时间复杂度是O(n)
   ~~~
+  # 在链表第1个链节点之前插入值为val的链节点
+  # 1.建立值为val的链节点node
+  # 2.将node的next指针指向链表的头节点head
+  # 3.将链表的头节点head指向node
   def inserFront(self, val):
     node = ListNode(val)
     node.next = self.head
     self.head = node
 
+  # 在链表最后1个链节点之后插入值为val的链节点
+  #1.建立值为val的链节点node
+  #2.使用指针cur指向链表的头节点head
+  #3.通过链接点的next指针移动cur指针，从而遍历链表，直到cur.next为None
+  #4.令cur.next指向新链节点node
   def insertRear(self, val):
     node = ListNode(val)
     cur = self.head
     while cur.next:
       cur = cur.next
+    cur.next = node
+
+  #在链表第i个链节点之前插入值为val的链接点
+  #1.使用指针变量cur和一个计数器count。令cur指向链表的头节点,count初始值赋值为0
+  #2.沿着链节点的next指针遍历链表，指针变量cur每指向一个链节点，计数器就做一次计数
+  #3.当遍历到第index-1个链节点时停止遍历
+  #4.创建一个值为val的链节点node
+  #5.将node.next指向cur.next
+  #6.将cur.next指向node
+  def insertInside(self, index, val):
+    count = 0
+    cur = self.head
+    while cur and count < index -1:
+      count += 1
+      cur = cur.next
+    if not cur:
+      return 'Error'
+    node = ListNode(val)
+    node.next = cur.next
     cur.next = node
   ~~~
 ### 练习题目01
