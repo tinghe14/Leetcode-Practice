@@ -97,6 +97,7 @@ homepage: https://github.com/datawhalechina/leetcode-notes/blob/main/docs/ch02/i
     node.next = cur.next
     cur.next = node
   ~~~
+  6.改变元素o(n)将链表中第i个元素改为val,和插入的code对比，判断的是while cur and count < index然后直接更改cur的值
 ### 练习题目01
 ### 练习题目02
 ### 链表基础题目
