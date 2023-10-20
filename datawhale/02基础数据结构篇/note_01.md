@@ -3,6 +3,7 @@ homepage: https://github.com/datawhalechina/leetcode-notes/blob/main/docs/ch02/i
 
 ## 2.1 链表（第1～4天）
 ### 链表基础知识
+constant time, linear time, sentinel node as pseudo head, predecessor, 基本操作的时间复杂度,设计半小时一题medium的闹钟
 - linked list: 一种线性表数据结构。它使用一组任意的存储单元（随机分配的物理地址：可以连续或者不连续的一串内存地址），来存储一组具有相同类型的数据。每个链节点不仅要存放一个数据元素的值，还要存放一个后继指针next(指出这个数据元素在逻辑关系上的直接后继元素所在链表节点的地址)
 - 优点：不需要提前分配存储空间，在需要的时候可以临时申请，不会造成空间的浪费；插入，移动，删除元素的时间效率比数组高
 - 缺点：因为要存储数据本身信息还要存储next指针，因此链表结构比数组结构的空间开销大
@@ -119,7 +120,10 @@ homepage: https://github.com/datawhalechina/leetcode-notes/blob/main/docs/ch02/i
 - 链表在普通情况下进行插入、删除元素操作的时间复杂度为O(n) 
 
 ### 练习题目01
-
+1. 707 design linked list
+~~~
+10/20:感觉需要个长度，要经常判断有没有head比较麻烦加sentinel node as head会少判断一些case,linkedlist为空时，有个sentinel node, 没有考虑到addatindex是addatend和addatfront的母集; 感觉有好多edge case其实不然，设计好一开始不交差但是合起来是全集的条件判断，就会让思路清楚很多，并且明确我们是对predecessor进行操作 
+~~~
 ### 练习题目02
 ### 链表基础题目
 ### 链表排序03
