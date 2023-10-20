@@ -25,7 +25,7 @@ homepage: https://github.com/datawhalechina/leetcode-notes/blob/main/docs/ch02/i
         self.head = None
     ~~~
   1. 创建空链表，只需要把相应的链表头节点变量设置为空链接即可，python中用none
-  2. 建立线性链表 (O(n),n为线性表长度)
+  2. 建立线性链表 (O(n),n为线性表长度) 根据线性表的数据元素动态生成链节点，并依次将其连接到链表中
   ~~~
   def create(self, data):
     self.head = ListNode(0)
@@ -44,6 +44,30 @@ homepage: https://github.com/datawhalechina/leetcode-notes/blob/main/docs/ch02/i
       count += 1
       cur = cur.next
     return count
+  ~~~
+  4. 查找元素 (O(n),n为线性表长度) 从头节点head开始，沿着链表接电逐一进行查找
+  ~~~
+  def find(self, val):
+    cur = self.head
+    while cur:
+      if val == cur.val:
+        return cur
+      cur = cur.next
+    return None
+  ~~~
+  5. 插入元素：头部(与链表的长度无关，O(1))，尾部(要将cur从链表头部移到尾部, O(n))，中间
+  ~~~
+  def inserFront(self, val):
+    node = ListNode(val)
+    node.next = self.head
+    self.head = node
+
+  def insertRear(self, val):
+    node = ListNode(val)
+    cur = self.head
+    while cur.next:
+      cur = cur.next
+    cur.next = node
   ~~~
 ### 练习题目01
 ### 练习题目02
