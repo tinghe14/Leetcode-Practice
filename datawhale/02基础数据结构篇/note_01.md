@@ -98,7 +98,28 @@ homepage: https://github.com/datawhalechina/leetcode-notes/blob/main/docs/ch02/i
     cur.next = node
   ~~~
   6.改变元素o(n)将链表中第i个元素改为val,和插入的code对比，判断的是while cur and count < index然后直接更改cur的值
+  7.删除元素，同样分为三种情况，头O(1)，尾，中间
+  ~~~
+  def removeFront(self):
+    if self.head:
+      self.head = self.head.next
+
+  def removeRear(self):
+    if not self.head or not self.head.next:
+      return 'Error'
+    cur = self.head
+    while cur.next.next: #在要操作链节点的前一个位置操作？
+      cur = cur.next
+    cur.next = None
+  ~~~
+总结：
+- 链表进行访问元素、改变元素操作的时间复杂度为O(n)
+- 链表进行头部插入、头部删除元素操作的时间复杂度是O(1)
+- 链表进行尾部插入、尾部删除操作的时间复杂度是O(n)
+- 链表在普通情况下进行插入、删除元素操作的时间复杂度为O(n) 
+
 ### 练习题目01
+
 ### 练习题目02
 ### 链表基础题目
 ### 链表排序03
