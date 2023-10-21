@@ -122,7 +122,10 @@ constant time, linear time, sentinel node as pseudo head, predecessor, 基本操
 ### 练习题目01
 1. 707 design linked list
 ~~~
-10/20:感觉需要个长度，要经常判断有没有head比较麻烦加sentinel node as head会少判断一些case,linkedlist为空时，有个sentinel node, 没有考虑到addatindex是addatend和addatfront的母集; 感觉有好多edge case其实不然，设计好一开始不交差但是合起来是全集的条件判断，就会让思路清楚很多，并且明确我们是对predecessor进行操作 
+10/20:感觉需要个长度加一个size属性， 在对应加减操作的时候加减就可以; 感觉有好多edge case其实不然，设计好一开始不交差但是合起来是全集的条件判断，就会让思路清楚很多，
+并且明确我们是对predecessor进行操作。__init__()功能：每当吧类给实例化的时候，会自动触发__init__功能，用于初始化一些设置，作为类的一个功能，他和
+函数功类似，可以传入参数；当有sentinel node的时候加在头节点,尾部和加在中间节点的代码是一样的 所以这里不用分类考虑 删除的时候类似 删除头，尾部和中间是一样的操作。
+尾部也是有个指向空间点的指针，只要不对空指针使用next就没问题；count和index的边界问题
 ~~~
 ### 练习题目02
 ### 链表基础题目
