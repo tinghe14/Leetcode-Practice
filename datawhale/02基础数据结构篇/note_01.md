@@ -127,6 +127,10 @@ constant time, linear time, sentinel node as pseudo head, predecessor, 基本操
 函数功类似，可以传入参数；当有sentinel node的时候加在头节点,尾部和加在中间节点的代码是一样的 所以这里不用分类考虑 删除的时候类似 删除头，尾部和中间是一样的操作。
 尾部也是有个指向空间点的指针，只要不对空指针使用next就没问题；count和index的边界问题，如果先if判断再加一操作，变量不是if中的条件了而是if下的variable+1;double linked list, predecessor and successor, use bidirectional search to perform faster;  the linked list is inialized with a dummy head and a dummy tail. The purpose of these 2 nodes is to make boundary scenarios (deletion/insertion at head/tail) the same as those happend in the middle of the list. These nodes are somtimes called sentinels. 1-n有n数字（n-1+1）0-n有n+1个数子; 边界条件不好判断可以自己带入最简单的例子，如果corner case也应该满足的话就带corner case; 从头加或者从尾加或者剪，只要确定predecessor和succesor其他操作是一样的, 确定了这俩之后如果是insert，那么他的prev和succ也很明确被确定了是要被操作这两个数的两边, get的话就是current。此题边界还挺难的。值得回顾。
 ~~~
+2. 206 reversed linked list
+~~~
+10/21:
+~~~
 ### 练习题目02
 ### 链表基础题目
 ### 链表排序03
