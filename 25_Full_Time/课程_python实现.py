@@ -592,3 +592,67 @@ tree_node1 = TreeNode(1, tree_node2, tree_node3)
 
 print("before: ", printTree(tree_node1))
 
+## 先序遍历，recursion
+def preOrderRec(tree_node):
+    if tree_node is None:  
+        return tree_node
+    print(tree_node.val)
+    preOrder(tree_node.left)
+    preOrder(tree_node.right)
+    return tree_node
+# print(preOrderRec(tree_node1))
+# iteration
+def preOrderUnRec(tree_node):
+    if tree_node is None:
+        return 
+    stack = [tree_node] #初始化栈，先将根节点压入栈中
+    while stack is not None:
+        current = stack.pop() # 弹出栈顶节点
+        print(current.val) # 访问当前节点
+        # 注意：先将右子节点压入栈中，后将左子节点压入栈中
+        # 这样在下一个循环中，左子节点会先被处理
+        if current.right is not None:
+            stack.append(current.right)
+        if current.left is not None:
+            stack.append(current.left)
+# print(preOrderUnRec(tree_node1))
+
+## 后序遍历,iteration (有更节省space的方法)
+def postOrder(tree_node): # true再次访问的时候
+    if tree_node is None:# 第一次遇到节点的时候，将其标记为true然后重新压入栈，然后依次
+        return []#将右子节点，和左子节点压入栈。这保证了在再次访问该节点时，其子节点已经被处理
+    stack = [tree_node] #可以用一个栈实现
+    collect = []
+    res = []
+    while stack:
+        current = stack.pop()
+        collect.append(current)
+        if current.left:
+            stack.append(current.left)
+        if current.right:
+            stack.append(current.right)
+    for i in range(len(collect)-1, -1, -1):
+        res.append(collect[i].val)
+    return res 
+print(postOrder(tree_node1))
+# Space better, 第一次到append进去(node, false)，第二次回到pop出来改成(node, true)，第三次回到true时pop
+def postOrderB(tree_node):
+    if tree_node is None:
+        return []
+    res = []
+    visited = False
+    stack = [(tree_node, visited)] # or here False, when pop, assign as visited
+    while stack: # whether stack is empty, not whether is None X while stack is not None:
+        current, visited = stack.pop()
+        if visited == True:
+            res.append(current.val)
+        else:
+            stack.append((current, True))
+            if current.right:
+                stack.append((current.right, False))
+            if current.left:
+                stack.append((current.left, False))
+
+    return res 
+print(postOrderB(tree_node1))
+
