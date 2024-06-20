@@ -634,7 +634,7 @@ def postOrder(tree_node): # true再次访问的时候
     for i in range(len(collect)-1, -1, -1):
         res.append(collect[i].val)
     return res 
-print(postOrder(tree_node1))
+# print(postOrder(tree_node1))
 # Space better, 第一次到append进去(node, false)，第二次回到pop出来改成(node, true)，第三次回到true时pop
 def postOrderB(tree_node):
     if tree_node is None:
@@ -654,5 +654,23 @@ def postOrderB(tree_node):
                 stack.append((current.left, False))
 
     return res 
-print(postOrderB(tree_node1))
+# print(postOrderB(tree_node1))
+
+##中序遍历，非递归
+def inOrder(treeNode):
+    curr = treeNode
+    stack = []
+    res = []
+    while curr is not None or stack:
+        # reach the leftmost treenode
+        while curr is not None:
+            stack.append(curr)
+            curr = curr.left
+        curr = stack.pop()
+        res.append(curr.val)
+        # visit right tree
+        curr = curr.right
+    return res
+print(inOrder(tree_node1))
+
 
