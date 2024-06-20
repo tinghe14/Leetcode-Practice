@@ -671,6 +671,10 @@ def inOrder(treeNode):
         # visit right tree
         curr = curr.right
     return res
-print(inOrder(tree_node1))
+# print(inOrder(tree_node1))
+
+## 辅助函数：直观的打印一颗二叉树，帮助观察把树变成怎样的结构
+
+##广度优先遍历，常见题目：求一棵二叉树的宽度
 
 
