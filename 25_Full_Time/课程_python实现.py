@@ -674,8 +674,40 @@ def inOrder(treeNode):
 # print(inOrder(tree_node1))
 
 ## 辅助：直观的打印一棵二叉树，帮助观察把树变成怎样的结构
-# debug-visualizer: 支持可视化调试的VSCODE插件.相比于平时我们 debug,它能帮助我们可视化内存中的数据结构。比如数组,树,图等都可以胜任.由于其不是为力扣量身制作的,实际上它还有很多其他的用处,比如可视化图表,比如折线图.其功能非常强大,你甚至可以基于它定制一套自己专属的数据结构.
+# debug-visualizer: 支持可视化调试的VSCODE插件.
 
-## 广度优先遍历，常见题目：求一棵二叉树的宽度
+## 广度优先遍历
+import collections
+def bfs_traversal(treeNode): # compared to bfs, use more descriptive name 
+    if treeNode is None:
+        return [] 
+    res = []
+    queue = collections.deque([treeNode])
+    while queue:
+        node = queue.popleft()
+        res.append(node.val)
+        if node.left:
+            queue.append(node.left)
+        if node.right:
+            queue.append(node.right)
+    return res
+# print(bfs_traversal(tree_node1)) 
 
+## 求一颗树的最大宽度
+def getWidthTree(treeNode):
+    if treeNode is None:
+        return 0 
+    queue = collections.deque([treeNode])
+    maxWidth = 0
+    while queue:
+        levelWidth = len(queue) # num of nodes at current level
+        maxWidth = max(maxWidth, levelWidth)
+        for _ in range(levelWidth):
+            node = queue.popleft()
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+    return maxWidth
+print(getWidthTree(tree_node1))
 
