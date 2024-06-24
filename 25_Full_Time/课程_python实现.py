@@ -741,3 +741,37 @@ def isValidBSTSol2(treeNode):
             return False 
         return isValidRange(curr, low, curr.val) and isValidRange(curr, curr.val, high)
     return isValidRange(treeNode, -float("Inf"), float("Inf"))
+
+# sol 3, preOrder dfs change to iterative method
+def isValidBSTSol3(treeNode):
+    if not treeNode:
+        return True
+    stack = [(treeNode, -float("Inf"), float("Inf"))]
+    while stack:
+        curr, low, high = stack.pop()
+        if not curr:
+            continue 
+        if not low < curr.val < high:
+            return False 
+        stack.append((curr.left, low, curr.val))
+        stack.append((curr.right, curr.val, high))
+    return True 
+
+# sol 4, inOrder traversal change to iterative method
+def isValidBSTSol4(treeNode):
+    if treeNode is None:
+        return True 
+    stack = []
+    curr = treeNode
+    prev = -float("Inf")
+    while stack or curr:
+        while curr:
+            stack.append(curr)
+            curr = curr.left 
+        # current node should be leftmost node
+        curr = stack.pop()
+        if curr.val <= prev:
+            return False
+        prev = curr.val
+        curr = curr.right
+    return True 
