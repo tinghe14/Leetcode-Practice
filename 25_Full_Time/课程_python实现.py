@@ -675,6 +675,8 @@ def inOrder(treeNode):
 
 ## 辅助：直观的打印一棵二叉树，帮助观察把树变成怎样的结构
 # debug-visualizer: 支持可视化调试的VSCODE插件.
+## 辅助：递归过程可视化
+# https://labuladong.online/algo-visualize/： 用javascript的可视化面板
 
 ## 广度优先遍历
 import collections
@@ -711,3 +713,31 @@ def getWidthTree(treeNode):
     return maxWidth
 print(getWidthTree(tree_node1))
 
+## 判断是不是二叉搜索树
+# sol 1, inorder traversal should keep increasing
+def isValidBST(treeNode):
+    #self.minValue = -float("inf") # use global variable with a class instance variable self.minValue
+    global minValue # declare the global variable 
+    minValue = -float("Inf")
+    def isInOrderIncrease(curr):
+        global minValue # redeclare the global variable
+        if curr is None: # base case become true when no false has been returned previously
+            return True
+        leftValid = isInOrderIncrease(curr.left) 
+        if not leftValid:
+            return False 
+        if curr.val <= minValue:
+            return False
+        minValue = curr.val 
+        return isInOrderIncrease(curr.right)
+    return isInOrderIncrease(treeNode) 
+
+# sol 2, preOrder dfs check each node with valid range
+def isValidBSTSol2(treeNode):
+    def isValidRange(curr, low, high):
+        if curr is None:
+            return True 
+        if not low < curr.val < high:
+            return False 
+        return isValidRange(curr, low, curr.val) and isValidRange(curr, curr.val, high)
+    return isValidRange(treeNode, -float("Inf"), float("Inf"))
