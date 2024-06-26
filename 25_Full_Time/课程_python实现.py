@@ -417,7 +417,6 @@ def isPalindrome(head):
 # print(res)
 # print(lst2)
 
-
 ## 链表的荷兰旗问题,左边小中间等右边大, T&S O(n),[完美解]
 # 新建一个single node类型的数组
 def parition3parts(head, k):
@@ -713,7 +712,7 @@ def getWidthTree(treeNode):
     return maxWidth
 print(getWidthTree(tree_node1))
 
-## 判断是不是二叉搜索树
+## 判断是不是二叉搜索树, LT98
 # sol 1, inorder traversal should keep increasing
 def isValidBST(treeNode):
     #self.minValue = -float("inf") # use global variable with a class instance variable self.minValue
@@ -775,3 +774,60 @@ def isValidBSTSol4(treeNode):
         prev = curr.val
         curr = curr.right
     return True 
+
+# sol 5 
+def isValidBSTSol5(root: Optional[TreeNode]) -> bool:
+    if root is None:
+        return True
+    def getMinMaxofChild(child):
+        tempMax, tempMin = -float("Inf"), float("Inf")
+        if child is None:
+            return tempMax, tempMin # only return, error can't compare int with NoneType
+        tempMax = max(tempMax,child.val)
+        tempMin = min(tempMax,child.val)
+        if child.left:
+            tempMax = max(tempMax, child.left.val)
+            tempMin = min(tempMin, child.left.val)
+        if child.right:
+            tempMax = max(tempMax, child.right.val)
+            tempMin = min(tempMin, child.right.val)
+        return tempMax, tempMin
+    return isValidBST(root.left) and isValidBST(root.right) and (getMinMaxofChild(root.left)[0] < root.val < getMinMaxofChild(root.right)[1])
+
+## 判断是不是完全二叉树, LT958
+def isCompleteTree(treeNode):
+    if treeNode is None:
+        return True
+    encounterIncompleteNode = False
+    queue = collections.deque([treeNode])
+    while queue:
+        curr = queue.popleft()
+        left, right = curr.left, curr.right
+        if not left and right:
+            return False
+        if encounterIncompleteNode and (left or right):
+            return False 
+        if left:
+            queue.append(left)
+        if right:
+            queue.append(right)
+        if not left or not right:
+            encounterIncompleteNode = True 
+    return True
+
+## 判断是不是满二叉树
+
+## 判断是不是平衡二叉树
+def isBalancedTree(treeNode):
+    if treeNode is None:
+        return True 
+    def getHeight(curr):
+        if curr is None:
+            return 0
+        return max(curr.left, curr.right) + 1
+    if isBalancedTree(treeNode.left) and isBalancedTree(treeNode.right) and (
+        abs(getHeight(treeNode.left)-getHeight(treeNode.right) < 2
+    ):
+        return True
+    return False 
+
