@@ -563,7 +563,7 @@ def copyRandomList(head):
 
 ## 复制有random pointer的链表，T(n)S(n), LT138, 递归法
 
-# P7.5二叉树
+#P7.5二叉树
 from typing import Optional
 
 class TreeNode:
@@ -861,4 +861,59 @@ def lowestCommonAncestor(root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'Tre
         q = parentMap[q]   
     return q 
 
-## 找到一个节点的后继节点
+## 找到一个节点的后继节点, 要求不遍历所有节点，只算两点距离
+def getSuccessorNode(treeNode):
+    # case 1: the node have right subtree, find the leftmost node in its right subtree
+    # case 2: the node doesn't have right subtree, the inorder successor is one of its ancestors
+    # traverse up the tree until we find an ancestor of which the node is a left child
+    # case 3: the rightmost node of the whole tree, its successor is None 
+    def findLeftMost(curr):
+        while curr.left is not None:
+            curr = curr.left 
+        return curr
+    def findLeftParent(curr):
+        # when curr become left subtree; curr is leftmost of whole tree
+        while curr.patent is not None and curr == curr.parent.right:
+            curr = curr.parent 
+        return curr.parent
+    if treeNode is None:
+        return None 
+    if treeNode.right:
+        return findLeftMost(treeNode)
+    return findleftParent(treeNode)
+
+## 二叉树序列化和反序列化deserialization, LT297
+def serialize(self, root):
+    """Encodes a tree to a single string.
+    :type root: TreeNode
+    :rtype: str
+    """
+    def helper(root, res):
+        if root is None:
+            res += "#_"
+        else:
+            res += str(root.val)+"_"
+            res = helper(root.left, res)
+            res = helper(root.right, res)
+        return res 
+    return helper(root, "")
+
+def deserialize(self, data):
+    """Decodes your encoded data to tree.
+    :type data: str
+    :rtype: TreeNode
+    """
+    dataLst = data.split("_")
+    def helper(lst):
+        if lst[0] == "#":
+            lst.pop(0)
+            return None 
+        root = TreeNode(lst[0])
+        lst.pop(0)
+        root.left = helper(lst)
+        root.right = helper(lst)
+        return root 
+    root = helper(dataLst)
+    return root 
+
+#P8.6 图
