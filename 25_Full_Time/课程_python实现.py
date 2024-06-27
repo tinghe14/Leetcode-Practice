@@ -779,20 +779,16 @@ def isValidBSTSol4(treeNode):
 def isValidBSTSol5(root: Optional[TreeNode]) -> bool:
     if root is None:
         return True
-    def getMinMaxofChild(child):
+    def getMaxMinofChild(curr):
         tempMax, tempMin = -float("Inf"), float("Inf")
-        if child is None:
+        if curr is None:
             return tempMax, tempMin # only return, error can't compare int with NoneType
-        tempMax = max(tempMax,child.val)
-        tempMin = min(tempMax,child.val)
-        if child.left:
-            tempMax = max(tempMax, child.left.val)
-            tempMin = min(tempMin, child.left.val)
-        if child.right:
-            tempMax = max(tempMax, child.right.val)
-            tempMin = min(tempMin, child.right.val)
+        leftMax, leftMin = getMaxMinofChild(curr.left)
+        rightMax, rightMin = getMaxMinofChild(curr.right)
+        tempMax = max(leftMax, rightMax, tempMax)
+        tempMin = min(leftMin, rightMin, tempMin)
         return tempMax, tempMin
-    return isValidBST(root.left) and isValidBST(root.right) and (getMinMaxofChild(root.left)[0] < root.val < getMinMaxofChild(root.right)[1])
+    return isValidBST(root.left) and isValidBST(root.right) and (getMaxMinofChild(root.left)[0] < root.val < getMaxMinofChild(root.right)[1])
 
 ## 判断是不是完全二叉树, LT958
 def isCompleteTree(treeNode):
@@ -816,6 +812,20 @@ def isCompleteTree(treeNode):
     return True
 
 ## 判断是不是满二叉树
+def isFullTree(treeNode):
+    if treeNode is None:
+        return True 
+    def getNode(curr):
+        if curr is None:
+            return 0, 0
+        leftData, rightData = getNode(curr.left), getNode(curr.right)
+        height = max(leftData[0], rightData[0])+1
+        nodes = leftData[1] + rightData[1]+1
+        return height, nodes
+    height, nodes = getNode(treeNode)
+    if nodes == 2**height-1:
+        return True 
+    return False
 
 ## 判断是不是平衡二叉树
 def isBalancedTree(treeNode):
@@ -826,8 +836,29 @@ def isBalancedTree(treeNode):
             return 0
         return max(curr.left, curr.right) + 1
     if isBalancedTree(treeNode.left) and isBalancedTree(treeNode.right) and (
-        abs(getHeight(treeNode.left)-getHeight(treeNode.right) < 2
-    ):
+        abs(getHeight(treeNode.left)-getHeight(treeNode.right) < 2):
         return True
     return False 
 
+## 最低公共节点，LT 236
+# sol1, iterative, create a parent hashmap 
+def lowestCommonAncestor(root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+    parentMap = {root: None}
+    stack = [root]
+    while p not in parentMap or q not in parentMap:
+        curr = stack.pop()
+        if curr.left:
+            parentMap[curr.left] = curr
+            stack.append(curr.left)
+        if curr.right:
+            parentMap[curr.right] = curr
+            stack.append(curr.right)
+    pAncestors = set() # p and its ancestors
+    while p is not None:
+        pAncestors.add(p)
+        p = parentMap[p]
+    while q not in pAncestors:
+        q = parentMap[q]   
+    return q 
+
+## 找到一个节点的后继节点
